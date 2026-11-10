@@ -1,0 +1,17 @@
+{
+  "name": "우선심사 신청 길라잡이 (2026.11.1 기준)",
+  "short_name": "우선심사",
+  "description": "지식재산처 발행 우선심사 신청 길라잡이 — 신청 절차, 요건, 증빙서류, FAQ를 언제 어디서나 확인하세요. 오프라인에서도 사용할 수 있습니다.",
+  "lang": "ko",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#17458f",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

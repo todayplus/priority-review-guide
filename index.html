@@ -1,0 +1,1440 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>우선심사 신청 길라잡이 (2026.11.1 기준)</title>
+<meta name="description" content="지식재산처 발행 「누구나 따라하는 우선심사 신청 길라잡이」(2026. 11. 1. 기준) 웹앱 — 신청 절차, 요건, 증빙서류, FAQ를 모바일에서 쉽게 확인하세요.">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#17458f" id="metaTheme">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="우선심사">
+<style>
+/* ============ Design tokens & themes ============ */
+:root{
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",sans-serif;
+  --serif:Georgia,"Times New Roman",serif;
+  --rad:12px; --rad-s:8px;
+  --hdr:56px; --nav:calc(58px + env(safe-area-inset-bottom));
+}
+[data-theme="light"]{
+  --bg:#ffffff; --surface:#f4f7fa; --surface2:#e9eff6; --text:#182233; --muted:#5a6a7e;
+  --accent:#17458f; --accent-ink:#ffffff; --accent-soft:#e7eefb; --gold:#8a6410; --gold-soft:#f5ecd4;
+  --border:#dde5ee; --ok:#1c7a45; --ok-soft:#e4f3ea; --warn:#b4530a; --warn-soft:#fbeadd;
+  --shadow:0 1px 4px rgba(20,40,80,.10); --flash:#fff3c4;
+}
+[data-theme="ivory"]{
+  --bg:#f6f0e1; --surface:#fcf8ee; --surface2:#efe7d2; --text:#3a2f1c; --muted:#7c6c50;
+  --accent:#8f5f1a; --accent-ink:#fff9ec; --accent-soft:#f0e4c8; --gold:#17458f; --gold-soft:#e6e9f2;
+  --border:#e3d7ba; --ok:#4a6b2a; --ok-soft:#eaefdb; --warn:#a34a12; --warn-soft:#f6e4d2;
+  --shadow:0 1px 4px rgba(90,70,30,.12); --flash:#fff0b8;
+}
+[data-theme="dark"]{
+  --bg:#0f1318; --surface:#171d26; --surface2:#212a37; --text:#e6ebf2; --muted:#94a2b6;
+  --accent:#7aa2e8; --accent-ink:#0d1522; --accent-soft:#1d2c44; --gold:#d9ad52; --gold-soft:#332b18;
+  --border:#2b3542; --ok:#6fce97; --ok-soft:#17301f; --warn:#e8964f; --warn-soft:#372615;
+  --shadow:0 1px 4px rgba(0,0,0,.45); --flash:#4a3f14;
+}
+/* ============ Base ============ */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.65;font-size:16px;-webkit-text-size-adjust:100%;word-break:keep-all}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+a{color:var(--accent)}
+img{max-width:100%}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* ============ Progress bar ============ */
+#pbar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--gold));width:0;z-index:60;transition:width .1s linear}
+/* ============ Header ============ */
+header{position:fixed;top:0;left:0;right:0;height:var(--hdr);z-index:50;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;padding:0 10px}
+.hbtn{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;color:var(--text)}
+.hbtn:hover{background:var(--surface2)}
+.hbtn svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#brand{display:flex;align-items:center;gap:9px;min-width:0;flex:1}
+#brand .mark{width:30px;height:30px;border-radius:8px;background:var(--accent);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex:0 0 auto}
+#brand .tt{font-weight:800;font-size:16px;letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#brand .sub{font-size:11px;color:var(--muted);letter-spacing:.2px;white-space:nowrap}
+#installBtn{display:none;align-items:center;gap:6px;background:var(--accent);color:var(--accent-ink);border-radius:10px;padding:7px 12px;font-size:13px;font-weight:700;white-space:nowrap}
+#installBtn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#installBtn.show{display:flex}
+/* ============ Layout ============ */
+#sidebar{position:fixed;top:var(--hdr);left:0;bottom:0;width:264px;background:var(--surface);border-right:1px solid var(--border);padding:14px 12px 24px;overflow-y:auto;display:none;z-index:40}
+main{padding:calc(var(--hdr) + 18px) 16px 90px;max-width:920px;margin:0 auto}
+.page{display:none}
+.page.on{display:block;animation:fadein .25s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(min-width:1024px){
+  #sidebar{display:block}
+  main{margin-left:264px;padding-bottom:48px}
+  #bottomnav{display:none!important}
+  #menuBtn{display:none}
+}
+/* ============ Nav ============ */
+.nv-label{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin:14px 6px 6px}
+.nv{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;color:var(--text);text-decoration:none;font-size:14.5px;font-weight:600;width:100%;text-align:left}
+.nv:hover{background:var(--surface2)}
+.nv.on{background:var(--accent-soft);color:var(--accent)}
+.nv .no{width:26px;height:26px;border-radius:8px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:12px;font-weight:700;flex:0 0 auto}
+.nv.on .no{background:var(--accent);color:var(--accent-ink)}
+/* bottom nav */
+#bottomnav{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--bg);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:6px 4px env(safe-area-inset-bottom);padding-bottom:calc(6px + env(safe-area-inset-bottom))}
+.bn{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;font-weight:700;color:var(--muted);padding:4px 10px;border-radius:10px;min-width:58px}
+.bn svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bn.on{color:var(--accent)}
+/* ============ Hero ============ */
+.cover{background:var(--surface);border:1px solid var(--border);border-radius:var(--rad);padding:26px 22px;position:relative;overflow:hidden}
+.cover::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,var(--accent),var(--gold))}
+.cover .kicker{font-size:12px;font-weight:800;letter-spacing:.18em;color:var(--accent);margin-bottom:10px}
+.cover h1{font-size:clamp(26px,6vw,38px);line-height:1.25;letter-spacing:-.5px;font-weight:900}
+.cover h1 em{font-style:normal;color:var(--accent)}
+.cover .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.cover .meta span{font-size:12.5px;font-weight:700;background:var(--surface2);border:1px solid var(--border);border-radius:999px;padding:4px 11px;color:var(--muted)}
+.cover p.lead{margin-top:14px;color:var(--muted);font-size:14.5px}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--rad-s);padding:12px 10px;text-align:center}
+.stat b{display:block;font-size:20px;letter-spacing:-.5px;color:var(--accent)}
+.stat span{font-size:11.5px;color:var(--muted);font-weight:600}
+/* quick links */
+.qlinks{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+@media(min-width:640px){.qlinks{grid-template-columns:repeat(4,1fr)}}
+.qlink{display:flex;flex-direction:column;gap:5px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--rad-s);padding:13px;text-decoration:none;color:var(--text);font-size:13.5px;font-weight:700}
+.qlink small{color:var(--muted);font-weight:600;font-size:11.5px}
+.qlink:hover{border-color:var(--accent)}
+/* ============ Timeline (signature) ============ */
+.tl{margin-top:18px;position:relative}
+.tl::before{content:"";position:absolute;left:19px;top:8px;bottom:8px;border-left:2px dashed var(--border)}
+.step{position:relative;display:flex;gap:14px;padding:0 0 18px 0}
+.step .dot{width:40px;height:40px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex:0 0 auto;z-index:1;box-shadow:0 0 0 4px var(--bg)}
+.step.alt .dot{background:var(--surface2);color:var(--text)}
+.step .body{flex:1;min-width:0}
+.step h3{font-size:16px;font-weight:800;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.step p{font-size:14px;color:var(--muted);margin-top:3px}
+.step .refs{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.branch{margin:0 0 6px 54px;border-left:2px dotted var(--warn);padding:10px 14px;background:var(--warn-soft);border-radius:0 var(--rad-s) var(--rad-s) 0}
+.branch b{color:var(--warn);font-size:13.5px}
+.branch p{font-size:13.5px;color:var(--text);margin-top:2px}
+/* ============ Sections & headings ============ */
+.chap{display:flex;align-items:center;gap:12px;margin:6px 0 4px}
+.chap .medal{width:52px;height:52px;border-radius:14px;background:var(--accent);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:20px;font-weight:700;flex:0 0 auto}
+.chap h2{font-size:clamp(20px,4.5vw,26px);font-weight:900;letter-spacing:-.4px}
+.chap .sub{font-size:12.5px;color:var(--muted);font-weight:600}
+h3.sec{font-size:18px;font-weight:800;margin:30px 0 10px;padding-left:11px;border-left:4px solid var(--accent);letter-spacing:-.2px}
+h4{font-size:15.5px;font-weight:800;margin:20px 0 8px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rad);padding:16px;margin:12px 0}
+.card h4{margin-top:0}
+p+p{margin-top:8px}
+.ul{list-style:none}
+.ul li{position:relative;padding:4px 0 4px 16px;font-size:14.5px}
+.ul li::before{content:"";position:absolute;left:2px;top:14px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.ul.sm li{font-size:13.5px;padding:3px 0 3px 14px}
+.ul.sm li::before{top:11px}
+.muted{color:var(--muted)}
+.small{font-size:12.5px}
+/* law chip */
+.chip{display:inline-block;font-size:11.5px;font-weight:700;background:var(--gold-soft);color:var(--gold);border:1px solid color-mix(in srgb,var(--gold) 30%,transparent);border-radius:6px;padding:1px 7px;white-space:nowrap}
+/* notes */
+.note{border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 var(--rad-s) var(--rad-s) 0;padding:11px 14px;font-size:13.5px;margin:12px 0}
+.note.warn{border-color:var(--warn);background:var(--warn-soft)}
+.note.ok{border-color:var(--ok);background:var(--ok-soft)}
+.note b{font-weight:800}
+/* ============ Tables ============ */
+.twrap{overflow-x:auto;margin:12px 0;border:1px solid var(--border);border-radius:var(--rad-s);background:var(--surface);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:560px}
+table.narrow{min-width:0}
+th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+th{background:var(--surface2);font-size:12.5px;font-weight:800;white-space:nowrap;position:sticky;top:0}
+tr:last-child td{border-bottom:none}
+td .sm{font-size:12px;color:var(--muted);display:block}
+td b{font-weight:800}
+tr:hover td{background:color-mix(in srgb,var(--surface2) 55%,transparent)}
+.tcat td{background:var(--surface2)!important;font-weight:800}
+/* ============ Terms dl ============ */
+.terms{border:1px solid var(--border);border-radius:var(--rad);overflow:hidden;margin:12px 0}
+.terms>div{display:grid;grid-template-columns:110px 1fr;gap:0;background:var(--surface)}
+.terms>div+div{border-top:1px solid var(--border)}
+.terms dt{padding:11px 12px;font-weight:800;font-size:13.5px;background:var(--surface2);display:flex;align-items:flex-start}
+.terms dd{padding:11px 14px;font-size:13.5px;color:var(--text)}
+@media(max-width:480px){.terms>div{grid-template-columns:96px 1fr}.terms dt{font-size:12.5px}.terms dd{font-size:12.5px}}
+/* ============ Accordion (FAQ etc.) ============ */
+details.acc{border:1px solid var(--border);border-radius:var(--rad-s);background:var(--surface);margin:8px 0;overflow:hidden}
+details.acc>summary{padding:12px 14px;font-weight:700;font-size:14.5px;cursor:pointer;display:flex;gap:9px;align-items:flex-start;list-style:none}
+details.acc>summary::-webkit-details-marker{display:none}
+details.acc>summary::after{content:"+";margin-left:auto;font-size:18px;font-weight:700;color:var(--accent);flex:0 0 auto;transition:transform .2s}
+details.acc[open]>summary::after{transform:rotate(45deg)}
+details.acc .inner{padding:2px 14px 14px;font-size:14px;border-top:1px dashed var(--border)}
+details.acc .inner p{margin-top:8px}
+details.acc .inner p:first-child{margin-top:10px}
+/* ============ Checklist ============ */
+.ckgroup{margin:14px 0}
+.ckgroup h4{display:flex;align-items:center;gap:8px}
+.ckhead{position:sticky;top:var(--hdr);z-index:10;background:var(--bg);padding:10px 0}
+.ckbar{height:8px;border-radius:99px;background:var(--surface2);overflow:hidden;border:1px solid var(--border)}
+.ckbar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--gold));width:0%;transition:width .3s}
+.ckmeta{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700;margin:7px 2px 0}
+.ck{display:flex;gap:11px;align-items:flex-start;padding:10px 12px;border:1px solid var(--border);border-radius:var(--rad-s);background:var(--surface);margin:6px 0;cursor:pointer;font-size:14px}
+.ck input{width:19px;height:19px;margin-top:2px;accent-color:var(--accent);flex:0 0 auto;cursor:pointer}
+.ck.done{opacity:.55}
+.ck.done span{text-decoration:line-through}
+.ck .who{display:inline-block;font-size:11px;font-weight:800;background:var(--accent-soft);color:var(--accent);border-radius:5px;padding:0 6px;margin-right:6px}
+.btn{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:var(--accent-ink);border-radius:10px;padding:10px 16px;font-size:14px;font-weight:700}
+.btn.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+.btn.warn{background:transparent;color:var(--warn);border:1.5px solid var(--warn)}
+/* ============ Calculator ============ */
+.calc{background:var(--surface);border:1px solid var(--border);border-radius:var(--rad);padding:18px;margin:14px 0}
+.calc .row{display:grid;gap:10px;grid-template-columns:1fr}
+@media(min-width:640px){.calc .row{grid-template-columns:1fr 1fr}}
+.calc label{font-size:12.5px;font-weight:800;display:block;margin-bottom:5px;color:var(--muted)}
+.calc input[type=date],.calc select{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;background:var(--bg);color:var(--text);font:inherit;font-size:14.5px}
+.calc input:focus,.calc select:focus{border-color:var(--accent);outline:none}
+.calc .res{margin-top:14px;border-top:1px dashed var(--border);padding-top:12px;font-size:14px}
+.calc .res b{color:var(--accent);font-size:15.5px}
+/* ============ Search overlay ============ */
+#searchWrap{position:fixed;inset:0;z-index:80;display:none;background:color-mix(in srgb,var(--bg) 40%,rgba(0,0,0,.45));backdrop-filter:blur(3px)}
+#searchWrap.on{display:block}
+#searchBox{max-width:640px;margin:9vh auto 0;background:var(--bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);max-height:80vh;display:flex;flex-direction:column}
+@media(max-width:640px){#searchBox{margin:8px;border-radius:14px;max-height:calc(100vh - 16px)}}
+#searchBox .si{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--border)}
+#searchBox input{flex:1;border:none;background:none;font:inherit;font-size:16px;color:var(--text);outline:none}
+#sres{overflow-y:auto;padding:8px}
+.sres-h{font-size:11.5px;font-weight:800;color:var(--muted);letter-spacing:.08em;padding:8px 8px 4px}
+.sres{display:block;width:100%;text-align:left;padding:10px 12px;border-radius:10px;font-size:13.5px}
+.sres:hover{background:var(--surface2)}
+.sres .t{font-weight:800;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.sres .d{color:var(--muted);font-size:12.5px;margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+mark{background:var(--flash);color:inherit;border-radius:3px;padding:0 1px}
+.snone{padding:30px;text-align:center;color:var(--muted);font-size:14px}
+/* ============ Drawer & modal ============ */
+#scrim{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.45);display:none}
+#scrim.on{display:block}
+#drawer{position:fixed;top:0;left:0;bottom:0;width:min(300px,84vw);background:var(--bg);z-index:75;transform:translateX(-105%);transition:transform .25s ease;padding:14px 12px calc(20px + env(safe-area-inset-bottom));overflow-y:auto;border-right:1px solid var(--border)}
+#drawer.on{transform:none}
+.modal{position:fixed;inset:0;z-index:85;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.5);padding:16px}
+.modal.on{display:flex}
+.modal .box{background:var(--bg);border:1px solid var(--border);border-radius:16px;max-width:440px;width:100%;padding:22px;max-height:82vh;overflow-y:auto}
+.modal h3{font-size:17px;font-weight:800;margin-bottom:10px}
+.modal .x{float:right;font-size:22px;line-height:1;color:var(--muted);padding:2px 8px}
+/* theme segmented */
+.seg{display:flex;background:var(--surface2);border-radius:11px;padding:4px;gap:4px;margin:8px 0}
+.seg button{flex:1;padding:8px 6px;border-radius:8px;font-size:12.5px;font-weight:800;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:5px}
+.seg button .sw{width:13px;height:13px;border-radius:50%;border:1.5px solid var(--border);flex:0 0 auto}
+.seg button.on{background:var(--bg);color:var(--text);box-shadow:var(--shadow)}
+.sw-light{background:#fff}.sw-ivory{background:#f3ecd9}.sw-dark{background:#12181f}
+/* FAQ tabs */
+.tabs{display:flex;gap:7px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;font-size:13px;font-weight:700;padding:7px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--border);color:var(--muted)}
+.tab.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.faq-q{font-size:13px;font-weight:800;color:var(--accent);flex:0 0 auto;white-space:nowrap}
+/* contact cards */
+.contact{display:flex;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:var(--rad);padding:16px;margin:10px 0}
+.contact .ic{width:44px;height:44px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.contact .ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.contact b{display:block;font-size:15px}
+.contact .d{font-size:13px;color:var(--muted)}
+.contact a{font-weight:800;text-decoration:none}
+/* flash highlight */
+@keyframes flashbg{0%{background:var(--flash)}100%{background:transparent}}
+.flash{animation:flashbg 2.4s ease 1;border-radius:4px}
+/* footer */
+footer{margin-top:40px;padding:20px 4px 8px;border-top:1px solid var(--border);font-size:12.5px;color:var(--muted)}
+footer b{color:var(--text)}
+/* helpers */
+.mt{margin-top:16px}
+.grid2{display:grid;gap:10px;grid-template-columns:1fr}
+@media(min-width:700px){.grid2{grid-template-columns:1fr 1fr}}
+.tag-new{background:var(--warn);color:#fff;font-size:10.5px;font-weight:800;border-radius:5px;padding:1px 6px;vertical-align:2px}
+/* a11y & extra widgets */
+.skip{position:fixed;left:-999px;top:8px;z-index:100;background:var(--accent);color:var(--accent-ink);padding:10px 16px;border-radius:8px;font-weight:700}
+.skip:focus{left:8px}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#verBadge{font-size:10.5px;font-weight:800;color:var(--accent);background:var(--accent-soft);border:1px solid var(--border);border-radius:5px;padding:1px 6px;margin-left:6px;white-space:nowrap}
+#updBanner[hidden]{display:none!important}
+#updBanner{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--ok-soft);border:1.5px solid var(--ok);border-radius:var(--rad-s);padding:10px 14px;margin:0 0 12px;font-size:13.5px}
+#updBanner b{color:var(--ok)}
+#cpcSearch{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font:inherit;font-size:15px}
+#cpcSearch:focus{border-color:var(--accent);outline:none}
+.cpc-field{background:var(--surface);border:1px solid var(--border);border-radius:var(--rad);padding:14px;margin:10px 0}
+.cpc-field h4{margin:0 0 4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.cpc-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.cpc-chips code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:2px 8px}
+.cpc-chips code.hit{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.cpc-none{font-size:12.5px;color:var(--muted);background:var(--surface2);border-radius:8px;padding:8px 12px;margin-top:8px}
+#cpcSummary{font-weight:700;font-size:13.5px;margin:10px 2px}
+[data-contrast="high"]{--text:#000;--muted:#39414d;--border:#66727f}
+[data-contrast="high"][data-theme="ivory"]{--text:#181004;--muted:#55462a;--border:#7c6c44}
+[data-contrast="high"][data-theme="dark"]{--text:#ffffff;--muted:#c8d2e0;--border:#93a0b0}
+[data-contrast="high"] a{text-decoration:underline}
+[data-contrast="high"] :focus-visible{outline-width:3px;outline-offset:3px}
+[data-contrast="high"] th,[data-contrast="high"] td{border-bottom-width:2px}
+[data-contrast="high"] .chip,[data-contrast="high"] .cpc-chips code{border-width:2px}
+@media print{
+  header,#sidebar,#bottomnav,#drawer,#scrim,#searchWrap,.modal,#pbar,.noprint{display:none!important}
+  main{padding:0;max-width:none}
+  .page{display:block!important;page-break-after:always}
+}
+</style>
+</head>
+<body>
+<div id="pbar"></div>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<div id="live" class="vh" role="status" aria-live="polite"></div>
+
+<header>
+  <button class="hbtn" id="menuBtn" aria-label="메뉴 열기"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <div id="brand">
+    <span class="mark">우</span>
+    <div>
+      <div class="tt">우선심사 신청 길라잡이</div>
+      <div class="sub">지식재산처 · 2026. 11. 1. 기준 <span id="verBadge" hidden></span></div>
+    </div>
+  </div>
+  <button class="hbtn" id="themeBtn" aria-label="테마 변경" title="테마 변경"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/></svg></button>
+  <button class="hbtn" id="searchBtn" aria-label="검색"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.2-4.2"/></svg></button>
+  <button id="installBtn" aria-label="앱 설치"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>앱 설치</button>
+</header>
+
+<nav id="sidebar" aria-label="목차"></nav>
+
+<div id="scrim"></div>
+<aside id="drawer" aria-label="메뉴" aria-hidden="true">
+  <div class="nv-label">화면 테마</div>
+  <div class="seg" id="themeSeg2"></div>
+  <div class="nv-label">글자 크기</div>
+  <div class="seg" id="fontSeg"></div>
+  <div class="nv-label">고대비 모드</div>
+  <div class="seg" id="contrastSeg"></div>
+  <div class="nv-label">문서 탐색</div>
+  <div id="drawerNav"></div>
+  <div class="mt" style="display:flex;flex-direction:column;gap:8px">
+    <button class="btn ghost noprint" id="shareBtn2" style="justify-content:center">이 앱 공유하기</button>
+    <button class="btn ghost noprint" onclick="window.print()" style="justify-content:center">인쇄 / PDF로 저장</button>
+  </div>
+</aside>
+
+<main id="main">
+
+<!-- ================= HOME ================= -->
+<section class="page" id="p-home" data-title="홈">
+  <div id="updBanner" hidden role="alert"><b>새 버전 안내</b><span id="updText"></span><button class="btn" id="updOk" style="margin-left:auto;padding:6px 14px;font-size:12.5px">확인</button></div>
+  <div class="cover">
+    <div class="kicker">지식재산처 특허제도과 발행</div>
+    <h1>누구나 따라하는<br><em>우선심사 신청</em> 길라잡이</h1>
+    <div class="meta"><span>2026. 11. 1. 기준</span><span>특허법 제61조</span><span>우선심사 고시 개정 반영</span></div>
+    <p class="lead">심사 순서를 앞당기는 특허·실용신안 <b>우선심사</b>와 그보다 빠른 <b>초고속심사</b>의 신청 절차, 요건, 증빙서류, 자주 묻는 질문 91건을 담은 공식 안내서를 웹앱으로 정리했습니다.</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><b>7일</b><span>우선심사 여부 결정<br>(이송일부터)</span></div>
+    <div class="stat"><b>2개월</b><span>심사 착수 기한<br>(결정서 발송일부터)</span></div>
+    <div class="stat"><b>1개월</b><span>초고속심사 착수<br>· 중간서류 처리</span></div>
+  </div>
+
+  <div class="qlinks">
+    <a class="qlink" href="#/procedure?target=calc"><small>기한 자동 계산</small>심사 착수 예상일 계산기</a>
+    <a class="qlink" href="#/reqs"><small>Ⅲ-2</small>신청요건·증빙서류</a>
+    <a class="qlink" href="#/prep?target=cklist"><small>Ⅲ-6</small>신청 전 체크리스트</a>
+    <a class="qlink" href="#/cpc"><small>Ⅲ-3</small>CPC 분류 빠른 조회</a>
+    <a class="qlink" href="#/faq"><small>Ⅳ</small>자주 묻는 질문 91건</a>
+  </div>
+
+  <h3 class="sec">한눈에 보는 특·실 우선심사 신청 절차</h3>
+  <div class="tl">
+    <div class="step">
+      <div class="dot">1</div>
+      <div class="body">
+        <h3>특허출원 <span class="chip">Ⅰ-1 · Ⅳ Q2</span></h3>
+        <p>특허로(www.patent.go.kr)에서 출원합니다. 출원 시 심사청구를 하면 우선심사 신청도 가능합니다.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="dot">2</div>
+      <div class="body">
+        <h3>심사청구 <span class="chip">Ⅰ-1 · Ⅲ-1</span></h3>
+        <p>심사청구가 된 출원만 우선심사를 신청할 수 있습니다. 신청하기 전이나 신청할 때 함께 청구합니다.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="dot">3</div>
+      <div class="body">
+        <h3>요건 확인 <span class="chip">Ⅲ-2~4</span></h3>
+        <p>고시의 신청이유에 해당하는 항목을 찾아 요건을 확인합니다.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="dot">4</div>
+      <div class="body">
+        <h3>증빙서류 확인 <span class="chip">Ⅲ-2~5</span></h3>
+        <p>신청이유에 맞는 증빙서류를 <b>사실 그대로</b> 준비합니다. 생성형 AI로 제작한 허위 자료 제출 시 보완요구·각하 대상입니다.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="dot">5</div>
+      <div class="body">
+        <h3>신청서 작성 <span class="chip">Ⅱ-3 · Ⅱ-4</span></h3>
+        <p>우선심사신청서와 신청설명서를 작성합니다. 신청이유와 근거는 구체적으로 적습니다. 별지 서식 — 우선심사 제5호 / 초고속심사 제6호 / PPH 제3호.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="dot">6</div>
+      <div class="body">
+        <h3>제출·납부 <span class="chip">Ⅲ-6 · Ⅱ-2 · Ⅱ-3</span></h3>
+        <p>체크리스트로 점검한 뒤 특허로 등으로 서류를 냅니다. 신청료는 접수번호를 받은 다음 날까지 납부합니다.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="dot">7</div>
+      <div class="body">
+        <h3>담당 심사관 — 우선심사 결정 <span class="chip">Ⅱ-1 · Ⅱ-3</span></h3>
+        <p>심사관에게 넘어간 날(이송일)부터 <b>7일 이내</b>에 우선심사 여부를 결정해 알려드립니다. (단, PPH는 결정을 따로 알리지 않습니다.)</p>
+      </div>
+    </div>
+    <div class="branch">
+      <b>보완요구를 받으면</b>
+      <p>보완요구에 맞춰 정해진 기간 안에 보완자료를 제출합니다(특허로·등기우편·방문). 보완하지 않으면 각하됩니다. <a href="#/faq?target=faq-q11">Ⅳ Q11~Q16 →</a></p>
+    </div>
+    <div class="step alt">
+      <div class="dot">8</div>
+      <div class="body">
+        <h3>담당 심사관 — 심사 착수 <span class="chip">Ⅱ-1</span></h3>
+        <p>결정서 발송일부터 다음 기한 안에 심사를 시작합니다.</p>
+        <div class="refs"><span class="chip">일반: 2개월이 되는 날이 속한 달의 말일</span><span class="chip">PPH: 3개월이 되는 날이 속한 달의 말일</span><span class="chip">초고속: 1개월 이내</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sec">2026년 11월 주요 변경사항</h3>
+  <div class="note warn"><b>2026. 11. 1. 시행</b> — 청년창업기업·예비청년창업자 <b>초고속심사 신설</b>, 창업지원 대상 분야에 <b>피지컬 AI·AI 데이터센터</b> 추가, 출연·투자받은 창업기업 요건이 <b>창업 후 3년→7년</b>으로 확대, 대학 수행 국가연구개발과제 신설, 첨단기술 공고 분야에 피지컬 AI·AI 데이터센터 추가. <a href="#/intro?target=intro-change">상세 변경사항 보기 →</a></div>
+
+  <div class="note small">이 길라잡이는 참고용이며, 자세한 사항은 우선심사 고시와 관련 공고를 확인하시기 바랍니다. 신청이유별로 궁금한 점은 <a href="#/faq">Ⅳ. 자주 묻는 질문</a>을, 문의처는 <a href="#/contact">[참고] 문의처</a>를 참고하세요.</div>
+</section>
+
+<!-- ================= I. INTRO ================= -->
+<section class="page" id="p-intro" data-title="Ⅰ. 우선심사 제도 개요">
+  <div class="chap"><span class="medal">Ⅰ</span><div><h2>우선심사 제도 개요</h2><div class="sub">우선심사 · 초고속심사 · 2026년 11월 주요 변경사항</div></div></div>
+
+  <h3 class="sec">1. 우선심사 제도</h3>
+  <h4>가. 우선심사란</h4>
+  <div class="card">
+    <ul class="ul">
+      <li>특허출원은 <b>심사청구 순서</b>에 따라 심사하는 것이 원칙입니다. 다만, 「특허법」 제61조와 「특허·실용신안 우선심사의 신청에 관한 고시」(이하 “고시”)에서 정한 요건을 갖춘 출원은 <b>우선심사를 신청</b>하여 다른 출원보다 먼저 심사받을 수 있습니다.</li>
+      <li>우선심사는 <b>심사 순서를 앞당기는 제도</b>이며, 심사관은 우선심사결정서 발송일부터 <b>2개월이 되는 날이 속하는 달의 말일</b>까지 심사에 착수합니다.</li>
+    </ul>
+  </div>
+  <h4>나. 신청 대상 및 신청인</h4>
+  <div class="card">
+    <ul class="ul">
+      <li><b>(신청 대상)</b> 심사청구가 된 특허출원과 실용신안등록출원이 대상입니다.
+        <ul class="ul sm">
+          <li>심사청구는 우선심사 신청 전에 하거나 신청과 동시에 하여야 합니다.</li>
+          <li>이미 심사가 시작된 출원도 요건을 갖추면 우선심사를 신청할 수 있습니다.</li>
+        </ul>
+      </li>
+      <li><b>(신청인)</b> 출원인뿐만 아니라 <b>누구든지</b> 신청할 수 있습니다.
+        <ul class="ul sm"><li>※ 국가·지방자치단체의 직무에 관한 출원은 국가·지방자치단체(국·공립학교 안에 설치된 기술이전·사업화 전담조직 포함)만 신청할 수 있습니다.</li></ul>
+      </li>
+    </ul>
+  </div>
+  <h4>다. 알아두면 좋은 용어</h4>
+  <dl class="terms">
+    <div><dt>심사청구</dt><dd>출원한 발명을 심사해 달라고 요청하는 절차입니다. 출원일부터 3년 이내에 할 수 있으며, 심사청구를 한 출원만 심사합니다.</dd></div>
+    <div><dt>조약우선권 주장</dt><dd>먼저 낸 출원을 기초로 1년 이내에 외국(PCT 포함)에 출원하면서 먼저 낸 출원의 날짜를 인정받는 것입니다. ‘조약우선권 주장의 기초가 되는 출원’은 이 출원을 기초로 해외에 우선권을 주장하여 출원한 경우의 국내 출원을 말합니다.</dd></div>
+    <div><dt>대응출원</dt><dd>이 출원과 같은 발명에 대하여 외국 특허청에 낸 출원입니다(특허심사하이웨이에서는 최우선일이 같은 상대국 출원).</dd></div>
+    <div><dt>주분류(CPC)</dt><dd>출원에 부여된 특허분류(CPC) 가운데 발명의 핵심 내용을 나타내는 대표 분류입니다.</dd></div>
+    <div><dt>신청서 이송일</dt><dd>제출한 신청서가 방식심사를 거쳐 담당 심사관에게 넘어간 날로, 우선심사 신청일과 다를 수 있습니다. 우선심사 여부 결정기간은 이날부터 기산합니다.</dd></div>
+    <div><dt>보완요구</dt><dd>신청이유가 불분명하거나 증명서류가 부족할 때 심사관이 기간을 정하여 보완을 요청하는 것입니다.</dd></div>
+    <div><dt>지정기간</dt><dd>보완요구서·의견제출통지서 등에서 서류를 내도록 정한 기간입니다.</dd></div>
+    <div><dt>중간서류</dt><dd>심사착수(의견제출통지서 발송) 후 심사 도중에 제출하는 의견서·보정서 등입니다.</dd></div>
+  </dl>
+
+  <h3 class="sec">2. 초고속심사 제도</h3>
+  <h4>가. 초고속심사란</h4>
+  <div class="card">
+    <ul class="ul">
+      <li>우선심사 대상 중 고시 제4조제2항에 해당하는 출원을 <b>다른 우선심사 출원보다 더 빨리</b> 심사하는 제도입니다.</li>
+      <li>우선심사결정서 발송일부터 <b>1개월 이내</b>에 심사에 착수하고, 의견서 등 중간서류도 <b>1개월 이내</b>에 처리합니다. 일반심사·우선심사와의 단계별 비교는 <a href="#/procedure">Ⅱ-1 처리기간 표</a>를 참고하시기 바랍니다.</li>
+    </ul>
+  </div>
+  <h4>나. 유형별 신청 대상 및 지원 규모</h4>
+  <div class="twrap"><table>
+    <thead><tr><th style="width:110px">구분</th><th>신청 대상</th><th style="width:150px">지원 규모(제한건수)</th></tr></thead>
+    <tbody>
+      <tr><td><b>① 수출촉진</b></td><td>수출촉진에 직접 관련된 출원</td><td>연간 2,000건</td></tr>
+      <tr><td><b>② 첨단기술·조약우선권</b></td><td>공고된 첨단기술 관련 출원으로서 조약우선권 주장의 기초가 되는 출원(이 출원을 기초로 우선권을 주장하여 해외에 출원한 경우)</td><td>연간 2,000건</td></tr>
+      <tr><td><b>③ 창업지원</b></td><td>인공지능, 첨단로봇, 바이오-생명공학, 바이오-헬스케어, 피지컬 AI, AI 데이터센터 분야 창업·벤처·이노비즈 기업의 출원</td><td>’26.11.~12. 500건<br>’27년 2,000건</td></tr>
+      <tr><td><b>④ 청년창업기업</b> <span class="tag-new">신설</span></td><td>우선심사 신청요건을 갖춘 출원으로서 모든 대표자가 만 39세 이하인 창업·벤처·이노비즈 기업의 출원</td><td rowspan="2">④·⑤ 합산<br>’26.11.~12. 500건<br>’27년 4,000건<br>(대표출원인별 연 5건)</td></tr>
+      <tr><td><b>⑤ 예비청년창업자</b> <span class="tag-new">신설</span></td><td>창업지원사업·공모전·경진대회에 선정되어 출원·사업화 지원을 받은 만 39세 이하 예비창업자의 출원</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note small">※ ③~⑤의 신청기간은 <b>2026. 11. 1.부터 2027. 12. 31.까지</b>(우선심사 신청일 기준)입니다.</div>
+  <h4>다. 운영 방식</h4>
+  <div class="card">
+    <ul class="ul">
+      <li>제한건수를 초과하거나 신청기간에 해당하지 않는 출원은 <b>일반 우선심사 신청대상으로 처리</b>하므로 다시 신청할 필요가 없습니다. 다만, 이 경우에도 일반 우선심사의 요건은 갖추어야 합니다.</li>
+      <li>유형별 제한건수 소진이 임박하면 특허로(www.patent.go.kr) 등에 미리 공지할 예정입니다.</li>
+      <li>초고속심사 요건을 갖추지 못하면 보완요구를 받게 되며, 신청설명서에 <b>일반 우선심사 신청이유를 함께 기재</b>하여 신청이 가능합니다.</li>
+      <li>초고속심사는 <b>별지 제6호서식</b>(우선심사신청설명서(초고속심사))으로 신청하여야 합니다.</li>
+    </ul>
+  </div>
+
+  <h3 class="sec" id="intro-change">3. 2026년 11월 주요 변경사항</h3>
+  <h4>가. 주요 변경사항</h4>
+  <div class="twrap"><table>
+    <thead><tr><th style="width:150px">구분</th><th style="width:130px">종전</th><th>변경사항</th></tr></thead>
+    <tbody>
+      <tr><td><b>청년창업기업 초고속심사</b><span class="sm">제4조제2항제4호</span></td><td>없음(신설)</td><td>우선심사 신청요건을 갖춘 창업·벤처·이노비즈 기업의 출원으로서 모든 대표자가 만 39세 이하인 출원</td></tr>
+      <tr><td><b>예비청년창업자 초고속심사</b><span class="sm">제4조제2항제5호</span></td><td>없음(신설)</td><td>창업지원사업·공모전·경진대회에 선정되어 출원·사업화 지원을 받은 만 39세 이하 예비창업자의 출원</td></tr>
+      <tr><td><b>창업지원 초고속심사</b><span class="sm">제4조제2항제3호</span></td><td>인공지능, 첨단로봇, 바이오-생명공학, 바이오-헬스케어</td><td><b>피지컬 AI, AI 데이터센터 분야 추가</b>(총 6개 분야)</td></tr>
+      <tr><td><b>창업지원사업 선정 발명</b><span class="sm">제4조제1항제2호자목(2)</span></td><td>국가·지자체가 주최·주관한 공모전·경진대회에서 선정된 발명</td><td>국가·지자체가 주최·주관한 <b>창업지원사업</b>에서 선정된 발명 추가</td></tr>
+      <tr><td><b>출연·투자받은 창업기업</b><span class="sm">제4조제1항제2호자목(3)</span></td><td>창업 후 3년 이내 기업</td><td><b>창업 후 7년 이내</b> 기업(「중소기업창업 지원법」 제2조제3호에 따른 창업기업)</td></tr>
+      <tr><td><b>대학 국가연구개발 성과</b><span class="sm">제4조제1항제2호바목(6)</span></td><td>없음(신설)</td><td>대학(사립대학 포함)이 주관·공동연구개발기관으로 수행한 과제의 결과물(단, 출원인이 대학 또는 산학협력단인 경우)</td></tr>
+      <tr><td><b>첨단기술 우선심사</b><span class="sm">지식재산처 공고</span></td><td>반도체, 디스플레이, 이차전지, 인공지능, 첨단로봇, 바이오-생명공학, 바이오-헬스케어</td><td>기존 7개 분야 외 <b>피지컬 AI, AI 데이터센터 추가</b></td></tr>
+    </tbody>
+  </table></div>
+  <h4>나. 적용 시기</h4>
+  <div class="card">
+    <ul class="ul">
+      <li>개정 고시는 <b>2026. 11. 1.</b>부터 시행하며, 시행 이후 제출되는 우선심사 신청부터 적용합니다.</li>
+      <li>2026. 10. 31.까지 우선심사 신청한 건은 종전 규정과 종전 공고를 따릅니다.</li>
+      <li>따라서 그 출원은 2026. 11. 1. 이후에 보완요구에 따라 보완하더라도 개정 고시에서 새로 생기거나 바뀐 신청이유로 바꿀 수 없으며, 개정 고시의 신청이유로 우선심사를 받으려면 종전 신청을 취하하거나 신청이 각하된 후 새로 신청하여야 합니다.</li>
+    </ul>
+  </div>
+</section>
+<!-- ================= II. PROCEDURE ================= -->
+<section class="page" id="p-procedure" data-title="Ⅱ. 처리기간, 비용 및 절차">
+  <div class="chap"><span class="medal">Ⅱ</span><div><h2>처리기간, 비용 및 절차</h2><div class="sub">처리기간 · 신청료 · 신청 절차 · 신청설명서 작성 요령</div></div></div>
+
+  <h3 class="sec">1. 처리기간</h3>
+  <h4>가. 단계별 처리기간</h4>
+  <div class="twrap"><table>
+    <thead><tr><th style="width:110px">구분</th><th>일반심사</th><th>우선심사</th><th>초고속심사</th></tr></thead>
+    <tbody>
+      <tr><td><b>우선심사 여부 결정</b></td><td>-</td><td>신청서 이송일부터 7일 이내</td><td>신청서 이송일부터 7일 이내</td></tr>
+      <tr><td><b>심사 착수</b></td><td>심사청구 순서에 따름</td><td>우선심사결정서 발송일부터 2개월이 되는 날이 속하는 달의 말일까지(PPH의 경우 3개월의 말일)</td><td>우선심사결정서 발송일부터 1개월 이내</td></tr>
+      <tr><td><b>중간서류 처리</b></td><td>지정기간 만료일과 서류 이송일 중 늦은 날부터 6개월까지</td><td>지정기간 만료일과 서류 이송일 중 늦은 날부터 2개월이 되는 날이 속하는 달의 말일까지</td><td>지정기간 만료일과 서류 이송일 중 늦은 날부터 1개월 이내</td></tr>
+    </tbody>
+  </table></div>
+  <div class="card">
+    <ul class="ul sm">
+      <li>※ 결정기간(7일)은 신청일이 아니라 <b>방식심사 후 심사관에게 신청서가 이송된 날</b>부터 기산합니다.</li>
+      <li>※ (계산 예) 2026. 11. 10.에 우선심사결정서가 발송되면 2개월이 되는 날(2027. 1. 10.)이 속하는 달의 말일인 <b>2027. 1. 31.</b>까지 심사에 착수합니다.</li>
+      <li>※ 우선심사와 초고속심사 모두 의견서 제출기간 등 지정기간을 연장하면 연장된 기간의 만료일을 기준으로 계산하므로 처리 시점도 그만큼 늦어집니다.</li>
+      <li>※ 우선심사 결정 후 심사 착수 전에 자진보정서를 제출하면, 착수 기한과 ‘보정서 이송일부터 1개월이 되는 날’ 중 늦은 날이 속하는 달의 말일까지 착수하므로 착수가 늦어질 수 있습니다.</li>
+    </ul>
+  </div>
+
+  <h3 class="sec">2. 신청료</h3>
+  <h4>가. 신청료</h4>
+  <div class="twrap"><table class="narrow">
+    <thead><tr><th>구분</th><th style="width:130px">특허</th><th style="width:130px">실용신안</th></tr></thead>
+    <tbody>
+      <tr><td><b>우선심사신청료</b> (초고속심사 포함)</td><td>200,000원</td><td>100,000원</td></tr>
+      <tr><td>우선심사 대상이 아니라고 결정되거나 결정 전에 취하·포기한 경우의 신청료(차액 반환)</td><td>40,000원</td><td>20,000원</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note">우선심사 신청 시 <b>접수번호를 부여받은 날의 다음 날까지</b> 납부하여야 합니다. 기한까지 내지 않으면 보정명령을 받게 되며, 보정기간까지 내지 않으면 신청이 무효가 됩니다.</div>
+  <h4>나. 감면</h4>
+  <div class="twrap"><table class="narrow">
+    <thead><tr><th style="width:100px">감면 대상</th><th style="width:80px">감면율</th><th>요건</th><th style="width:170px">증명서류</th></tr></thead>
+    <tbody>
+      <tr><td><b>중소기업</b></td><td><b>70%</b></td><td>사업을 개시한 날(법인-법인설립등기일, 개인-개업연월일)부터 <b>3년 이내</b>에 한 특허출원에 대한 우선심사 신청(연간 10건, 2027. 12. 31. 신청분까지)</td><td>중소기업 확인 서류, 법인 등기사항전부증명서(개인은 사업자등록증)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note small">감면을 받으려면 우선심사신청서에 감면 사유를 적고 증명서류를 첨부합니다. <b>실용신안등록출원 및 사업을 개시하지 않은 예비창업자는 감면 대상이 아닙니다.</b></div>
+  <h4>다. 반환</h4>
+  <div class="twrap"><table class="narrow">
+    <thead><tr><th>구분</th><th style="width:200px">반환 금액</th></tr></thead>
+    <tbody>
+      <tr><td>서식·수수료 흠결로 신청이 반려되거나 무효가 된 경우</td><td><b>납부한 신청료 전액</b></td></tr>
+      <tr><td>우선심사 대상이 아니라고 결정(각하)된 경우</td><td>특허 160,000원, 실용신안 80,000원</td></tr>
+      <tr><td>우선심사 결정 전에 신청을 취하·포기한 경우</td><td>특허 160,000원, 실용신안 80,000원</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note small">※ 위 반환 금액은 감면 없이 신청료를 전액 납부한 경우 기준입니다. 70% 감면을 받아 60,000원을 낸 특허출원은 각하되거나 결정 전에 취하·포기하면 신청료가 12,000원(40,000원의 30%)이 되어 <b>48,000원</b>을 반환받습니다.</div>
+
+  <h3 class="sec">3. 신청 절차</h3>
+  <h4>가. 신청 흐름</h4>
+  <div class="twrap"><table class="narrow">
+    <tbody>
+      <tr><td><b>① 요건 확인</b><span class="sm">신청이유·증빙서류 확인</span></td><td><b>② 서류 준비</b><span class="sm">신청서·설명서·증명서류</span></td><td><b>③ 신청서 제출</b><span class="sm">특허로 온라인, 방문, 우편 제출</span></td><td><b>④ 신청료 납부</b><span class="sm">접수 다음 날까지</span></td><td><b>⑤ 결정 통지</b><span class="sm">이송일부터 7일 이내 결정</span></td><td><b>⑥ 심사 착수</b><span class="sm">우선 2개월의 말일, 초고속 1개월</span></td></tr>
+    </tbody>
+  </table></div>
+  <h4>나. 제출 서류</h4>
+  <div class="twrap"><table>
+    <thead><tr><th style="width:140px">서류</th><th>서식</th><th style="width:220px">비고</th></tr></thead>
+    <tbody>
+      <tr><td><b>우선심사신청서</b></td><td>「특허법 시행규칙」 별지 제22호서식</td><td>【구분】란에서 ‘우선심사신청’ 선택</td></tr>
+      <tr><td><b>우선심사신청설명서</b></td><td>우선심사: 고시 별지 제5호서식<br>초고속심사: 고시 별지 제6호서식<br>특허심사하이웨이: 고시 별지 제3호서식(일본 선출원의 선행기술조사보고서를 활용하는 출원은 제2호서식)</td><td><b>초고속심사는 별지 제6호서식으로만 신청 가능</b></td></tr>
+      <tr><td><b>증명서류</b></td><td>고시 별표 1 및 해당 공고</td><td>Ⅲ장 참조</td></tr>
+      <tr><td><b>대리권 증명서류</b></td><td>-</td><td>대리인이 신청하는 경우(포괄위임을 등록하였으면 포괄위임등록번호 기재로 갈음)</td></tr>
+    </tbody>
+  </table></div>
+  <h4>다. 제출 방법</h4>
+  <div class="twrap"><table class="narrow">
+    <thead><tr><th style="width:80px">구분</th><th>제출 방법</th></tr></thead>
+    <tbody>
+      <tr><td><b>온라인</b></td><td>특허로(www.patent.go.kr)에서 전자문서로 제출</td></tr>
+      <tr><td><b>방문</b></td><td>정부대전청사 민원동 고객지원실 또는 지식재산처 서울사무소에 제출</td></tr>
+      <tr><td><b>우편</b></td><td>지식재산처(35208 대전광역시 서구 청사로 189 정부대전청사 4동)로 발송, 수수료는 통상환으로 동봉</td></tr>
+    </tbody>
+  </table></div>
+  <h4>라. 신청 후 처리</h4>
+  <div class="twrap"><table class="narrow">
+    <thead><tr><th style="width:130px">단계</th><th>처리 내용</th><th style="width:150px">기한</th></tr></thead>
+    <tbody>
+      <tr><td><b>방식심사</b></td><td>서식과 신청료 납부 여부를 확인하고, 흠결이 있으면 보정명령 또는 반려이유를 통지</td><td>보정기간 1개월</td></tr>
+      <tr><td><b>우선심사 여부 결정</b></td><td>신청이유와 증명서류를 검토하여 우선심사 대상 여부를 결정</td><td>신청서 이송일부터 7일 이내</td></tr>
+      <tr><td><b>보완요구</b></td><td>신청이유가 불분명하거나 증명서류가 부족한 경우 보완 요청</td><td>1개월</td></tr>
+      <tr><td><b>결정 통지</b></td><td>우선심사 결정 또는 각하 결정을 신청인과 출원인에게 통지(PPH는 우선심사 결정을 따로 통지하지 않음)</td><td>-</td></tr>
+    </tbody>
+  </table></div>
+  <div class="card">
+    <ul class="ul sm">
+      <li>보완요구를 받으면, 지정기간 내에 부족한 신청이유나 증명서류를 보완하여 제출합니다. 같은 출원에 신청서를 다시 제출하면 나중에 제출한 신청서는 반려됩니다.</li>
+      <li>보완서류는 <b>‘우선심사신청관련 서류제출서’</b>로 제출합니다. 특허로(www.patent.go.kr)의 웹작성·제출 기능을 이용하거나, 등기우편 또는 직접 제출(방문)할 수 있습니다.</li>
+      <li>우선심사 신청이 각하되더라도 <b>출원이 거절되는 것은 아니며</b>, 출원은 일반심사 순서에 따라 심사합니다. 우선심사 신청이 각하된 후 다른 요건으로 우선심사 신청이 가능합니다.</li>
+    </ul>
+  </div>
+
+  <h3 class="sec">4. 신청설명서 작성 요령</h3>
+  <h4>가. 공통 작성 요령</h4>
+  <div class="card">
+    <ul class="ul">
+      <li>우선심사는 <b>고시 별지 제5호서식</b>, 초고속심사는 <b>별지 제6호서식</b>, 특허심사하이웨이는 <b>별지 제3호서식</b>(일본 선출원의 선행기술조사보고서를 활용하는 출원은 제2호서식)으로 작성합니다.</li>
+      <li>【우선심사】란에 <b>“우선심사를 신청한다”</b>라고 기재합니다. 초고속심사는 【초고속심사】란에 “초고속심사를 신청한다”라고 기재하여야 하며, 기재하지 않으면 보완요구 대상이 됩니다.</li>
+      <li>【우선심사 신청이유】란에는 해당 고시 조항과 신청이유를 <b>증명서류에 근거해 구체적으로</b> 기재합니다.</li>
+      <li>선행기술조사 결과와 선행기술과의 대비설명은 <b>선택 기재사항</b>이며, 기재하지 않거나 잘못 기재하더라도 보완요구나 각하 대상이 아닙니다.</li>
+    </ul>
+  </div>
+  <h4>나. 신청이유별 추가 기재 항목(예시)</h4>
+  <div class="twrap"><table>
+    <thead><tr><th style="width:120px">신청이유</th><th style="width:230px">추가 기재 항목(란)</th><th>기재 내용</th></tr></thead>
+    <tbody>
+      <tr><td><b>제3자 실시</b></td><td>별도 란 없음(【우선심사 신청이유】란에 기재)</td><td>제3자의 구체적인 실시 상황(일시·장소·제품명·판매 수량 등)과 실시 제품이 청구항에 기재된 발명과 같다고 보는 이유</td></tr>
+      <tr><td><b>자기실시</b></td><td>【출원발명이 실시(준비) 중인지 여부】<br>【실시(준비)가 업으로서 이루어지고 있는지 여부】</td><td>실시 주체·기간·장소 등 실시 현황과 출원발명-실시발명 대비표, 증명서류에 근거한 사업 실시(준비) 상황</td></tr>
+      <tr><td><b>인증기업</b></td><td>【출원발명이 인증기업의 업종과 관련성이 있는지 여부】</td><td>확인서·사업자등록증상 업종과 출원발명의 관련성</td></tr>
+      <tr><td><b>수출지원사업</b></td><td>【수출촉진 관련 지원사업 및 출원발명과의 관련성】</td><td>지원사업 명칭·선정일과 출원발명의 관련성</td></tr>
+      <tr><td><b>국가연구개발</b></td><td>【국가연구개발과제 및 출원발명과의 관련성】</td><td>과제명·수행기관과 출원발명의 관련성</td></tr>
+      <tr><td><b>창업지원사업 등 선정</b></td><td>【창업지원사업 등의 선정 및 지원 사실】</td><td>사업 명칭, 주최·주관기관, 선정일, 지원 내용, 출원발명과의 관련성</td></tr>
+      <tr><td><b>출연·투자 창업기업</b></td><td>【창업기업 해당 여부 및 출연·보조 또는 투자 사실】</td><td>창업일, 출연·보조 또는 투자 내역</td></tr>
+      <tr><td><b>첨단기술</b></td><td>별도 란 없음(【우선심사 신청이유】란에 기재)</td><td>러목에 따라 신청한다는 점, 공고 분야와 주분류 CPC, 출원인 요건(국내 생산(준비)·국가연구개발 등), 해당 기술과 직접 관련되는 이유</td></tr>
+      <tr><td><b>재난 관련</b></td><td>【출원발명이 재난의 예방·대응·복구 등과 직접 관련성이 있는지 여부】</td><td>지정 물품·인증 제품과의 직접 관련성</td></tr>
+      <tr><td><b>특허심사하이웨이</b></td><td>별지 제3호서식으로 작성(일본 선출원의 선행기술조사보고서를 활용하는 출원은 별지 제2호서식)</td><td>대응출원과의 관계, 특허가능 판단을 받은 청구항, 청구항 대응관계설명표, 제출을 생략하는 서류와 그 이유</td></tr>
+      <tr><td><b>수출촉진<br>(초고속)</b></td><td>【수출촉진에 직접 관련된 출원】<br>【수출촉진 관련 사업을 지원받은 기업의 출원】</td><td>수출 제품과 청구항에 기재된 발명의 대응 관계와 수출실적·계약 내용, 또는 지원사업 명칭·선정일과 출원발명의 관련성</td></tr>
+      <tr><td><b>첨단기술·조약우선권<br>(초고속)</b></td><td>【조약에 의한 우선권주장의 기초가 되는 출원】<br>【반도체 등 첨단기술과 관련된 출원】</td><td>이 출원을 기초로 우선권을 주장한 외국 출원과 그 진행 상황, 공고 분야와 직접 관련되는 이유, 출원인 요건</td></tr>
+      <tr><td><b>창업지원<br>(초고속)</b></td><td>【공고된 첨단기술분야 해당 여부】<br>【공고에서 정하는 기업에 해당하는지 여부】</td><td>공고 분야와 주분류 CPC, 직접 관련되는 이유(첨단로봇은 인공지능 응용기술 포함), 출원인 요건, 기업 종류와 최초 출원인 포함 여부</td></tr>
+      <tr><td><b>청년창업기업<br>(초고속)</b></td><td>【제4조제1항에 따른 우선심사 신청대상 해당 여부】<br>【청년창업기업에 해당하는지 여부】</td><td>해당 호·목과 신청이유, 기업 명칭, 최초 출원인, 모든 대표자의 성명·생년월일·신청일 기준 나이</td></tr>
+      <tr><td><b>예비청년창업자<br>(초고속)</b></td><td>【창업지원사업 등의 선정 및 지원 사실】<br>【예비청년창업자에 해당하는지 여부】</td><td>사업 명칭·주최기관·선정일·지원 내용, 예비창업자의 성명·최초 출원인·요건 충족 사실·생년월일·나이</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>다. 기재 예시 ① 자기실시(실시 준비) 우선심사</h4>
+  <details class="acc"><summary><span class="chip">예시</span> 우선심사신청설명서 — 자기실시(실시 준비)</summary><div class="inner">
+    <p>[서류명] 우선심사신청설명서</p>
+    <p>【우선심사】 우선심사를 신청한다</p>
+    <p>【우선심사 신청이유】 본 출원은 출원인이 출원발명을 업으로서 실시 준비 중인 출원이므로 고시 제4조제1항제2호자목에 해당합니다.</p>
+    <p>【출원발명이 실시(준비) 중인지 여부】 본 출원의 출원인은 출원발명과 대응되는 시제품을 ○○시 소재 연구소에서 제작하였으며(증명서류 1: 시제품 사진), 청구항 1의 구성 A, B, C가 시제품에 그대로 구현되어 있습니다(증명서류 2: 출원발명과 실시준비 발명의 대비표).</p>
+    <p>【실시(준비)가 업으로서 이루어지고 있는지 여부】 본 출원의 출원인은 증명서류 3(사업계획서)에서 확인되는 바와 같이 출원발명을 적용한 장치의 사업화를 위하여 시제품 제작, 양산설비 구축 등 구체적인 추진일정을 수립하여 이행하고 있으므로, 본 출원발명은 업으로서 실시 준비 중에 있습니다.</p>
+    <p>(【선행기술조사】) 생략</p>
+    <p><b>대비표 예시</b></p>
+    <div class="twrap"><table>
+      <thead><tr><th style="width:90px">구성</th><th>출원발명(청구항 1)</th><th>실시발명(시제품)</th><th style="width:70px">대비</th></tr></thead>
+      <tbody>
+        <tr><td><b>구성 A</b></td><td>○○를 감지하는 센서부</td><td>시제품 윗면의 적외선 센서(증명서류 1 사진 ①)</td><td>동일</td></tr>
+        <tr><td><b>구성 B</b></td><td>센서부의 신호에 따라 모터를 제어하는 제어부</td><td>본체 안의 제어기판(증명서류 1 사진 ②)</td><td>동일</td></tr>
+        <tr><td><b>구성 C</b></td><td>제어 상태를 표시하는 표시부</td><td>앞면의 LCD 화면(증명서류 1 사진 ③)</td><td>동일</td></tr>
+      </tbody>
+    </table></div>
+    <p class="muted small">※ 대비표는 우선심사 신청의 근거로 든 청구항(예: 청구항 1)의 <b>모든 구성</b>을 대상으로 작성하며, 각 구성을 확인할 수 있는 증명서류와 그 위치를 함께 적습니다. 방법이나 소프트웨어 발명처럼 사진으로 확인하기 어려운 경우에는 공정도, 시스템 구성도, 실행 화면 등을 활용합니다.</p>
+  </div></details>
+  <h4>라. 기재 예시 ② 첨단기술(반도체) 우선심사</h4>
+  <details class="acc"><summary><span class="chip">예시</span> 우선심사신청설명서 — 첨단기술(반도체)</summary><div class="inner">
+    <p>[서류명] 우선심사신청설명서</p>
+    <p>【우선심사】 우선심사를 신청한다</p>
+    <p>【우선심사 신청이유】 본 출원은 반도체 기술과 직접 관련된 출원으로서 고시 제4조제1항제2호러목과 지식재산처의 반도체 분야 우선심사 대상 지정 공고에 따라 우선심사를 신청합니다.</p>
+    <p>(직접 관련성) 청구항 1은 웨이퍼를 식각하는 공정 챔버 안의 플라즈마 상태를 실시간으로 측정하고, 그 결과에 따라 RF 전력을 조절하여 식각 균일도를 유지하는 반도체 식각 장치에 관한 것입니다. 이는 공고에서 정한 반도체 소재·부품·장비, 제조, 설계, 성능 검사·평가 기술 중 <b>반도체 제조 장비 자체</b>에 해당하며, 반도체 소자를 구성요소로 포함하거나 이용하는 응용 발명이 아닙니다. 청구항 2~8은 청구항 1의 식각 장치를 한정한 것이고, 청구항 9는 이 장치를 이용한 식각 방법으로서 반도체 제조 공정 자체에 해당합니다.</p>
+    <p>(출원인 요건) 출원인 주식회사 ○○○○는 출원발명을 적용한 식각 장치를 국내 공장에서 생산하여 반도체 제조사에 납품하고 있는 기업입니다(증명서류 1: 공장등록증명서, 증명서류 2: 납품확인서).</p>
+    <p>(【선행기술조사】) 생략</p>
+  </div></details>
+  <h4>마. 기재 예시 ③ 첨단기술(피지컬 AI) 우선심사</h4>
+  <details class="acc"><summary><span class="chip">예시</span> 우선심사신청설명서 — 첨단기술(피지컬 AI)</summary><div class="inner">
+    <p>[서류명] 우선심사신청설명서</p>
+    <p>【우선심사】 우선심사를 신청한다</p>
+    <p>【우선심사 신청이유】 본 출원은 피지컬 AI 기술과 직접 관련된 출원으로서 고시 제4조제1항제2호러목과 지식재산처의 피지컬 AI 분야 우선심사 대상 지정 공고에 따라 우선심사를 신청합니다. 본 출원에는 공고된 CPC인 B25J 9/16(로봇 매니퓰레이터의 프로그램 제어)이 주분류로 부여되었습니다.</p>
+    <p>(직접 관련성) 청구항 1은 카메라 영상을 학습된 인공신경망으로 분석하여 작업대 위 물체의 위치와 자세를 인식하고, 그 결과에 따라 로봇 팔의 파지 경로를 생성하며, 파지하는 동안 힘 센서 값으로 파지력을 조절하는 협동로봇 제어 방법에 관한 것입니다. 인공지능이 실제 작업 환경을 인식하여 로봇의 물리적 동작을 직접 제어하므로, 영상을 분석하기만 하는 발명과 달리 물리적 환경에서 동작하는 장치와 관련된 피지컬 AI 기술에 해당합니다.</p>
+    <p>(출원인 요건) 출원인 주식회사 ○○○○는 ○○부 ○○사업의 ‘○○ 협동로봇 개발’ 과제를 수행하는 주관연구개발기관이며, 출원발명은 그 과제의 결과물입니다(증명서류 1: 협약서, 증명서류 2: 연구개발계획서).</p>
+    <p>(【선행기술조사】) 생략</p>
+  </div></details>
+  <h4>바. 기재 예시 ④ 수출촉진 관련 사업 초고속심사</h4>
+  <details class="acc"><summary><span class="chip">예시</span> 우선심사신청설명서(초고속심사) — 수출촉진 관련 사업</summary><div class="inner">
+    <p>[서류명] 우선심사신청설명서(초고속심사)</p>
+    <p>【초고속심사】 초고속심사를 신청한다</p>
+    <p>【초고속심사 신청이유】</p>
+    <p>【고시 제4조제2항제1호에 해당하는 출원】</p>
+    <p>【수출촉진 관련 사업을 지원받은 기업의 출원】 출원인 주식회사 ○○○○는 지식재산처 ‘글로벌 IP 스타기업 육성사업’에 2025. 4. 1. 선정되어 지원을 받은 중소기업입니다(증명서류 1: 최종선정 확인서, 증명서류 2: 협약서, 증명서류 3: 중소기업 확인서). 본 출원은 선정일부터 3년 이내인 2026. 9. 1.에 출원하였고, 위 기업은 최초 출원 시부터 출원인입니다.</p>
+    <p>(사업과의 관련성) 협약서와 사업계획서에 지원 대상 제품으로 기재된 ○○ 센서 모듈(증명서류 2: 협약서 2쪽, 증명서류 4: 사업계획서 5쪽)은 청구항 1의 구성 A, B, C를 모두 갖춘 제품이며, 출원발명은 이 제품의 수출에 필요한 권리를 확보하기 위한 출원입니다.</p>
+    <p>(【선행기술조사】) 생략</p>
+  </div></details>
+  <h4>사. 기재 예시 ⑤ 첨단기술(인공지능) 창업기업 초고속심사</h4>
+  <details class="acc"><summary><span class="chip">예시</span> 우선심사신청설명서(초고속심사) — 첨단기술(인공지능) 창업기업</summary><div class="inner">
+    <p>[서류명] 우선심사신청설명서(초고속심사)</p>
+    <p>【초고속심사】 초고속심사를 신청한다</p>
+    <p>【초고속심사 신청이유】</p>
+    <p>【고시 제4조제2항제3호에 해당하는 출원】</p>
+    <p>【공고된 첨단기술분야 해당 여부】 본 출원은 인공지능 분야 출원으로 공고된 CPC인 G06N 3/08(인공신경망의 학습방법)이 주분류로 부여되었습니다. 청구항 1은 제조 공정 영상을 학습한 인공신경망으로 제품 결함을 판정하고, 판정이 불확실한 영상만 골라 다시 학습시키는 결함 검사 모델의 학습 방법으로, 인공신경망 학습방법 자체에 관한 발명입니다. 출원인은 이 학습 방법을 적용한 검사 시스템을 국내에서 개발하고 있습니다(증명서류 1: 연구개발협약서, 증명서류 2: 시스템 공급계약서).</p>
+    <p>【공고에서 정하는 기업에 해당하는지 여부】 최초 출원 시 출원인인 주식회사 ○○○○는 2022. 3. 2. 사업을 개시한 「중소기업창업 지원법」에 따른 창업기업(사업을 개시한 날부터 7년이 지나지 않은 기업)입니다(증명서류 3: 창업기업확인서, 증명서류 4: 사업자등록증).</p>
+    <p>(【선행기술조사】) 생략</p>
+  </div></details>
+  <h4>아. 기재 예시 ⑥ 청년창업기업 초고속심사</h4>
+  <details class="acc"><summary><span class="chip">예시</span> 우선심사신청설명서(초고속심사) — 청년창업기업</summary><div class="inner">
+    <p>[서류명] 우선심사신청설명서(초고속심사)</p>
+    <p>【초고속심사】 초고속심사를 신청한다</p>
+    <p>【초고속심사 신청이유】</p>
+    <p>【고시 제4조제2항제4호에 해당하는 출원】</p>
+    <p>【제4조제1항에 따른 우선심사 신청대상 해당 여부】 본 출원은 벤처기업의 출원으로서 고시 제4조제1항제2호마목에 해당합니다. 출원인 주식회사 ○○○○는 벤처기업확인서(증명서류 1)에 따른 벤처기업이며, 사업자등록증(증명서류 2)상 업종인 ○○ 장치 제조업은 출원발명인 ○○ 장치와 관련됩니다.</p>
+    <p>【청년창업기업에 해당하는지 여부】 최초 출원 시 출원인인 주식회사 ○○○○는 공고에서 정하는 벤처기업에 해당합니다(증명서류 1). 해당 기업의 대표자는 홍길동(1990. 5. 1.생) 1명이며, 우선심사 신청일(2026. 11. 16.) 기준 만 36세입니다(증명서류 3: 법인 등기사항증명서, 증명서류 4: 생년월일 확인서류).</p>
+    <p>(【선행기술조사】) 생략</p>
+    <p class="muted small">※ 이해를 돕기 위한 예시이며, 실제 신청 시에는 출원 내용과 증명서류에 맞게 작성하여야 합니다.</p>
+  </div></details>
+
+  <h3 class="sec" id="calc">기한 계산기 <span class="chip noprint" style="font-size:11px">실험 기능</span></h3>
+  <div class="calc noprint" id="calcBox">
+    <div class="row">
+      <div><label for="cTrans">① 신청서 이송일 (선택)</label><input type="date" id="cTrans"></div>
+      <div><label for="cSend">② 우선심사결정서 발송일 (필수)</label><input type="date" id="cSend"></div>
+      <div><label for="cType">③ 신청 유형</label><select id="cType">
+        <option value="2">일반 우선심사 (2개월의 말일까지 착수)</option>
+        <option value="3">특허심사하이웨이 PPH (3개월의 말일까지 착수)</option>
+        <option value="1">초고속심사 (1개월 이내 착수)</option>
+      </select></div>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" id="calcBtn">기한 계산하기</button>
+    </div>
+    <div class="res" id="calcRes" hidden aria-live="polite"></div>
+  </div>
+</section>
+<!-- ================= III-1,2. REQUIREMENTS ================= -->
+<section class="page" id="p-reqs" data-title="Ⅲ. 우선심사 신청요건과 증빙서류">
+  <div class="chap"><span class="medal">Ⅲ</span><div><h2>우선심사 신청요건과 증빙서류</h2><div class="sub">공통 확인사항 · 신청요건 및 예시 증빙서류 · 첨단기술 · 초고속심사 · 보완 사례 · 체크리스트</div></div></div>
+
+  <h3 class="sec">1. 공통 확인사항</h3>
+  <div class="card">
+    <ul class="ul">
+      <li><b>(심사청구)</b> 심사청구가 되어 있거나 우선심사 신청과 동시에 심사청구를 하여야 합니다.</li>
+      <li><b>(청구범위)</b> 우선심사 대상이 되는 발명이 청구범위에 기재되어 있어야 합니다. 발명의 설명에만 기재된 경우는 인정되지 않으며, 청구항 중 하나라도 해당하면 출원 전체를 우선심사합니다. 다만, 특허심사하이웨이(PPH·PCT-PPH)는 모든 청구항이 대응출원(PCT-PPH는 국제조사·국제예비심사)에서 특허가능하다고 판단된 청구항과 상응하여야 합니다.</li>
+      <li><b>(최초 출원인)</b> 벤처기업 등 인증기업의 출원처럼 고시·공고에서 최초 출원인 요건을 정한 신청이유는 <b>최초 출원 시 출원인 중 적어도 1인</b>이 해당 기업이어야 합니다. 출원 후 출원인 변경으로 추가된 기업은 원칙적으로 인정되지 않습니다. 대표자 개인 명의 출원과 출원인 변경 사례는 <a href="#/faq?target=faq-q31">Ⅳ장 자주 묻는 질문 3.</a>을 참고하시기 바랍니다.</li>
+      <li><b>(확인서)</b> 벤처기업확인서 등은 출원일, 우선심사 신청일, 우선심사 여부 결정일 중 <b>한 시점에 유효</b>하여야 합니다.</li>
+      <li><b>(업종 관련성)</b> 인증기업 등 기업 자격을 이유로 신청하는 경우 출원발명이 그 기업의 업종과 관련되어야 합니다.</li>
+      <li><b>(신청이유)</b> 신청인이 기재한 신청이유를 기준으로 판단하므로, 해당하는 신청이유를 모두 기재하여도 됩니다.</li>
+      <li><b>(허위 증빙서류)</b> 증빙서류는 사실 그대로의 자료를 제출하여야 하며, 생성형 AI 등으로 허위 사진·서류를 만들어 실제 자료처럼 제출하면 보완요구 또는 각하 대상이 됩니다. 특히 자기실시의 실시품·시제품 사진은 실물을 직접 촬영한 것이어야 합니다.</li>
+    </ul>
+  </div>
+
+  <h3 class="sec">2. 우선심사 신청요건 및 예시 증빙서류</h3>
+  <h4>가. 제1호: 출원공개 후 제3자가 실시하고 있는 출원</h4>
+  <div class="twrap"><table>
+    <thead><tr><th style="width:100px">구분</th><th>신청요건</th><th style="width:260px">예시 증빙서류</th></tr></thead>
+    <tbody>
+      <tr><td><b>제1호</b><span class="sm">(제3자 실시)</span></td><td>출원공개 후 제3자가 업으로서 출원발명을 실시하고 있는 출원<br><span class="sm">※ 우선심사 여부 결정 시 공개되어 있어야 하므로 공개 전이면 <b>조기공개를 함께 신청</b>(신청서 이송일부터 15일 이내에 공개될 예정이면 조기공개 없이 공개 시까지 결정을 보류)</span></td><td>제3자 실시 입증서류(실시품·판매 현장 사진, 카탈로그, 실시 중지를 요구한 내용증명 사본 등)와 실시 제품이 청구항에 기재된 발명과 대응됨을 설명하는 자료(구성 대비표 등)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>나. 제2호: 긴급처리가 필요한 출원</h4>
+  <div class="twrap"><table>
+    <thead><tr><th style="width:110px">구분</th><th>신청요건</th><th style="width:250px">예시 증빙서류</th></tr></thead>
+    <tbody>
+      <tr><td><b>가목</b><span class="sm">(방위산업)</span></td><td>「방위사업법」에 따른 방산물자 또는 그 제조방법에 관한 출원</td><td>신청설명서에 해당 방산물자와 출원발명의 관련성 기재</td></tr>
+      <tr><td><b>나목</b><span class="sm">(녹색기술)</span></td><td>탄소중립 녹색기술과 직접 관련된 특허출원으로서 지식재산처 누리집에 게시된 우선심사 대상 녹색기술 특허분류가 부여된 출원</td><td>별도 서류 없음(특허분류로 확인)</td></tr>
+      <tr><td><b>다목</b><span class="sm">(수출촉진)</span></td><td>① 수출촉진에 직접 관련된 출원(신청일부터 3년 이내에 수출실적·수출계약이 있는 제품을 개량한 발명, 국제표준 관련 출원 포함)<br>② 수출지원사업*을 지원받은 중소·중견기업의 출원으로서 사업 선정일 또는 계약일부터 3년 이내이고 그 사업과 관련된 출원</td><td>① 수출신고필증, 수출실적증명서, 수출계약서, 구매주문서, 신용장 사본, 구매자의 권리 확보 요청서, 국제표준 채택 관련 서류(표준 제안서, FRAND 선언서 등) 등<br>② 사업 선정 확인서·협약서, 사업과의 관련성 입증서류(사업계획서 등), 중소·중견기업 확인서</td></tr>
+      <tr><td><b>라목</b><span class="sm">(국가 직무)</span></td><td>국가 또는 지방자치단체의 직무에 관한 출원(국·공립학교 산학협력단의 출원 포함)</td><td>별도 서류 없음</td></tr>
+      <tr><td><b>마목</b><span class="sm">(인증기업)</span></td><td>벤처기업, 기술혁신형 중소기업(이노비즈), 직무발명보상 우수기업(중소·중견기업), 지식재산경영인증 중소기업의 출원으로서 그 기업의 업종과 관련된 출원</td><td>해당 확인서·인증서, 업종 관련성 입증서류(사업자등록증 등)</td></tr>
+      <tr><td><b>바목</b><span class="sm">(국가연구개발)</span></td><td>국가연구개발사업의 결과물로서 다음 과제에 관한 출원<br>(1) 중소·중견기업이 수행한 과제<br>(2) 특허동향조사를 실시한 과제<br>(3) 지재권 연계 연구개발 전략지원 과제<br>(4) 국방 연구개발과제<br>(5) 국가전략기술 연구개발과제(「국가전략기술 지정 등에 관한 고시」 별표의 기술)<br>(6) 대학이 수행한 과제(출원인이 대학 또는 산학협력단인 경우)</td><td>협약서·연구개발계획서 등<br>(1) 중소·중견기업 확인서<br>(2) 특허동향조사 결과보고서 등<br>(3) 한국특허전략개발원과 체결한 협약서<br>(4) 방위사업청장, (5) 중앙행정기관의 장과 체결한 협약서 등<br>(6) 대학이 수행기관으로 명시된 협약서 등</td></tr>
+      <tr><td><b>아목</b><span class="sm">(조약우선권)</span></td><td>이 출원을 기초로 우선권을 주장한 외국 출원(PCT 포함)의 절차가 진행 중인 출원</td><td>① 기초출원임을 입증하는 서류(외국(PCT) 출원서 사본 등)<br>② 절차 진행 입증서류(출원 수수료 납부 영수증, 이체 증명서, 심사관련 통지서 등)<br>③ ①·②의 번역문(국어·영어가 아닌 경우)<br><span class="sm">※ PCT 수리관청이 대한민국이면 생략</span></td></tr>
+      <tr><td><b>자목</b><span class="sm">(자기실시)</span></td><td>출원인이 출원발명을 업으로서 실시 중이거나 실시 준비 중인 출원</td><td>① 실시(준비) 입증: 제품·시제품 사진, 견본, 카탈로그, 서비스 화면 등<br>② 업으로서 실시(준비) 입증: 사업자등록증, 거래명세표, 납품확인서, 공장등록증, 투자·대출실적서, 실시계약서, 기술이전계약서, 사업계획서(사업아이템·추진일정 포함) 등<br>③ 출원발명과 실시발명의 <b>대비표(필수)</b></td></tr>
+      <tr><td><b>자목 (1)~(6)</b><span class="sm">(실시 간주)</span></td><td>다음 출원은 실시(준비) 중인 출원으로 간주<br>(1) 소재·부품·장비 특화선도기업의 업종 관련 출원<br>(2) 국가·지자체 주최·주관 창업지원사업·공모전·경진대회에 선정되어 출원·사업화 지원을 받은 발명의 출원<br>(3) 정부로부터 기술개발·사업화 등과 관련하여 1천만원 이상 출연·보조를 받거나, 벤처캐피탈·크라우드펀딩·엔젤투자자·액셀러레이터로부터 5천만원 이상 투자를 받은 창업기업(창업 후 7년 이내)의 출원<br>(4) 혁신시제품 지정 신청 기업의 해당 기술 출원<br>(5) 규제 샌드박스를 신청한 제품·서비스 관련 출원<br>(6) 혁신의료기기 지정 기업의 해당 기술 출원</td><td>(1) 특화선도기업 선정서, 업종 관련성 입증서류<br>(2) 선정확인서·협약서·상장 등, 출원·사업화 지원 확인서·지원금 거래내역<br>(3) 출연·보조 협약서 또는 투자확인서, 창업기업확인서(또는 사업개시일 확인 서류)<br>(4) 지정 신청 확인 서류(조달청 확인공문 등)<br>(5) 규제 샌드박스 신청 확인서<br>(6) 혁신의료기기 지정서, 관련성 입증 자료</td></tr>
+      <tr><td><b>타목</b><span class="sm">(지역특구)</span></td><td>지역특화발전특구의 특화사업자 또는 특화사업 참여자의 특허출원으로서 규제특례가 적용된 특화사업과 직접 관련된 출원(규제자유특구는 제외)</td><td>특구관할 지방자치단체의 공보(특화사업자) 또는 지방자치단체장의 확인서(특화사업 참여자)</td></tr>
+      <tr><td><b>파목</b><span class="sm">(첨단의료단지)</span></td><td>규제특례가 적용되는 입주의료연구개발기관이 제출한 첨단의료복합단지 안 의료연구개발 관련 특허출원</td><td>첨단의료산업진흥재단 발급 공문 등</td></tr>
+      <tr><td><b>하목</b><span class="sm">(공해방지)</span></td><td>공해방지·제거가 주목적인 출원으로서 법령에 따른 환경오염방지시설(소음·진동, 수질, 대기, 폐기물 등)에 관한 출원</td><td>해당 시설에 해당함을 설명하는 자료</td></tr>
+      <tr><td><b>너목</b><span class="sm">(4차 산업혁명)</span></td><td>인공지능, 사물인터넷 등 4차 산업혁명 관련 기술을 활용한 특허출원으로서 고시 별표 3의 新특허분류가 부여된 출원</td><td>별도 서류 없음(특허분류로 확인)</td></tr>
+      <tr><td><b>더목</b><span class="sm">(PCT 국제조사)</span></td><td>지식재산처가 국제조사를 수행하고 「특허법」 제203조에 따른 서면이 제출된 국제특허출원</td><td>별도 서류 없음</td></tr>
+      <tr><td><b>러목</b><span class="sm">(첨단기술)</span></td><td>지식재산처장이 대상과 신청기간을 정하여 공고한 첨단기술 관련 출원</td><td>공고에서 정한 서류(Ⅲ-3 참조)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note small">* 수출지원사업 — 지식재산처: 글로벌 IP스타기업 육성, 수출 도전기업 IP위험 대응역량 강화, 특허분쟁 대응전략 지원 / 중소벤처기업부: 글로벌 기업 협업 프로그램, 글로벌 액셀러레이팅, 코리아 스타트업센터<br>※ 증빙서류는 예시이며, 자세한 내용은 고시 별표 1(우선심사의 신청에 관한 증명서류)과 관련 공고를 참고하시기 바랍니다.</div>
+
+  <h4>다. 제3호: 특허심사하이웨이(PPH)</h4>
+  <div class="twrap"><table>
+    <thead><tr><th style="width:120px">구분</th><th>신청요건</th><th style="width:230px">제출 서류</th></tr></thead>
+    <tbody>
+      <tr><td><b>제3호가목</b><span class="sm">(PPH)</span></td><td>지식재산처 누리집에 게시된 대상국가등에 출원한 대응출원과 최우선일이 같은 특허출원으로서 다음을 모두 갖춘 출원(고시 별표 2)<br>- 대응출원에 특허가능 청구항(특허결정의 대상이 된 청구항, 없으면 가장 최근의 의견제출통지서·거절결정서에서 특허가능하다고 명시된 청구항)이 있음<br>- 출원의 <b>모든 청구항</b>이 그 청구항과 상응함</td><td>① 대응출원의 특허가능 청구범위 사본<br>② 대응출원에 대한 심사관련 통지서 사본<br>③ 그 통지서에서 인용한 선행기술문헌 사본<br>④ 청구항 대응관계설명표(생략 불가)<br>⑤ ①·②의 번역문(국어·영어가 아닌 경우)</td></tr>
+      <tr><td><b>제3호나목</b><span class="sm">(PCT-PPH)</span></td><td>대상국가등에서 국제조사 또는 국제예비심사가 수행된 국제출원과 최우선일이 같은 특허출원으로서 다음을 모두 갖춘 출원(고시 별표 2)<br>- 가장 최근의 국제조사기관 견해서, 국제예비심사기관 견해서 또는 국제예비심사보고서에서 신규성·진보성·산업상 이용가능성이 모두 인정된 청구항이 있음<br>- 출원의 <b>모든 청구항</b>이 그 청구항과 상응함</td><td>① 신규성·진보성·산업상 이용가능성이 인정된 청구범위 사본<br>② 견해서 또는 국제예비심사보고서 사본<br>③ 견해서 등에서 인용한 선행기술문헌 사본<br>④ 청구항 대응관계설명표(생략 불가)<br>⑤ ①·②의 번역문(국어·영어가 아닌 경우)<br>⑥ 제8기재란(Box VIII)에 의견이 있으면 모든 청구항이 그 의견의 적용을 받지 않는다는 설명</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note small">※ 청구범위·통지서(견해서)와 그 번역문은 심사관이 정보통신망으로 확인할 수 있으면 신청설명서에 생략 이유를 적고 제출을 생략할 수 있고, 인용문헌은 특허문헌만 생략할 수 있습니다(비특허문헌은 제출). 번역문은 국어 또는 영어로 제출하며, <b>청구항 대응관계설명표는 생략할 수 없습니다.</b><br>※ 특허심사하이웨이(PPH·PCT-PPH)는 고시 별지 제3호서식으로 신청합니다. 일본에 먼저 출원하고 외국 특허청 등에서 받은 선행기술조사보고서가 있는 출원(일본특허청과 우선심사하기로 합의한 출원)은 별지 제2호서식으로 신청하며, 그 보고서 사본(신청인이 직접 조사하거나 용역을 맡긴 보고서는 불인정), 보고서에 기재된 선행기술문헌 사본, 출원발명과 그 선행기술문헌의 대비 설명서를 제출합니다. 상대국과 세부 요건은 지식재산처 누리집 안내를 확인하시기 바랍니다.</div>
+  <div class="card">
+    <p><b>작성 예시 — 청구항 대응관계설명표</b></p>
+    <div class="twrap" style="margin:8px 0 0"><table>
+      <thead><tr><th>이 출원의 청구항</th><th>대응출원의 특허가능 청구항</th><th>상응 근거</th></tr></thead>
+      <tbody>
+        <tr><td>청구항 1</td><td>청구항 1</td><td>대응출원 청구항 1과 같음(번역상 표현 차이만 있음)</td></tr>
+        <tr><td>청구항 2</td><td>청구항 3</td><td>대응출원 청구항 3과 같음(인용 청구항 번호만 다름)</td></tr>
+        <tr><td>청구항 3</td><td>청구항 1</td><td>대응출원 청구항 1에 ‘○○부’를 부가하여 한정함</td></tr>
+      </tbody>
+    </table></div>
+    <p class="muted small" style="margin-top:8px">※ 이 출원의 모든 청구항에 대하여 작성하며, 청구항마다 상응하는 근거를 적습니다. 물건과 방법처럼 카테고리가 다른 청구항은 상응하지 않는 것으로 봅니다.</p>
+  </div>
+
+  <h4>라. 제5호: 재난의 예방·대응·복구에 필요한 출원</h4>
+  <div class="twrap"><table>
+    <thead><tr><th style="width:130px">구분</th><th>신청요건</th><th style="width:210px">예시 증빙서류</th></tr></thead>
+    <tbody>
+      <tr><td><b>제5호가목</b><span class="sm">(의료·방역)</span></td><td>「감염병의 예방 및 관리에 관한 법률」 제2조제21호에 따른 의료·방역 물품과 직접 관련된 출원</td><td>해당 물품과의 직접 관련성 설명</td></tr>
+      <tr><td><b>제5호나목</b><span class="sm">(재난안전제품)</span></td><td>「재난안전산업 진흥법」 제16조에 따라 인증을 받은 재난안전제품과 직접 관련된 출원</td><td>재난안전제품 인증서</td></tr>
+      <tr><td><b>제5호다목</b><span class="sm">(재난 공고)</span></td><td>재난의 예방·대응·복구를 위하여 지식재산처장이 공고하는 대상에 해당하는 출원</td><td>해당 공고에서 정한 서류</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note small">※ 의료·방역 물품과 재난안전제품은 그 물품·제품 <b>자체가 청구항에 기재</b>되어 있어야 하며, 그 부품이나 이를 이용한 다른 발명은 해당하지 않습니다.<br>※ 고시 제4조제1항제4호(종전 전문기관 선행기술조사 의뢰 출원 등)는 2024. 1. 1. 삭제되었습니다.</div>
+</section>
+<!-- ================= III-3,4. TECH / EXPRESS ================= -->
+<section class="page" id="p-tech" data-title="첨단기술 분야별 신청요건 · 초고속심사">
+  <div class="chap"><span class="medal">Ⅲ</span><div><h2>첨단기술 분야별 신청요건<br>· 초고속심사</h2><div class="sub">첨단기술 공고 분야와 CPC, 초고속심사 유형별 요건</div></div></div>
+  <a class="btn ghost noprint" href="#/cpc" style="margin-top:10px">CPC 빠른 조회 도우미 열기 →</a>
+
+  <h3 class="sec">1. 첨단기술 분야별 신청요건</h3>
+  <h4>가. 신청기간 및 공통 요건</h4>
+  <div class="card">
+    <ul class="ul">
+      <li><b>(신청기간)</b> 2026. 11. 1.부터 2027. 12. 31.까지 우선심사를 신청한 출원이 대상입니다. 신청기간은 <b>우선심사 신청일</b>을 기준으로 하므로 그 전에 출원한 건도 신청할 수 있습니다.</li>
+      <li><b>(공통 요건)</b> 반도체·디스플레이·이차전지는 해당 기술과의 <b>직접 관련성</b>과 <b>출원인 요건</b>을, 나머지 6개 분야는 <b>공고된 CPC가 주분류</b>이면서 직접 관련성이 있고, 출원인 요건을 모두 갖추어야 합니다.</li>
+    </ul>
+  </div>
+  <h4>나. 분야별 대상 기술 (’26.11 공고 기준)</h4>
+  <div class="twrap"><table>
+    <thead><tr><th style="width:130px">분야</th><th>대상 기술 또는 주분류 CPC</th><th style="width:130px">출원인 요건</th></tr></thead>
+    <tbody>
+      <tr><td><b>반도체</b><span class="sm">공고 제2026-258호</span></td><td>반도체 소재·부품·장비, 제조, 설계, 성능 검사·평가 기술과 직접 관련된 출원</td><td>①, ②, ③ 중 하나</td></tr>
+      <tr><td><b>디스플레이</b><span class="sm">공고 제2026-259호</span></td><td>디스플레이 소재·부품·장비, 제조, 설계, 성능 검사·평가 기술과 직접 관련된 출원</td><td>①, ② 중 하나</td></tr>
+      <tr><td><b>이차전지</b><span class="sm">공고 제2026-260호</span></td><td>이차전지 소재·부품·장비, 제조, 설계, 성능 검사·평가, 제어관리(BMS), 재활용 기술과 직접 관련된 출원</td><td>①, ②, ③ 중 하나</td></tr>
+      <tr><td><b>바이오-생명공학</b><span class="sm">공고 제2026-261호</span></td><td>A01H 1, A01K 67, A01N 63, A61K 8·35·38·39·40·47·48·51, B01L 3·7, C07H, C07K 1~19, C12M 1~99, C12N 1~15, C12P 1~41, C12Q 1~3, G01N 27·33, C40B</td><td>①, ②, ③ 중 하나</td></tr>
+      <tr><td><b>바이오-헬스케어</b><span class="sm">공고 제2026-262호</span></td><td>A61B 1~18·42~90, A63B 24, G16B 5~35·40·45~99, G16H 10~80</td><td>①, ② 중 하나</td></tr>
+      <tr><td><b>첨단로봇</b><span class="sm">공고 제2026-263호</span></td><td>B25J 1~21, B70J 50, B70R, G05B 1~11·15~99, G05D 3~99, G06F 3</td><td>①, ② 중 하나</td></tr>
+      <tr><td><b>인공지능</b><span class="sm">공고 제2026-264호</span></td><td>B60W, B62D 57, G05B 13·19, G05D, G06N 3~7·20, G16B 40</td><td>①, ② 중 하나<br><span class="sm">(①은 개발 중 기업 포함)</span></td></tr>
+      <tr><td><b>피지컬 AI</b><span class="tag-new">신설</span><span class="sm">공고 제2026-265호</span></td><td>B25J 1~21, B70J 50, B70R, B60W 30~60, B62D 57, G01S 13~17, G05B 13~19, G05D 1·3, G06N 3~7·20, G06T 7, G06V 10~20</td><td>①, ② 중 하나</td></tr>
+      <tr><td><b>AI 데이터센터</b><span class="tag-new">신설</span><span class="sm">공고 제2026-266호</span></td><td>G06F 1·9~15, H02J 1~9, H04L 41·47, H05K 7</td><td>①, ② 중 하나</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note small">※ CPC를 제시한 분야는 해당 CPC가 출원의 <b>주분류</b>로 부여되어야 하며, 모든 분야에서 출원발명이 해당 기술과 <b>직접 관련</b>되어야 합니다. 특히 피지컬 AI, AI 데이터센터 분야는 대상 CPC가 넓으므로 해당 분야와 직접 관련되는 이유를 구체적으로 설명하여야 합니다. 피지컬 AI·인공지능·첨단로봇처럼 대상 CPC가 겹치는 분야는 신청설명서에 적은 분야의 공고 요건으로 판단합니다.<br>※ 반도체·디스플레이·이차전지는 주분류와 관계없이 청구항에 기재된 발명이 공고 기술(소재·부품·장비, 제조, 설계, 성능 검사·평가, 이차전지는 제어관리(BMS)·재활용 포함) <b>자체에 해당하는지</b>로 판단하며, 청구항 중 하나라도 해당하면 출원 전체가 대상이 됩니다. 이들 기술을 다른 분야에 응용한 출원(예: 반도체 소자를 포함하는 조명장치, 디스플레이나 이차전지 장치를 포함하는 차량)은 대상에서 제외합니다.</div>
+  <div class="card">
+    <p><b>판단 예시</b></p>
+    <div class="twrap" style="margin:8px 0 0"><table>
+      <thead><tr><th style="width:90px">분야</th><th>인정(공고 기술 자체)</th><th>불인정(응용 발명)</th></tr></thead>
+      <tbody>
+        <tr><td><b>반도체</b></td><td>소자 구조(트랜지스터, 메모리 셀 등) / 웨이퍼·포토레지스트·공정용 가스 등 소재 / 증착·식각·세정 등 제조 공정과 장비, 패키징 / 회로·칩 설계 / 웨이퍼·칩의 검사·계측, 신뢰성 평가</td><td>반도체 소자를 포함하는 조명장치 / 반도체 칩을 탑재한 전자기기의 기능 / 반도체를 이용한 서비스·소프트웨어</td></tr>
+        <tr><td><b>디스플레이</b></td><td>표시 패널(OLED, LCD, 마이크로 LED 등) 구조 / 발광 재료, 광학 필름, 커버 윈도 등 소재·부품 / 패널 제조 공정과 장비(증착 마스크 등) / 화소 회로·구동 설계 / 패널 점등·불량 검사</td><td>디스플레이를 포함하는 차량·가전·키오스크 / 화면에 표시하는 UI·콘텐츠 / 디스플레이를 단순히 결합한 기기</td></tr>
+        <tr><td><b>이차전지</b></td><td>양극재·음극재·전해질·분리막 등 소재 / 셀·모듈·팩 구조 / 전극 제조·조립 공정과 장비 / 충방전·수명·안전성 검사·평가 / BMS(충전 상태 추정, 셀 밸런싱 등) / 폐전지 재활용(유가금속 회수 등)</td><td>이차전지를 포함하는 차량·전동 킥보드·전동공구 / 전지를 전원으로 쓰기만 하는 기기 / 충전소 예약·결제 등 충전 서비스</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <h4>다. 출원인 요건 및 증빙서류</h4>
+  <div class="twrap"><table>
+    <thead><tr><th style="width:110px">출원인 요건</th><th>내용</th><th style="width:230px">예시 증빙서류</th></tr></thead>
+    <tbody>
+      <tr><td><b>① 국내 생산(준비) 기업</b></td><td>해당 분야 제품·장치를 국내에서 생산하거나 생산 준비 중인 기업의 출원(인공지능 분야에 한하여 인공신경망·학습방법·시스템 등을 국내에서 개발 중인 기업 포함)</td><td>공장등록증명서, 물품공급계약서, 납품확인서, 품질협약서, 공시된 사업보고서 등(인공지능 개발 중 기업은 시스템 공급계약서, 연구개발협약서 등)</td></tr>
+      <tr><td><b>② 국가연구개발 결과물</b></td><td>출원인이 해당 분야 국가연구개발과제의 주관·공동연구개발기관인 경우의 출원</td><td>협약서, 연구개발계획서 등</td></tr>
+      <tr><td><b>③ 특성화대학(원)</b></td><td>「국가첨단전략산업법」에 따른 특성화대학(대학원)의 출원(반도체·이차전지·바이오-생명공학)</td><td>별도 서류 없음</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note small">※ 국내 생산(준비)은 폭넓게 인정하므로, 공장등록증명서 등 자체 생산시설 서류가 없더라도 위탁생산 계약서 등 국내에서 제품을 생산하거나 생산을 준비하고 있음을 보여 주는 서류로 입증할 수 있습니다.<br>※ 신청설명서에는 고시 제4조제1항제2호러목에 따라 신청한다는 점과 출원발명이 해당 분야 기술과 직접 관련되는 이유를 기재합니다.</div>
+
+  <h3 class="sec">2. 초고속심사 신청요건 및 증빙서류</h3>
+  <h4>가. 유형별 신청요건(고시 제4조제2항)</h4>
+  <div class="twrap"><table>
+    <thead><tr><th style="width:130px">유형</th><th>신청요건</th><th style="width:230px">증빙서류</th></tr></thead>
+    <tbody>
+      <tr><td><b>제1호 수출촉진</b></td><td>고시 제4조제1항제2호다목(수출촉진)에 해당하는 출원</td><td>다목의 증빙서류(아래 나. 참조)</td></tr>
+      <tr><td><b>제2호 첨단기술·조약우선권</b></td><td>고시 제4조제1항제2호러목(첨단기술)과 아목(조약우선권 기초출원)에 모두 해당하는 출원</td><td>러목 및 아목의 증빙서류</td></tr>
+      <tr><td><b>제3호 창업지원</b></td><td>공고 분야(인공지능, 첨단로봇, 바이오-생명공학, 바이오-헬스케어, 피지컬 AI, AI 데이터센터)의 첨단기술 출원으로서 최초 출원인 중 1인 이상이 창업기업(창업 후 7년 이내)·벤처기업·이노비즈 기업인 출원</td><td>기술분야 입증서류(국내 생산(준비)·개발 또는 국가연구개발과제 수행)<br>창업기업확인서(또는 사업개시일 확인 서류)·벤처기업확인서·이노비즈 확인서 및 사업자등록증</td></tr>
+      <tr><td><b>제4호 청년창업기업</b> <span class="tag-new">신설</span></td><td>고시 제4조제1항의 우선심사 신청요건 중 하나에 해당하는 출원으로서 최초 출원인 중 1인 이상이 창업기업·벤처기업·이노비즈 기업이고, 그 기업의 모든 대표자가 신청일 기준 만 39세 이하인 출원</td><td>아래 라. 참조</td></tr>
+      <tr><td><b>제5호 예비청년창업자</b> <span class="tag-new">신설</span></td><td>고시 제4조제1항제2호자목(2)에 해당하는 출원으로서 최초 출원인 중 1인 이상이 공고에서 정하는 예비창업자이고, 그 예비창업자가 신청일 기준 만 39세 이하인 출원</td><td>아래 라. 참조</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note small">※ 제3호의 첨단로봇은 <b>인공지능 응용기술을 포함</b>하여야 하고, 첨단기술분야는 출원발명이 해당 분야와 직접 관련되어야 하며, 이를 신청설명서에 구체적으로 기재하여야 합니다.<br>※ 제2·3호의 첨단기술분야 신청요건은 위 1.(첨단기술 분야별 신청요건)을 참조하시기 바랍니다.</div>
+
+  <h4>나. 수출촉진 초고속심사(고시 제4조제2항제1호)</h4>
+  <div class="card">
+    <ul class="ul">
+      <li><b>(신청 방법)</b> 별지 제6호서식에 【고시 제4조제2항제1호에 해당하는 출원】란을 두고, 아래 두 경우 중 해당하는 란을 만들어 입증할 내용을 증빙서류 번호와 함께 구체적으로 적습니다. 별지 제5호서식으로 신청하면 같은 요건으로 일반 우선심사 여부를 판단합니다.</li>
+      <li><b>(입증 원칙)</b> 두 경우 중 하나를 골라 그 경우의 요건을 빠짐없이 증빙서류로 입증해야 하며, 요건 중 하나라도 입증되지 않으면 보완요구를 받습니다.</li>
+      <li><b>(수출 관련 출원)</b> 【수출촉진에 직접 관련된 출원】란에 적습니다. 출원인 제한이 없어 개인·대기업도 신청할 수 있으며, 출원발명에 따라 다음 중 해당하는 요건을 입증합니다.</li>
+    </ul>
+  </div>
+  <div class="twrap"><table>
+    <thead><tr><th style="width:110px">구분</th><th>입증할 요건과 제출 서류(예시)</th><th style="width:230px">보완요구를 피하려면</th></tr></thead>
+    <tbody>
+      <tr><td><b>수출 제품과 같은 발명</b></td><td>① 수출(예정) 사실: 다음 중 하나 이상<br>- 수출실적: 수출신고필증, 수출실적증명서<br>- 수출계약: 수출계약서, 구매주문서<br>- 신용장내도: 신용장 사본<br>- 수출품 구매자의 특허권·실용신안권 확보 요청서 등<br>② 수출 제품과 청구항 발명의 동일성: 제품 사진·카탈로그·사양서 등</td><td>서류에 수출 대상 제품(품명·모델명)이 나타나야 하며, 계약서만 있고 대상 제품을 알 수 없으면 보완요구 대상<br>신청설명서에 청구항의 구성이 수출 제품에서 어떻게 구현되는지 구성별로 대응시켜 기재</td></tr>
+      <tr><td><b>수출 제품을 개량한 발명</b></td><td>① 기존 제품의 수출: 우선심사 신청일부터 3년 이내의 수출실적·수출계약 서류<br>② 개량 발명의 수출 예정: 개량 제품의 수출계약서·구매주문서 등</td><td>기존 제품에서 무엇을 개량하였는지와 개량 제품의 수출 계획을 신청설명서에 기재</td></tr>
+      <tr><td><b>국제표준 관련 출원</b></td><td>국제표준 채택 절차가 진행 중이거나 국제표준으로 채택되었음을 입증하는 서류: 표준화기구에 제출한 표준 제안서, 승인서, FRAND 선언서, 국제표준 채택 관련 서류 등</td><td>청구항의 발명이 제안·채택된 표준 기술에 해당함을 설명</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note small">※ 다른 기업이 출원발명을 이용하여 수출하는 경우(표준 기술이 다른 회사 제품에 포함되어 수출되는 경우 포함)는 수출촉진이 아니라 <b>제3자 실시</b>(고시 제4조제1항제1호)로 신청합니다.</div>
+  <div class="card">
+    <p><b>(수출지원사업 지원 기업)</b> 【수출촉진 관련 사업을 지원받은 기업의 출원】란에 적습니다. 아래 수출지원사업*을 지원받은 중소·중견기업의 출원으로서 다음 요건을 모두 갖추어야 하며, ①~③의 서류는 모두 제출합니다.</p>
+    <div class="twrap" style="margin-top:8px"><table>
+      <thead><tr><th style="width:120px">입증할 요건</th><th>제출 서류(예시)</th><th style="width:250px">보완요구를 피하려면</th></tr></thead>
+      <tbody>
+        <tr><td><b>① 사업 선정·지원</b></td><td>지정확인서, 선정결과 통지서, 최종선정 확인서, 협약서 등</td><td>대상 사업인지 확인 — 지식재산처 사업의 선정 확인서는 한국발명진흥회(지역지식재산센터)·한국지식재산보호원 등에서 발급</td></tr>
+        <tr><td><b>② 출원발명과 사업의 관련성</b></td><td>지원사업 신청서, 사업계획서, 협약서, 수행계획서, 결과보고서, 대상 제품·기술 설명자료 등</td><td><b>보완요구가 가장 많은 항목</b>으로, 선정확인서만 내지 말 것 — 사업의 대상 제품·기술과 청구항의 발명이 어떻게 관련되는지 서류의 해당 쪽을 들어 설명</td></tr>
+        <tr><td><b>③ 중소·중견기업</b></td><td>중소기업 확인서 또는 중견기업 확인서</td><td>대기업·개인은 이 경우로 신청할 수 없음(수출 관련 출원으로는 가능)</td></tr>
+        <tr><td><b>④ 3년 이내</b></td><td>①의 서류(선정일·연차평가확인일 또는 계약일이 나타난 서류)</td><td>사업 선정일(연차평가확인일) 또는 계약일부터 3년이 지나지 않은 출원이어야 함</td></tr>
+        <tr><td><b>⑤ 최초 출원인</b></td><td>별도 서류 없음(출원서로 확인)</td><td>최초 출원 시 그 기업이 출원인에 포함되어야 하며, 출원 후 출원인 변경으로 추가된 경우는 원칙적으로 불인정</td></tr>
+      </tbody>
+    </table></div>
+    <p class="muted small" style="margin-top:8px">* 지식재산처: 글로벌 IP스타기업 육성, 수출 도전기업 IP위험 대응역량 강화, 특허분쟁 대응전략 지원 / 중소벤처기업부: 글로벌 기업 협업 프로그램, 글로벌 액셀러레이팅, 코리아 스타트업센터<br>※ 신청설명서 작성 예시는 Ⅱ-4 바.(기재 예시 ④)를 참고하시기 바랍니다.</p>
+  </div>
+
+  <h4>다. 청년창업기업·예비청년창업자 신청자격(공고)</h4>
+  <div class="twrap"><table>
+    <thead><tr><th style="width:150px">구분</th><th>신청자격</th><th style="width:160px">비고</th></tr></thead>
+    <tbody>
+      <tr><td><b>청년창업기업</b><span class="sm">공고 제2026-267호</span></td><td>우선심사 신청요건(고시 제4조제1항)을 만족하면서, 다음 중 하나에 해당하는 기업으로서 대표자가 만 39세 이하인 기업<br>① 「중소기업창업 지원법」 제2조제3호에 따른 창업기업(사업을 개시한 날부터 7년이 지나지 않은 기업)<br>② 「벤처기업육성에 관한 특별법」 제25조에 따른 벤처기업<br>③ 「중소기업 기술혁신 촉진법」 제15조에 따른 기술혁신형 중소기업</td><td>공동 출원인 중 1인이 대상 기업에 해당하여도 신청 가능, 기업의 모든 대표자가 만 39세 이하</td></tr>
+      <tr><td><b>예비청년창업자</b><span class="sm">공고 제2026-268호</span></td><td>국가·지자체의 창업지원사업·공모전·경진대회에 선정되어 출원·사업화 지원을 받으면서, 사업자등록이 되어 있지 않고 법인의 대표자(대표이사 등)로 등기되어 있지 않은 개인으로서 만 39세 이하인 사람</td><td>최초 출원 시 출원인에 포함</td></tr>
+    </tbody>
+  </table></div>
+  <h4>라. 청년창업기업·예비청년창업자 제출서류</h4>
+  <div class="twrap"><table>
+    <thead><tr><th style="width:130px">구분</th><th>제출서류(입증할 내용)</th><th style="width:280px">예시</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="3"><b>청년창업기업</b></td><td>① 신청이유 증명서류</td><td>고시 제4조제1항 각 호 중 해당 신청이유의 증명서류(벤처기업, 이노비즈기업의 경우 ②로 입증 가능)</td></tr>
+      <tr><td>② 기업 해당 입증서류</td><td>창업기업확인서(없으면 사업개시일을 확인할 수 있는 서류), 벤처기업확인서 또는 기술혁신형 중소기업(Inno-Biz) 확인서와 사업자등록증 등</td></tr>
+      <tr><td>③ 대표자 나이 입증서류</td><td>사업자등록증 또는 법인 등기사항증명서와 생년월일을 확인할 수 있는 서류(생년월일을 제외한 개인정보는 가리고 제출)</td></tr>
+      <tr><td rowspan="3"><b>예비청년창업자</b></td><td>① 선정·지원 증명서류</td><td>협약서, 선정확인서, 도전경력증명서, 인증서, 상장, 출원이나 사업화 지원을 받은 사실의 확인서 등</td></tr>
+      <tr><td>② 예비창업자 입증서류</td><td>사실증명(총사업자등록내역), 사업자등록증명, 폐업사실증명 등과 법인 등기사항전부증명서 등</td></tr>
+      <tr><td>③ 나이 입증서류</td><td>주민등록표 초본 등 생년월일을 확인할 수 있는 서류(생년월일을 제외한 개인정보는 가리고 제출)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="card">
+    <p><b>관련 규정</b></p>
+    <ul class="ul sm">
+      <li>▶ 고시 제4조제2항제4호 — 제4조제1항 각 호의 어느 하나에 해당하는 출원으로서, 그 출원을 할 때 최초 출원인 중 적어도 1인이 지식재산처장이 공고하는 기업에 해당하고 그 기업의 모든 대표자가 39세 이하(우선심사의 신청일을 기준으로 한다)인 출원</li>
+      <li>▶ 고시 제4조제2항제5호 — 제4조제1항제2호자목(2)에 해당하는 출원으로서, 그 출원을 할 때 최초 출원인 중 적어도 1인이 지식재산처장이 공고하는 예비창업자에 해당하고 그 예비창업자가 39세 이하(우선심사의 신청일을 기준으로 한다)인 출원</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= III-3. CPC LOOKUP ================= -->
+<section class="page" id="p-cpc" data-title="CPC 빠른 조회">
+  <div class="chap"><span class="medal">Ⅲ</span><div><h2>CPC 빠른 조회</h2><div class="sub">첨단기술 공고 분야의 주분류(CPC) 검색 도우미</div></div></div>
+  <div class="note small">첨단기술 우선심사(러목)는 공고된 CPC가 <b>주분류</b>로 부여되어야 하고, 출원발명이 해당 분야와 <b>직접 관련</b>되어야 하며, 출원인 요건을 함께 갖추어야 합니다. 반도체·디스플레이·이차전지는 CPC 없이 기술 직접 관련성으로 판단합니다.</div>
+  <div style="position:sticky;top:var(--hdr);z-index:10;background:var(--bg);padding:10px 0">
+    <label class="vh" for="cpcSearch">CPC 또는 분야 검색</label>
+    <input id="cpcSearch" type="search" placeholder="예: G06N, C12N, B25J, 로봇, 바이오" autocomplete="off">
+  </div>
+  <div id="cpcSummary" aria-live="polite"></div>
+  <div id="cpcResults"></div>
+  <div class="note small">※ 피지컬 AI·인공지능·첨단로봇처럼 대상 CPC가 겹치는 분야는 신청설명서에 적은 분야의 공고 요건으로 판단하며, 피지컬 AI·AI 데이터센터는 직접 관련성을 특히 구체적으로 설명하여야 합니다. 최종 기준은 각 공고(공고 번호) 원문입니다.</div>
+</section>
+
+<!-- ================= III-5,6. SUPPLEMENT / CHECKLIST ================= -->
+<section class="page" id="p-prep" data-title="보완요구 사례 · 신청 전 체크리스트">
+  <div class="chap"><span class="medal">Ⅲ</span><div><h2>보완요구 사례<br>· 신청 전 체크리스트</h2><div class="sub">보완요구가 자주 발생하는 사례와 신청 전 점검 항목</div></div></div>
+
+  <h3 class="sec">1. 보완요구가 자주 발생하는 사례</h3>
+  <div class="note">심사관으로부터 보완요구를 받으면 서류를 다시 제출하여야 하므로 우선심사 여부 결정이 그만큼 늦어집니다. 신청 전에 아래 사례를 확인하시기 바랍니다.</div>
+  <div id="suppList"></div>
+  <div class="note small">※ 신청이유별 세부 사항은 <a href="#/faq">Ⅳ장 자주 묻는 질문의 2.~7.</a>을 참고하시기 바랍니다.</div>
+
+  <h3 class="sec" id="cklist">2. 신청 전 체크리스트</h3>
+  <p class="muted small">체크 상태는 이 기기에 자동 저장됩니다(오프라인 동작). 제출 전 모든 항목을 확인하세요.</p>
+  <div class="ckhead noprint">
+    <div class="ckbar" role="progressbar" aria-label="체크리스트 진행률" aria-valuemin="0" aria-valuemax="20" aria-valuenow="0"><i id="ckFill"></i></div>
+    <div class="ckmeta"><span id="ckCount">0 / 0 완료</span><button class="btn warn" style="padding:5px 12px;font-size:12.5px" id="ckReset">체크 초기화</button></div>
+  </div>
+  <div id="ckGroups"></div>
+</section>
+
+<!-- ================= IV. FAQ ================= -->
+<section class="page" id="p-faq" data-title="Ⅳ. 자주 묻는 질문">
+  <div class="chap"><span class="medal">Ⅳ</span><div><h2>자주 묻는 질문</h2><div class="sub">Q1~Q91 · 카테고리별로 모아 보기</div></div></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;position:sticky;top:var(--hdr);z-index:10;background:var(--bg);padding:10px 0">
+    <input id="faqFilter" type="search" placeholder="Q·키워드로 필터 (예: PPH, 대비표)" aria-label="FAQ 키워드 필터" autocomplete="off" style="flex:1;min-width:180px;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font:inherit;font-size:14.5px">
+    <span class="chip" id="faqCount"></span>
+  </div>
+  <div class="tabs" id="faqTabs" role="tablist" aria-label="FAQ 분류"></div>
+  <div id="faqList"></div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="page" id="p-contact" data-title="[참고] 문의처">
+  <div class="chap"><span class="medal">※</span><div><h2>[참고] 문의처</h2><div class="sub">신청 절차·요건 관련 문의는 아래 연락처를 이용하세요.</div></div></div>
+
+  <div class="contact">
+    <div class="ic"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.4 2.1L8.1 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.6 1.9z"/></svg></div>
+    <div><b>특허고객상담센터</b><div class="d">신청서 작성, 신청료 납부 등 절차 일반</div><a href="tel:1544-8080">☎ 1544-8080</a></div>
+  </div>
+  <div class="contact">
+    <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 20V9"/></svg></div>
+    <div><b>특허로</b><div class="d">전자 신청 및 신청료 납부</div><a href="https://www.patent.go.kr" target="_blank" rel="noopener">www.patent.go.kr</a></div>
+  </div>
+  <div class="contact">
+    <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg></div>
+    <div><b>지식재산처 누리집</b><div class="d">고시·공고 원문 (소식알림 → 알림사항 → 고시공고)</div><a href="https://www.moip.go.kr" target="_blank" rel="noopener">www.moip.go.kr</a></div>
+  </div>
+  <div class="contact">
+    <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg></div>
+    <div><b>담당 심사관</b><div class="d">개별 출원의 요건 해당 여부, 보완요구 내용</div><span class="d">보완요구서 등 통지서에 기재된 연락처</span></div>
+  </div>
+
+  <div class="card mt">
+    <p class="small muted"><b>출처 및 안내</b> — 이 웹앱은 지식재산처 특허제도과 발행 「누구나 따라하는 우선심사 신청 길라잡이」(2026. 11. 1. 기준)의 내용을 담고 있습니다. 이 길라잡이는 참고용이며, 자세한 사항은 우선심사 고시와 관련 공고를 반드시 확인하시기 바랍니다. 본 웹앱의 정보는 2026. 11. 1. 기준이므로 이후 변경되었을 수 있습니다.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div style="max-width:920px;margin:0 auto;padding:0 4px">
+    <p><b>우선심사 신청 길라잡이 (2026. 11. 1. 기준)</b> · 지식재산처 특허제도과 발행 자료 기반 비공식 웹앱</p>
+    <p class="small">이 길라잡이는 참고용이며, 자세한 사항은 우선심사 고시와 관련 공고(<a href="https://www.moip.go.kr" target="_blank" rel="noopener">www.moip.go.kr</a>)를 확인하시기 바랍니다. 문의: 특허고객상담센터 1544-8080</p>
+  </div>
+</footer>
+
+<nav id="bottomnav" aria-label="하단 메뉴"></nav>
+
+<!-- search overlay -->
+<div id="searchWrap" aria-hidden="true">
+  <div id="searchBox" role="dialog" aria-label="문서 검색">
+    <div class="si">
+      <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:var(--muted);stroke-width:1.8;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.2-4.2"/></svg>
+      <input id="searchInput" type="search" placeholder="검색어를 입력하세요 (예: 감면, 대비표, 별지 제6호, 만 39세)" autocomplete="off">
+      <button class="hbtn" id="searchClose" aria-label="닫기"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div id="sres"><div class="snone">예: “신청료”, “보완요구”, “PPH”, “창업 후 7년” 등으로 검색해 보세요.</div></div>
+  </div>
+</div>
+
+<!-- iOS install guide modal -->
+<div class="modal" id="iosModal">
+  <div class="box">
+    <button class="x" data-close>&times;</button>
+    <h3>아이폰에서 앱으로 설치하기</h3>
+    <p class="small" style="font-size:14px">iOS 사파리(Safari)에서 아래 순서로 홈 화면에 추가하면 앱처럼 사용할 수 있습니다.</p>
+    <ol style="margin:12px 0 4px 18px;font-size:14px;line-height:2">
+      <li>사파리 하단 <b>공유 버튼</b>(⬆︎) 누르기</li>
+      <li>‘홈 화면에 추가’ 선택</li>
+      <li>우측 상단 ‘추가’ 눌러 완료</li>
+    </ol>
+    <p class="small muted">안드로이드(크롬)에서는 우측 상단 메뉴(⋮) → ‘앱 설치’ 또는 화면에 나타나는 ‘앱 설치’ 버튼을 누르세요.</p>
+  </div>
+</div>
+<script>
+/* ====== FAQ DATA (Ⅳ. 자주 묻는 질문, Q1~Q91) ====== */
+const FAQCATS=[["gen","1. 우선심사 일반"],["practice","2. 제3자 실시·자기실시"],["cert","3. 벤처기업 등 인증기업"],["rnd","4. 국가연구개발과제 결과물"],["intl","5. 조약우선권·PPH 등"],["tech2","6. 첨단기술 등 기술분야"],["expr","7. 초고속심사"],["youth","8. 청년창업기업·예비청년창업자"]];
+const FAQ=[
+{c:"gen",q:"Q1. 우선심사를 신청하면 특허를 받기가 쉬워지나요?",a:"아닙니다. 우선심사는 심사 순서를 앞당기는 제도이며, 신규성·진보성 등 특허요건의 판단 기준은 일반심사와 같습니다."},
+{c:"gen",q:"Q2. 출원한 날 바로 우선심사를 신청할 수 있나요?",a:"신청할 수 있습니다. 우선심사는 심사청구가 된 출원이 대상이므로, 출원할 때 심사청구를 함께 하고 출원번호를 받은 뒤 그 번호를 적은 우선심사신청서를 제출하면 출원한 날 바로 신청할 수 있습니다. 우선심사신청서는 출원서와 별도로 제출하여야 합니다."},
+{c:"gen",q:"Q3. 우선심사를 신청하려면 출원이 공개되어야 하나요?",a:"제3자 실시(고시 제4조제1항제1호)를 이유로 신청하는 경우에만 출원공개가 필요합니다. 그 밖의 신청이유는 출원공개가 요건이 아닙니다. 출원공개 전에 제3자 실시를 이유로 신청하는 경우에는 조기공개를 함께 신청하면 공개될 때까지 결정을 보류하며, 신청서 이송일부터 15일 이내에 공개될 예정인 출원은 조기공개를 신청하지 않아도 됩니다."},
+{c:"gen",q:"Q4. 이미 심사가 시작된 출원도 우선심사를 신청할 수 있나요?",a:"신청할 수 있습니다. 심사 착수 후 신청한 경우에도 요건을 갖추면 우선심사로 인정되며, 이후 의견서 등 중간서류는 우선심사 처리기간에 따라 처리합니다."},
+{c:"gen",q:"Q5. 의견서 제출기간을 연장하면 우선심사 처리기간은 어떻게 되나요?",a:"연장한 기간만큼 처리 기한도 늦어집니다. 의견서·보정서 등 중간서류는 지정기간 만료일과 서류 이송일 중 늦은 날부터 처리기간을 계산하므로, 제출기간을 연장하면 연장된 만료일을 기준으로 계산합니다. 일반 우선심사와 초고속심사 모두 같습니다."},
+{c:"gen",q:"Q6. 실용신안등록출원도 우선심사를 신청할 수 있나요?",a:"신청할 수 있습니다. 다만, 녹색기술, 지역특화발전특구, 첨단의료복합단지, 4차 산업혁명, PCT 국제조사, 특허심사하이웨이(PPH)를 이유로 하는 경우에는 특허출원만 대상입니다."},
+{c:"gen",q:"Q7. 외국인(외국법인)의 출원도 우선심사를 신청할 수 있나요?",a:"신청할 수 있으며, 내국인의 출원과 같은 기준으로 판단합니다. 다만, 자기실시를 이유로 하는 경우 ‘실시’는 국내에서의 실시를 말하므로 외국에서 실시하고 있다는 사실만으로는 인정되지 않습니다. 외국에서 생산한 제품을 국내로 수입하여 판매하는 것은 국내 실시에 해당합니다."},
+{c:"gen",q:"Q8. 신청이유를 여러 개 기재할 수 있나요?",a:"기재할 수 있습니다. 기재한 신청이유 중 하나라도 인정된다면 우선심사 대상이 됩니다. 기재하지 않은 신청이유를 심사관이 따로 찾아서 판단하지 않으므로 해당하는 신청이유를 모두 기재하는 것이 바람직합니다."},
+{c:"gen",q:"Q9. 청구항 중 일부만 신청요건에 해당해도 되나요?",a:"가능합니다. 청구항 중 하나라도 우선심사 대상에 해당하면 출원 전체를 우선심사합니다. 다만, 특허심사하이웨이(PPH·PCT-PPH)는 모든 청구항이 대응출원(PCT-PPH는 국제조사·국제예비심사)에서 특허가능하다고 판단된 청구항과 상응하여야 합니다."},
+{c:"gen",q:"Q10. 우선심사 여부 결정이 7일보다 늦어질 수도 있나요?",a:"늦어질 수 있습니다. 결정기간 7일은 우선심사를 신청한 날이 아니라, 신청서가 방식심사(서식·신청료 납부 여부 등 확인)를 거쳐 담당 심사관에게 이송된 날부터 기산합니다. 방식심사에는 일정 기간이 걸리므로, 신청일부터 7일이 지났더라도 아직 결정되지 않았을 수 있습니다. 또한 보정명령이나 보완요구를 받은 경우에는 지정기간 만료일과 제출한 서류가 이송된 날 중 늦은 날부터 다시 7일 이내에 결정하며, 출원인변경신고서 등 권리관계 변경 신고서가 수리 중인 기간은 처리기간에서 제외됩니다. 다만, 지정기간 중이라도 서류를 보완하여 요건을 갖추면 기간 만료 전에 결정할 수 있습니다."},
+{c:"gen",q:"Q11. 우선심사 보완요구를 받았을 때 어떻게 보완하나요?",a:"보완요구서에 적힌 지정기간 안에 부족한 신청이유나 증명서류를 ‘우선심사신청관련 서류제출서’로 제출합니다. 특허로(www.patent.go.kr)의 웹작성·제출 기능으로 서류제출서를 작성하여 제출하거나, 서면으로 작성하여 등기우편으로 보내거나 직접 제출(방문)할 수 있으며, 제출처는 Ⅱ-3 다. 제출 방법과 같습니다."},
+{c:"gen",q:"Q12. 보완요구를 받으면 우선심사를 다시 신청하여야 하나요?",a:"다시 신청할 필요는 없습니다. 지정기간 내에 부족한 신청이유나 증명서류를 보완하여 제출하면 됩니다. 같은 출원에 신청서를 다시 제출하면 나중에 제출한 신청서는 반려됩니다."},
+{c:"gen",q:"Q13. 보완요구를 받은 후 신청이유를 바꿀 수 있나요?",a:"바꿀 수 있습니다. 지정기간 내에 다른 신청이유와 그 증명서류를 제출하면 바꾼 신청이유를 기준으로 판단하며, 바꾼 신청이유에 부족한 점이 있으면 그에 대한 보완요구를 다시 받을 수 있습니다. 예를 들어 벤처기업(마목)을 이유로 신청하였으나 확인서를 낼 수 없는 경우, 출원에 우선심사 대상 녹색기술 특허분류가 부여되어 있으면 녹색기술(나목)로 신청이유를 바꾸어 보완할 수 있습니다. 다만, 대상 출원이나 신청인을 바꾸는 보완은 인정되지 않습니다. 또한 같은 신청이유 안에서 세부 사유만 바꾸는 경우(예: 첨단기술의 CPC만 바꾸어 다시 주장하는 경우)에는 추가 보완요구 없이 각하될 수 있습니다."},
+{c:"gen",q:"Q14. 보완요구를 받은 후 청구항을 보정하여 우선심사 요건을 갖출 수 있나요?",a:"갖출 수 있습니다. 우선심사 대상인지는 우선심사 여부를 결정할 때까지 보정된 청구항을 기준으로 판단하므로, 실시품에서 확인되지 않는 구성을 청구항에서 삭제하여 실시발명과 같게 하거나 청구항을 공고된 첨단기술 자체로 한정하면 보정된 청구항으로 다시 판단합니다."},
+{c:"gen",q:"Q15. 2026. 10. 31.까지 신청한 출원도 보완하면서 개정 고시의 신청이유로 바꿀 수 있나요?",a:"바꿀 수 없습니다. 개정 고시에서 새로 생기거나 바뀐 신청이유(예: 청년창업기업·예비청년창업자 초고속심사, 대학 수행 국가연구개발과제)는 2026. 11. 1. 이후 제출된 우선심사 신청부터 적용되므로, 그 전에 신청한 출원은 11월 이후에 보완하더라도 종전 규정에 따라 판단합니다. 개정 고시의 신청이유로 우선심사를 받으려면 종전 신청을 취하하거나 신청이 각하된 후 새로 신청하여야 합니다."},
+{c:"gen",q:"Q16. 보완요구를 받고 지정기간 안에 보완하지 못하면 어떻게 되나요?",a:"지정기간이 지나면 우선심사 신청이 각하되며, 신청료 중 특허 16만원, 실용신안 8만원을 반환합니다(감면 없이 전액 납부한 경우 기준). 출원은 일반심사 순서에 따라 심사되며, 요건을 갖추면 신청료를 다시 내고 우선심사를 다시 신청할 수 있습니다. 한편, 신청료를 내지 않아 보정명령을 받고도 보정기간까지 내지 않으면 우선심사 신청이 무효가 됩니다."},
+{c:"gen",q:"Q17. 우선심사 결정 후에 신청을 취하할 수 있나요?",a:"우선심사 결정이 통지된 후에는 취하할 수 없습니다. 결정 전에 취하하는 경우에는 신청료 중 특허 16만원, 실용신안 8만원을 반환합니다(감면 없이 전액 납부한 경우 기준이며, 70% 감면을 받은 특허출원은 48,000원을 반환합니다)."},
+{c:"gen",q:"Q18. 우선심사 신청을 취하하거나 신청이 각하된 후에 다시 신청할 수 있나요?",a:"신청할 수 있습니다. 우선심사 신청 횟수에는 제한이 없으므로 결정 전에 신청을 취하하였거나 신청이 각하된 경우에도 요건을 갖추어 다시 신청할 수 있습니다. 이 경우 신청료는 다시 납부하여야 합니다."},
+{c:"gen",q:"Q19. 우선심사 결정 후에 청구항을 보정하거나 출원인을 변경하면 우선심사가 취소되나요?",a:"취소되지 않습니다. 우선심사 대상인지는 우선심사 여부를 결정할 때까지 보정된 청구항을 기준으로 판단하므로, 결정 후에 청구항을 보정하더라도 우선심사 결정은 그대로 유지됩니다. 결정 후 출원을 양도하여 출원인이 바뀐 경우에도 그 사실만으로 우선심사나 초고속심사 대상에서 제외되지 않습니다. 다만, 특허심사하이웨이(PPH)는 결정 후 심사에 착수하기 전에 특허가능 청구항과 상응하지 않는 청구항으로 보정하면 보완요구를 거쳐 우선심사 여부를 다시 결정할 수 있습니다."},
+{c:"gen",q:"Q20. 원출원이 우선심사결정이 된 경우 분할출원도 우선심사 대상이 되나요?",a:"아닙니다. 분할출원이 원출원의 우선심사 결정 효력을 승계하는 것은 아니므로, 분할출원 자체에 대한 요건 충족 여부를 별도로 판단하며, 분할출원에 대하여 별도로 우선심사를 신청하여야 합니다."},
+{c:"gen",q:"Q21. 국내우선권 주장의 기초가 된 선출원도 우선심사를 받을 수 있나요?",a:"원칙적으로 받을 수 없습니다. 선출원은 출원일부터 1년 3개월이 지나면 취하된 것으로 보므로 긴급처리가 필요한 출원으로 보지 않으며, 보완요구를 받고 지정기간이 지나면 우선심사 신청이 각하됩니다. 다만, 각하되기 전에 국내우선권 주장을 취하하면 우선심사 신청이 그대로 진행됩니다."},
+{c:"gen",q:"Q22. 특허심사하이웨이(PPH) 신청 결과는 어떻게 알 수 있나요?",a:"특허심사하이웨이(PPH)는 우선심사 결정 사실을 따로 통지하지 않으며, 결정한 날(재결정한 경우에는 재결정한 날)부터 3개월이 되는 날이 속하는 달의 말일까지 심사에 착수합니다."},
+{c:"practice",q:"Q23. 제3자 실시를 이유로 한 우선심사는 어떤 경우에 인정되나요?",a:"출원공개 후 출원인이 아닌 제3자가 출원발명과 같은 발명을 업으로서 실시하고 있는 경우에 인정됩니다. 이 제도는 공개된 발명을 제3자가 무단으로 실시하는 경우 출원인을 보호하기 위한 것이므로, 출원일 전부터 이미 판매되던 제품처럼 무단 실시로 보기 어려운 경우에는 인정되기 어렵습니다."},
+{c:"practice",q:"Q24. 자기실시(실시 준비)를 이유로 신청할 때 대비표는 반드시 제출하여야 하나요?",a:"제출하여야 합니다. 실시(준비) 입증서류, 업으로서 실시(준비) 입증서류와 함께 청구항에 기재된 발명과 실시(준비) 중인 발명을 구성별로 대비한 대비표를 반드시 제출하여야 하며, 청구항의 구성이 실시발명에서 확인되지 않으면 보완요구 대상이 됩니다. 대비표는 모든 청구항에 대하여 작성할 필요는 없고, 신청의 근거로 드는 청구항 하나 이상에 대하여 그 청구항의 모든 구성을 대비하면 됩니다."},
+{c:"practice",q:"Q25. 실시 준비 중임을 입증하는 서류로 설계도면이나 금형 계약서도 인정되나요?",a:"서류의 종류보다는 제출한 서류로 청구항에 기재된 발명과 같은 발명이 실시(준비) 중임을 확인할 수 있는지를 기준으로 판단합니다. 출원서의 도면이나 청구항을 그대로 옮긴 카탈로그처럼 실제 실시(준비) 여부를 확인할 수 없는 자료만으로는 인정되기 어렵습니다. 예를 들어 3D 설계도면에서 청구항의 주요 구성이 드러나면 인정될 수 있으나, 주요 구성이 분명하지 않은 금형 도면과 계약서·송금영수증만으로는 인정되기 어렵습니다."},
+{c:"practice",q:"Q26. 생성형 AI로 만든 사진이나 서류를 증빙서류로 제출해도 되나요?",a:"안 됩니다. 증빙서류는 실제 사실을 보여 주는 자료여야 하므로, 생성형 AI 등으로 허위 사진·서류를 만들어 실제 자료처럼 제출하면 보완요구 또는 각하 대상이 됩니다. 특히 자기실시의 실시품·시제품 사진은 실물을 직접 촬영한 것이어야 하며, 계약서 등도 실제로 작성된 서류를 제출하여야 합니다."},
+{c:"practice",q:"Q27. 개인적으로 사용하거나 교육·실험용으로 실시하는 경우에도 자기실시로 인정되나요?",a:"인정되지 않습니다. 자기실시는 출원발명을 업으로서, 즉 사업으로 실시하거나 실시 준비 중이어야 하므로 개인적·가정적으로 사용하거나 교육 목적으로 실시하는 경우, 실험용으로 한 번 만들어 본 경우는 해당하지 않습니다. 다만, 비영리기관이 실시하는 경우라도 공공 목적의 사업적 의도가 있으면 업으로서 실시로 볼 수 있습니다."},
+{c:"practice",q:"Q28. 출원인이 아닌 기업이 출원발명을 실시하는 경우에도 자기실시로 인정되나요?",a:"출원인과 실시자 사이에 실시계약이 있으면 인정됩니다. 이 경우 실시계약서와 실시자의 사업자등록증, 실시품 사진 등을 제출합니다."},
+{c:"practice",q:"Q29. 개인 명의로 출원하였으나 출원인이 대표자로 있는 회사가 발명을 실시하는 경우에도 자기실시로 인정되나요?",a:"인정됩니다. 출원인이 대표자로 있는 기업이 발명을 실시하거나 실시 준비 중이면 별도의 실시계약 증명서류가 없어도 그 기업이 출원인으로부터 실시허락을 받은 것으로 봅니다. 다만, 출원인이 그 기업의 대표자라는 사실(법인 등기사항증명서, 사업자등록증 등)과 발명을 실시하거나 실시 준비 중이라는 사실(실시품 사진, 카탈로그, 대비표 등)은 서류로 입증하여야 합니다. 반면 출원인이 그 기업의 대표자가 아니라면(임원·직원·주주 등) 실시허락을 받은 것으로 보지 않으므로, 출원인과 그 기업 사이의 실시계약서가 없으면 자기실시로 인정되지 않습니다."},
+{c:"practice",q:"Q30. 정부 지원 없이 창업을 준비 중인 경우에도 우선심사를 신청할 수 있나요?",a:"출원발명을 업으로서 실시하기 위한 구체적인 준비 사실(사업계획서, 시제품 등)을 입증하면 자기실시(실시 준비) 우선심사를 신청할 수 있습니다. 실시 준비 단계에서는 사업자등록증이 반드시 필요하지 않으며, 사업아이템과 추진일정이 포함된 사업계획서로 업으로서 실시 준비를 입증할 수 있습니다. 이 경우에도 시제품 사진 등 실시 준비 입증서류와 대비표는 함께 제출하여야 합니다. 다만, 예비청년창업자 초고속심사는 창업지원사업 등의 선정·지원 요건을 갖추어야 합니다."},
+{c:"cert",q:"Q31. 벤처기업 대표자 개인 명의로 출원한 경우에도 벤처기업의 출원으로 인정되나요?",a:"벤처기업이 개인사업자인지 법인인지에 따라 다릅니다. 개인사업자는 기업 명의로 출원할 수 없으므로, 출원 당시 기업이 법인이 아니었고 출원인과 벤처기업확인서에 기재된 대표자가 같으면 벤처기업의 출원으로 인정합니다. 법인은 대표자와 별개의 권리주체이므로 대표자 개인 명의의 출원은 원칙적으로 인정되지 않으나, 최초 출원 당시 그 법인의 대표자였다면 출원 후 법인으로 출원인을 변경하여 우선심사를 받을 수 있습니다. 법인 여부는 사업자등록증으로 확인하므로(사업자등록번호 가운데 두 자리가 81~88이면 법인), 대표자 개인 명의로 신청할 때 사업자등록증을 함께 제출하면 보완요구 없이 확인할 수 있습니다."},
+{c:"cert",q:"Q32. 법인 벤처기업의 대표자 개인 명의로 출원한 후 출원인을 법인으로 변경하면 우선심사를 받을 수 있나요?",a:"받을 수 있습니다. 최초 출원 당시 출원인이 그 법인의 대표자였다면 출원 후 그 법인으로 출원인을 변경하여 우선심사를 받을 수 있습니다. 이 경우 출원인변경신고와 함께 최초 출원 당시 그 법인의 대표자였음을 확인할 수 있는 서류(법인 등기사항증명서 등)와 벤처기업확인서를 제출하며, 이미 보완요구를 받았다면 지정기간 안에 출원인 변경과 서류 제출을 마쳐야 합니다."},
+{c:"cert",q:"Q33. 개인 명의로 출원한 후에 법인을 설립하고 벤처기업 확인을 받았다면 우선심사를 받을 수 있나요?",a:"받을 수 없습니다. 벤처기업을 이유로 우선심사를 받으려면 원칙적으로 최초 출원 시 출원인이 그 벤처기업이어야 하고, 최초 출원인이 그 법인의 대표자였던 경우에만 예외가 인정됩니다. 법인을 설립하기 전에 출원하였거나 출원 후에 대표자로 취임한 경우에는 출원 당시 그 법인의 대표자가 아니었으므로 이 예외도 적용되지 않습니다."},
+{c:"cert",q:"Q34. 출원 후 특허출원을 벤처기업에 양도하여 출원인을 변경한 경우에도 우선심사를 받을 수 있나요?",a:"원칙적으로 받을 수 없습니다. 최초 출원 시 출원인이 그 벤처기업이어야 하므로, 출원 후 벤처기업으로 출원인을 변경하거나 벤처기업을 공동출원인으로 추가한 경우는 대상이 아닙니다. 다만, 최초 출원 당시 출원인이 그 벤처기업의 대표자였다면 출원인을 변경한 후 우선심사를 받을 수 있습니다."},
+{c:"cert",q:"Q35. 공동출원인 중 한 명만 벤처기업이어도 우선심사를 받을 수 있나요?",a:"받을 수 있습니다. 공동출원인 중 적어도 한 명이 벤처기업이면 되나, 그 벤처기업은 최초 출원 시부터 출원인에 포함되어 있어야 하며 출원발명과 기업의 업종 관련성 등 다른 요건도 갖추어야 합니다."},
+{c:"cert",q:"Q36. 출원 후에 벤처기업 확인을 받았거나 벤처기업확인서의 유효기간이 지난 경우, 또는 회사 이름이 바뀐 경우에도 인정되나요?",a:"인정됩니다. 출원일, 우선심사 신청일, 우선심사 여부 결정일 중 적어도 한 시점이 벤처기업확인서의 유효기간에 포함되면 되므로, 출원 후에 확인을 받았거나 신청할 때 유효기간이 지났더라도 신청할 수 있으며 이 경우 그 시점이 유효기간에 포함된 확인서를 제출합니다. 다만, 확인을 받은 기업이 최초 출원 시의 출원인이어야 합니다. 상호가 바뀌어 확인서와 사업자등록증의 기업명이 다르더라도 사업자등록번호 등으로 같은 기업임이 확인되면 인정됩니다."},
+{c:"cert",q:"Q37. 벤처기업이면 출원발명의 기술분야와 관계없이 우선심사를 받을 수 있나요?",a:"아닙니다. 출원발명과 그 기업의 업종 사이에 관련성이 인정되어야 하며, 업종 관련성은 기업의 업종이나 주생산품과 출원발명이 이용되는 산업분야, 출원발명의 기술적 성질·기능 등을 비교하여 판단합니다. 신청설명서에 출원발명과 기업의 업종이 어떻게 관련되는지 구체적으로 기재하고, 관련성이 분명하지 않으면 사업자등록증, 제품 소개자료 등을 함께 제출하시기 바랍니다. 예를 들어 카메라·방송장비 제조업 기업의 고화질 CCTV 발명은 관련성이 인정되지만, 비금속 광물제품 제조업 기업의 잡초 제거용 조성물 발명은 인정되기 어렵습니다."},
+{c:"cert",q:"Q38. 벤처기업을 이유로 신청할 때 어떤 서류를 제출하여야 하나요?",a:"벤처기업확인서를 제출하며, 정본과 같다고 인정되는 사본도 제출할 수 있습니다. 다만, 벤처기업 확인을 위한 평가실시결과서는 확인서를 대신할 수 없습니다. 대표자 개인 명의로 출원한 경우에는 출원 당시 법인 여부와 대표자가 같음을 확인할 수 있는 사업자등록증 등을, 출원인을 법인으로 변경한 경우에는 최초 출원 당시 대표자였음을 확인할 수 있는 법인 등기사항증명서 등을 함께 제출합니다."},
+{c:"cert",q:"Q39. 이노비즈 기업이나 직무발명보상 우수기업에도 벤처기업과 같은 출원인 명의 기준이 적용되나요?",a:"적용됩니다. 기술혁신형 중소기업(이노비즈), 직무발명보상 우수기업, 지식재산 경영인증 기업, 소재·부품·장비 특화선도기업, 출연·투자를 받은 창업기업에도 대표자 개인 명의 출원과 출원인 변경에 관한 벤처기업의 기준이 똑같이 적용되며, 첨단기술의 국내 생산(준비) 기업과 창업지원·청년창업기업 초고속심사의 기업 요건도 같습니다. 따라서 법인 대표자의 개인 명의 출원은 원칙적으로 그 기업의 출원으로 인정되지 않으나, 최초 출원 당시 그 기업의 대표자였다면 출원인을 그 기업으로 변경하여 우선심사를 받을 수 있습니다."},
+{c:"rnd",q:"Q40. 국가연구개발과제의 결과물임을 이유로 신청하려면 출원서에 과제 정보가 기재되어 있어야 하나요?",a:"그렇습니다. 국가연구개발사업의 직접적인 결과물에 관한 출원이어야 하므로 출원서의 【이 발명을 지원한 국가연구개발사업】란에 과제고유번호, 부처명, 연구사업명, 연구과제명 등이 기재되어 있어야 합니다. 아울러 협약서·연구개발계획서 등으로 과제를 수행한 기관과 고시에서 정한 과제 유형에 해당함을 입증하여야 합니다. 협약서의 부처명·과제번호가 출원서에 기재된 내용과 다르면 그 관계를 설명하여야 합니다."},
+{c:"rnd",q:"Q41. 중소기업이 참여한 국가연구개발과제의 결과물이면 출원인이 중소기업이어야 하나요?",a:"아닙니다. 중소·중견기업이 주관연구개발기관 또는 공동연구개발기관으로 수행한 과제의 결과물이면 출원인에는 제한이 없습니다. 다만, 중소·중견기업이 위탁연구개발기관으로만 참여한 과제는 해당하지 않습니다."},
+{c:"rnd",q:"Q42. ‘특허동향조사를 실시한 과제’로 인정받으려면 어떤 서류가 필요한가요?",a:"국가연구개발사업의 사전조사·기획 단계에서 그 사업을 추진하는 중앙행정기관의 장 또는 「국가연구개발혁신법」 제22조에 따른 전문기관의 장이 특허동향조사를 실시한 과제여야 합니다. 협약서 등과 함께 특허동향조사 결과보고서, 조사 결과가 반영된 사전조사서·기획연구서, 전문기관 등이 조사 실시 사실을 확인한 공문·확인서 등을 제출합니다. 연구기관이 자체적으로 수행한 특허조사나 연구개발계획서에 정리한 특허현황만으로는 인정되지 않습니다."},
+{c:"rnd",q:"Q43. 사립대학의 국가연구개발 성과도 우선심사를 받을 수 있나요?",a:"신설된 대학 수행과제 요건(고시 제4조제1항제2호바목(6))으로는 2026. 11. 1. 이후 신청분부터 가능합니다. 대학이 주관연구개발기관 또는 공동연구개발기관으로 수행한 국가연구개발과제의 결과물로서, 그 대학 또는 산학협력단이 출원인에 포함되어야 하므로, 교수 개인 명의로만 출원한 경우는 해당하지 않습니다. 이와 별도로 중소·중견기업 수행과제 등 바목(1)~(5)의 요건에 해당하는 경우에는 종전과 같이 신청할 수 있습니다."},
+{c:"rnd",q:"Q44. 과학기술원의 출원도 대학 국가연구개발 우선심사를 받을 수 있나요?",a:"받을 수 있습니다. 고시 제4조제1항제2호바목(6)의 ‘대학’에는 「고등교육법」 제2조의 학교와 함께 한국과학기술원, 광주과학기술원, 대구경북과학기술원, 울산과학기술원, 한국에너지공과대학교가 포함됩니다. 다만, 과학기술원은 「고등교육법」에 따른 국·공립학교가 아니므로 국가 직무에 관한 출원(라목)에는 해당하지 않습니다."},
+{c:"intl",q:"Q45. 조약우선권 주장의 기초가 되는 출원으로 신청하려면 외국에서 심사청구를 해야 하나요?",a:"아닙니다. 이 출원을 기초로 우선권을 주장한 외국 출원(PCT 출원 포함)이 취하되지 않고 유효하게 진행 중이면 됩니다. 외국 출원서 사본과 출원 수수료 납부 영수증 등을 번역문과 함께 제출하며, PCT 수리관청이 대한민국이면 생략 이유를 기재하고 제출을 생략할 수 있습니다."},
+{c:"intl",q:"Q46. 조약우선권 주장의 기초가 되는 출원으로 신청할 때 어떤 서류를 제출하나요?",a:"이 출원이 외국 출원(PCT 출원 포함)의 우선권 주장의 기초가 되었음을 입증하는 서류(외국 특허청이나 PCT 수리관청에 제출한 출원서 사본 등, 우선권 주장 번호가 표시된 면 포함)와 그 외국 출원의 절차가 유효하게 진행 중임을 확인할 수 있는 서류(출원 수수료 납부 영수증, 이체 증명서, 외국 특허청의 심사관련통지서 등)를 제출합니다. 서류가 국어나 영어가 아니면 번역문을 함께 제출하며, PCT 수리관청이 대한민국(KR)이면 신청설명서에 생략 이유를 적고 제출을 생략할 수 있습니다."},
+{c:"intl",q:"Q47. 조약우선권 주장의 기초출원을 기초로 한 분할출원이나 국내우선권 주장출원도 대상인가요?",a:"대상이 아닙니다. 조약우선권 주장의 기초출원을 기초로 한 변경출원, 분할출원, 분리출원, 국내우선권 주장출원은 조약우선권 주장의 기초가 되는 출원이 아니므로 이를 이유로 우선심사를 받을 수 없습니다."},
+{c:"intl",q:"Q48. 이 출원을 기초로 우선권을 주장한 PCT 출원에서 대한민국을 지정한 경우에도 조약우선권 주장의 기초출원으로 우선심사를 받을 수 있나요?",a:"받을 수 없습니다. 국내 출원을 기초로 우선권을 주장한 PCT 출원에서 대한민국을 지정(자기지정)하면 국내 출원(선출원)은 출원일부터 1년 3개월이 지나면 취하된 것으로 보므로 우선심사 대상이 되지 않습니다. 이 경우 보완요구를 받게 되며, 대한민국 지정을 취하하지 않으면 우선심사 신청이 각하됩니다."},
+{c:"intl",q:"Q49. 특허심사하이웨이(PPH)를 이유로 신청하려면 어떤 요건을 갖추어야 하나요?",a:"지식재산처 누리집에 게시된 상대국 특허청에 출원한 대응출원과 최우선일이 같은 특허출원이어야 합니다. 대응출원을 기초로 우선권을 주장한 출원, 이 출원을 기초로 상대국에 우선권을 주장하여 출원한 경우, 같은 출원을 기초로 함께 우선권을 주장한 경우 등이 해당합니다. 아울러 대응출원에 상대국 특허청이 특허가능하다고 판단한 청구항(특허결정의 대상이 된 청구항 또는 가장 최근의 의견제출통지서·거절결정서에서 특허가능하다고 명시된 청구항)이 있어야 하고, 이 출원의 모든 청구항이 그 청구항과 상응하여야 합니다. 상대국 특허청이 거절이유를 지적하지 않아 특허가능 여부를 따로 밝히지 않은 청구항도 그 이유를 설명하면 특허가능 청구항으로 볼 수 있습니다."},
+{c:"intl",q:"Q50. 청구항이 대응출원의 특허가능 청구항과 ‘상응’한다는 것은 어떤 의미인가요?",a:"이 출원의 청구항이 대응출원에서 특허가능하다고 판단된 청구항과 같거나, 그 청구항에 특정 사항을 부가하거나 한정한 경우를 말합니다. 단순한 번역상의 차이나 독립항·종속항과 같은 기재형식의 차이는 같은 것으로 보지만, 물건과 방법처럼 청구항의 카테고리가 다르면 상응하지 않는 것으로 봅니다. 상응하지 않는 청구항이 하나라도 있으면 보완요구 대상이 되므로, 보정으로 모든 청구항을 상응하게 한 후 신청하시기 바랍니다."},
+{c:"intl",q:"Q51. 특허심사하이웨이(PPH)를 이유로 신청할 때 어떤 서류를 제출하나요?",a:"고시 별지 제3호서식의 우선심사신청설명서에 대응출원의 특허가능 청구범위 사본(가장 최근 심사관련 통지서의 대상이 된 청구범위), 대응출원에 대한 심사관련 통지서 사본, 그 통지서에서 인용한 선행기술문헌 사본, 이 출원의 모든 청구항과 특허가능 청구항의 대응관계설명표를 첨부합니다. 서류가 국어나 영어가 아니면 국어 또는 영어 번역문을 함께 제출하되, 정보통신망으로 번역문을 확인할 수 있으면 생략할 수 있습니다. 청구범위와 통지서는 심사관이 정보통신망으로 확인할 수 있으면 생략 이유를 적고 제출을 생략할 수 있고, 인용문헌 중 특허문헌은 생략할 수 있으나 비특허문헌은 제출하여야 합니다. 대응관계설명표는 어떤 경우에도 생략할 수 없으며, 청구항마다 상응하는 근거를 기재하여야 합니다."},
+{c:"intl",q:"Q52. 특허심사하이웨이(PPH)로 신청한 후에 청구항을 보정할 수 있나요?",a:"보정할 수 있으나, 보정한 청구항도 대응출원의 특허가능 청구항과 상응하여야 합니다. PPH는 우선심사 결정 사실을 따로 통지하지 않으므로, 결정 후 심사에 착수하기 전에 상응하지 않는 청구항으로 보정하면 보완요구를 거쳐 우선심사 여부를 다시 결정할 수 있습니다. 보정한 청구항이 특허가능 청구항과 상응하고 보정할 때 모든 청구항의 대응관계설명표를 함께 제출하면 다시 결정하는 절차 없이 그대로 우선심사가 진행됩니다."},
+{c:"intl",q:"Q53. PCT 국제조사·국제예비심사 결과로도 특허심사하이웨이(PCT-PPH)를 신청할 수 있나요?",a:"신청할 수 있습니다. 지식재산처 누리집에 게시된 상대국 특허청이 작성한 국제조사기관 견해서, 국제예비심사기관 견해서 또는 국제예비심사보고서에서 신규성·진보성·산업상 이용가능성이 모두 있다고 판단된 청구항이 있고, 이 출원의 모든 청구항이 그 청구항과 상응하면 됩니다. 그 국제출원의 국내단계 진입 출원이나 그 국제출원을 기초로 우선권을 주장한 출원 등 최우선일이 같은 출원이 대상입니다. 제출서류는 PPH와 같은 방식으로 견해서 또는 보고서와 그 대상 청구범위의 사본, 인용 선행기술문헌, 대응관계설명표를 내며, 견해서 등의 제8기재란(Box VIII)에 의견이 적혀 있으면 모든 청구항이 그 의견의 적용을 받지 않는다는 설명(반박 또는 보정에 의한 해소)을 함께 제출합니다. 한편, 지식재산처가 국제조사를 한 국제특허출원은 국제조사 결과와 관계없이 별도의 신청이유(PCT 국제조사)로도 신청할 수 있습니다."},
+{c:"intl",q:"Q54. 특허심사하이웨이(PPH)와 다른 신청이유를 함께 기재하여 신청할 수 있나요?",a:"함께 기재할 수 없습니다. 특허심사하이웨이는 고시 별지 제3호서식(일본 선출원의 선행기술조사보고서를 활용하는 출원은 별지 제2호서식)으로, 그 밖의 신청이유는 별지 제5호서식으로 신청하여 서식이 서로 다르므로, 특허심사하이웨이와 그 밖의 신청이유 중 하나를 골라 해당 서식으로 신청하여야 합니다. 참고로 특허심사하이웨이는 결정일부터 3개월이 되는 날이 속하는 달의 말일까지, 별지 제5호서식에 따른 우선심사는 결정서 발송일부터 2개월이 되는 날이 속하는 달의 말일까지 심사에 착수합니다."},
+{c:"intl",q:"Q55. 지식재산처가 국제조사를 한 국제특허출원은 국제조사 결과와 관계없이 우선심사를 받을 수 있나요?",a:"받을 수 있습니다. 지식재산처가 국제조사기관으로서 국제조사보고서와 견해서를 작성하고 국내서면이 제출된 국제특허출원이면 되며, 국제조사에서의 특허성 판단 결과나 수리관청은 따지지 않습니다. 다만, 이를 기초로 한 분할·변경·국내우선권 주장출원 등은 대상이 아닙니다."}
+];
+const FAQ2=[
+{c:"tech2",q:"Q56. 공고일 전에 출원한 건도 첨단기술 우선심사를 신청할 수 있나요?",a:"신청할 수 있습니다. 신청기간은 우선심사 신청일을 기준으로 하므로 출원일과 관계없이 신청기간 내에 신청하면 됩니다."},
+{c:"tech2",q:"Q57. 출원직후 CPC가 부여되지 않았는데 첨단기술 우선심사를 신청할 수 있나요?",a:"신청할 수 있습니다. 출원발명에 부여될 것으로 예상되는 CPC가 공고된 대상 분류에 해당하면 이를 이유로 신청할 수 있습니다. 다만, 이후 부여된 CPC(주분류)가 공고된 대상 분류에 해당하지 않으면 보완요구 또는 각하 대상이 됩니다."},
+{c:"tech2",q:"Q58. 공고된 CPC가 주분류로 부여되기만 하면 첨단기술 우선심사를 받을 수 있나요?",a:"아닙니다. 공고된 CPC가 주분류로 부여되는 것과 함께, 해당 분야 제품·장치 등을 국내에서 생산(준비)하는 기업의 출원(인공지능은 인공신경망·학습방법·시스템 등을 국내에서 개발 중인 기업의 출원 포함)이거나 해당 분야 국가연구개발사업의 결과물에 관한 출원이어야 하며, 출원발명이 해당 분야와 직접 관련되어야 하고 그 이유를 신청설명서에 설명하여야 하며, 대상 CPC가 넓은 피지컬 AI와 AI 데이터센터는 이를 특히 구체적으로 설명하여야 합니다. 예를 들어 피지컬 AI 분야 CPC(G06V 20)가 부여되었더라도 동영상 콘텐츠의 장면을 분류·검색하는 발명처럼 로봇·자율주행 등 물리적 환경에서 동작하는 장치와 관련이 없으면 첨단기술을 이유로 한 우선심사와 초고속심사를 받을 수 없습니다. 바이오-생명공학 분야 CPC(G01N 27·33)가 부여된 가스 센서나 콘크리트 강도 시험 발명처럼 바이오물질과 관계 없는 경우도 마찬가지입니다."},
+{c:"tech2",q:"Q59. 공고된 CPC가 부분류로만 부여된 경우에도 첨단기술 우선심사를 받을 수 있나요?",a:"받을 수 없습니다. CPC를 제시한 분야는 공고된 CPC가 출원의 주분류로 부여되어야 하며, 부분류로만 부여된 경우는 해당하지 않습니다. 반도체·디스플레이·이차전지 분야는 CPC 대신 해당 기술과의 직접 관련성으로 판단합니다."},
+{c:"tech2",q:"Q60. 반도체·디스플레이·이차전지 분야는 어떤 출원이 ‘직접 관련된 출원’으로 인정되나요?",a:"세 분야는 CPC 요건이 없으므로 주분류와 관계없이, 청구항에 기재된 발명이 공고 기술(소재·부품·장비, 제조, 설계, 성능 검사·평가, 이차전지는 제어관리(BMS)·재활용 포함) 자체에 해당하는지로 판단하며, 청구항 중 하나라도 해당하면 출원 전체가 대상이 됩니다. 반도체 소자를 포함하는 조명장치, 이차전지를 탑재한 전동 킥보드, 충전소 예약·결제 서비스처럼 이를 구성요소로 쓰거나 이용하는 발명은 해당하지 않습니다. 신청설명서에는 ‘반도체 등과 관련된 출원’이라는 취지만 적지 말고 어느 청구항이 어떤 공고 기술에 해당하는지와 그 이유를 구체적으로 적어야 하며, 분야별 예시는 Ⅲ-3의 판단 예시를, 작성 방법은 Ⅱ-4의 기재 예시 ②를 참고하시기 바랍니다."},
+{c:"tech2",q:"Q61. 부여된 CPC가 우선심사 대상 분류가 아닌 경우 분류를 변경할 수 있나요?",a:"부여된 분류는 심사관이 출원발명의 기술내용에 비추어 분류가 적합하지 않다고 판단하는 경우에만 제한적으로 분류정정 절차를 거쳐 변경되며, 출원인이 분류정정을 신청할 수는 없습니다. 우선심사를 받기 위한 목적만으로는 분류가 변경되지 않으므로, 신청 전에 출원발명이 공고된 분야의 기술과 직접 관련되는지 확인하시기 바랍니다."},
+{c:"tech2",q:"Q62. 첨단기술 우선심사도 대표자 개인 명의로 출원한 경우에 받을 수 있나요?",a:"‘국내에서 관련 제품·장치 등을 생산하거나 생산 준비 중인 기업의 출원’ 요건은 기업 명의의 출원이 대상이므로 법인 대표자의 개인 명의 출원은 원칙적으로 인정되기 어려우며, 이 경우 출원인을 그 법인으로 변경한 후 신청하시기 바랍니다. 국가연구개발사업의 결과물에 관한 출원 등 다른 신청요건도 있으므로 분야별 공고를 함께 확인하시기 바랍니다."},
+{c:"tech2",q:"Q63. 자체 생산시설이 없어도 ‘국내에서 생산(준비)하는 기업’ 요건을 갖출 수 있나요?",a:"갖출 수 있습니다. 국내 생산(준비) 요건은 폭넓게 인정하므로, 공장등록증명서가 없더라도 국내 위탁생산(CMO·CDMO 등) 계약서, 물품공급계약서, 임상시험계획 승인서나 품목허가 신청서처럼 국내에서 제품을 생산하거나 생산을 준비하고 있음을 보여 주는 서류로 입증할 수 있습니다."},
+{c:"tech2",q:"Q64. 첨단기술 우선심사의 ‘국가연구개발 결과물’ 요건도 출원서에 과제 정보를 기재하여야 하나요?",a:"출원서 기재를 요건으로 하지 않습니다. 출원인이 해당 분야 국가연구개발과제의 주관연구개발기관 또는 공동연구개발기관임을 협약서·연구개발계획서 등으로 입증하면 됩니다. 이점에서 국가연구개발과제 결과물 우선심사(바목)와 다릅니다."},
+{c:"tech2",q:"Q65. 특성화대학의 출원도 출원인 요건 증빙서류를 내야 하나요?",a:"반도체·이차전지·바이오-생명공학 분야는 특성화대학(대학원)의 출원이면 출원인 요건을 갖춘 것으로 보아 별도 증빙서류를 제출하지 않아도 됩니다. 다만, 해당 특성화대학이라는 점은 신청설명서에 기재하여야 합니다."},
+{c:"tech2",q:"Q66. 공해방지를 이유로 신청하려면 환경오염방지시설에 관한 발명이어야 하나요?",a:"그렇습니다. 공해방지 우선심사는 법령에서 정한 환경오염방지시설(소음·진동방지시설, 수질오염방지시설, 대기오염방지시설, 폐기물처리시설 등) 또는 그 시설이 목적으로 하는 환경오염방지방법에 관한 출원이 대상이므로, 공해방지에 쓰이는 기술이라도 법령상 환경오염방지시설과 관련이 없으면 인정되지 않습니다. 예를 들어 자동차는 대기오염물질 배출시설이 아니므로 자동차 배기가스 촉매장치는 대기오염방지시설에 해당하지 않습니다. 또한 약품·처리제나 생물(미생물 등) 자체에 관한 출원도 환경오염방지시설에 관한 출원으로 보지 않습니다."},
+{c:"tech2",q:"Q67. 4차 산업혁명 관련 新특허분류나 녹색기술 특허분류가 부여되지 않았는데 신청가능한가요?",a:"신청할 수 있습니다. 신청설명서에 예상되는 기술분야를 기재하면 되며, 분류가 부여되지 않았더라도 심사관이 해당 기술분야라고 판단하면 분류를 직권으로 추가하여 우선심사를 결정할 수 있습니다. 다만, 심사관이 해당 기술분야로 판단하지 않는 경우 보완요구 대상이 됩니다. 또한, 4차 산업혁명 新특허분류는 ICT 기반기술의 핵심 요소에 부여하므로 이를 단순히 이용한 서비스나 응용 발명에는 부여되지 않을 수 있습니다."},
+{c:"expr",q:"Q68. 초고속심사를 신청하면 1개월 안에 특허를 받을 수 있나요?",a:"아닙니다. 초고속심사는 우선심사 결정서 발송일부터 1개월 이내에 심사에 착수하는 제도이며, 등록까지의 기간을 보장하는 것은 아닙니다."},
+{c:"expr",q:"Q69. 초고속심사는 의견서 등 중간서류도 빨리 처리되나요?",a:"그렇습니다. 초고속심사는 의견서·보정서 등 중간서류도 지정기간 만료일과 서류 이송일 중 늦은 날부터 1개월 이내에 처리합니다. 다만, 의견서 제출기간을 연장하면 그만큼 처리 시점도 늦어지며, 일반 우선심사도 같습니다."},
+{c:"expr",q:"Q70. 수출지원사업을 지원받지 않은 기업도 수출촉진을 이유로 신청할 수 있나요?",a:"신청할 수 있습니다. 수출촉진에 직접 관련된 출원이면 대기업이나 개인의 출원도 대상이 되며, 수출실적·수출계약·신용장 등을 입증하는 서류를 제출합니다. 우선심사 신청일부터 3년 이내에 수출실적이나 수출계약이 있는 제품을 개량한 발명으로서 수출이 예정된 경우에도 인정됩니다."},
+{c:"expr",q:"Q71. 수출촉진을 이유로 신청하려면 수출하는 제품과 청구항에 기재된 발명이 같아야 하나요?",a:"그렇습니다. 수출촉진에 직접 관련된 출원으로 인정받으려면 수출하고자 하는 발명과 청구항에 기재된 발명이 동일하여야 하며, 이는 신청인이 입증하여야 합니다. 신청설명서에 수출 제품과 청구항에 기재된 발명이 어떻게 대응되는지 설명하고, 제품 사진·카탈로그 등 이를 확인할 수 있는 자료를 함께 제출하면 좋습니다. 제출한 서류로 보아 동일할 가능성이 충분하고 이를 의심할 특별한 이유가 없으면 추가 자료 없이 인정될 수 있습니다."},
+{c:"expr",q:"Q72. 국제표준과 관련된 출원도 수출촉진을 이유로 신청할 수 있나요?",a:"신청할 수 있습니다. 국제표준 채택 절차가 진행 중이거나 국제표준으로 채택되어 수출촉진에 기여함을 입증하면 되며, 표준화기구에 제출한 표준 제안서, 승인서, FRAND 선언서, 국제표준 채택 관련 서류 등을 제출합니다."},
+{c:"expr",q:"Q73. 수출지원사업을 지원받은 기업의 출원은 어떤 요건을 갖추어야 하나요?",a:"고시에서 정한 수출지원사업(Ⅲ-2 참조)을 지원받은 중소·중견기업의 출원으로서, 사업 선정일(연차평가확인일) 또는 계약일부터 3년 이내이고 출원발명이 지원받은 사업과 관련되며 최초 출원 시 출원인 중 적어도 1인이 그 기업이어야 합니다. 사업 선정·지원 확인서류, 사업과의 관련성 입증서류, 중소·중견기업 확인서를 제출하여야 합니다. 지식재산처 사업의 선정 확인서는 한국발명진흥회(지역지식재산센터), 한국지식재산보호원 등에서 발급받을 수 있으며, 선정 사실만 내고 사업과의 관련성을 입증하지 않아 보완요구를 받는 경우가 많으므로 사업계획서·결과보고서 등을 함께 제출하시기 바랍니다."},
+{c:"expr",q:"Q74. 첨단기술+조약우선권 초고속심사는 두 요건을 모두 갖추어야 하나요?",a:"그렇습니다. 첨단기술(러목)과 조약우선권(아목) 요건을 모두 갖추어야 하며, 어느 하나라도 해당하지 않으면 보완요구 대상이 됩니다. 두 요건의 증빙서류도 모두 제출하여야 합니다. 보완 후에도 두 요건 중 하나만 갖춘 경우에는 그 요건을 이유로 일반 우선심사로 결정될 수 있으며, 이때 별지 제5호서식을 따로 제출할 필요는 없습니다."},
+{c:"expr",q:"Q75. 창업지원 초고속심사(첨단기술+창업)는 공고된 CPC가 주분류로 부여되기만 하면 신청할 수 있나요?",a:"아닙니다. 인공지능, 첨단로봇, 바이오-생명공학, 바이오-헬스케어, 피지컬 AI, AI 데이터센터 분야의 CPC가 주분류로 부여되는 것에 더하여, 해당 분야 제품 등을 국내에서 생산(준비)하는 기업(인공지능은 국내에서 개발 중인 기업 포함)의 출원이거나 해당 분야 국가연구개발사업의 결과물에 관한 출원이어야 하고, 최초 출원 시 출원인 중 적어도 1인이 창업기업·벤처기업·이노비즈 기업이어야 합니다. 또한 첨단로봇은 인공지능 응용기술을 포함하여야 하고, 모든 첨단기술 분야는 출원발명이 해당 분야와 직접 관련되어야 하며 이를 신청설명서에 기재하여야 합니다."},
+{c:"expr",q:"Q76. 창업지원 초고속심사(첨단기술+창업)를 신청할 때는 어떤 서류를 제출하나요?",a:"별지 제6호서식의 신청설명서에 【공고된 첨단기술분야 해당 여부】와 【공고에서 정하는 기업에 해당하는지 여부】를 구체적으로 적고, 국내 생산(준비)·개발 입증서류(공장등록증명서, 물품공급계약서, 납품확인서 등) 또는 국가연구개발과제 수행 입증서류(협약서, 연구개발계획서 등)와 함께 창업기업확인서·벤처기업확인서·이노비즈 확인서 중 해당 확인서와 사업자등록증을 제출합니다. 창업기업은 창업기업확인서가 없더라도 사업자등록증·법인 등기사항증명서 등으로 사업개시일과 창업 후 7년이 지나지 않았음을 확인할 수 있으면 됩니다."},
+{c:"expr",q:"Q77. 초고속심사와 우선심사를 동시에 신청할 수 있나요?",a:"신청할 수 있습니다. 별지 제6호서식에 초고속심사 신청이유와 일반 우선심사 신청이유를 함께 적으면 됩니다. 다만, 일반 우선심사 대상이 명백하더라도 초고속심사 요건을 갖추지 못하면 보완요구를 받을 수 있으므로, 초고속심사가 안 되면 일반 우선심사로라도 바로 결정받기를 원한다는 뜻을 함께 적는 것이 유리합니다. 이 경우 심사관은 보완요구 대신 바로 우선심사 결정을 합니다."},
+{c:"expr",q:"Q78. 초고속심사 요건을 갖추지 못하면 신청이 각하되나요?",a:"바로 각하되지는 않습니다. 보완요구를 받게 되며, 보완 과정에서 일반 우선심사로 전환할 수 있습니다. 신청설명서에 일반 우선심사 신청이유가 함께 기재되어 있고 그 요건을 갖춘 경우에는 보완요구 없이 일반 우선심사로 결정될 수 있습니다. 일반 우선심사로 전환하는 경우 별지 제5호서식을 따로 제출할 필요는 없습니다."},
+{c:"expr",q:"Q79. 초고속심사 제한건수가 모두 소진되면 어떻게 되나요?",a:"제한건수를 초과하여 신청된 출원은 고시 제4조제4항에 따라 일반 우선심사 신청대상으로 처리됩니다. 이 경우에도 일반 우선심사의 요건은 갖추어야 합니다."},
+{c:"expr",q:"Q80. 초고속심사 제한건수가 곧 소진되는지는 어떻게 알 수 있나요?",a:"유형별 제한건수 소진이 임박하면 특허로(www.patent.go.kr)에 공지할 예정입니다. 별도의 공지가 없으면 제한건수 걱정 없이 그대로 신청하시면 됩니다."},
+{c:"youth",q:"Q81. ‘만 39세 이하’는 언제를 기준으로 판단하나요?",a:"우선심사 신청일을 기준으로 판단하며, 청년창업기업은 신청일 현재의 모든 대표자가 만 39세 이하여야 합니다. 이 경우에도 벤처기업 등 우선심사 신청요건을 갖추었다면 일반 우선심사로 결정될 수 있습니다. 한편, 공고에서 정하는 기업(창업 후 7년 이내인지 포함)이나 예비창업자에 해당하는지는 최초 출원 시를 기준으로 판단합니다."},
+{c:"youth",q:"Q82. 대표자나 예비창업자의 나이는 어떤 서류로 입증하나요?",a:"청년창업기업은 사업자등록증이나 법인 등기사항증명서로 대표자 전원을 확인할 수 있게 하고, 각 대표자의 생년월일을 확인할 수 있는 서류를 함께 제출합니다. 예비청년창업자는 주민등록표 초본 등 본인의 생년월일을 확인할 수 있는 서류를 제출합니다. 이때 생년월일을 제외한 개인정보는 가리고 제출하시기 바랍니다."},
+{c:"youth",q:"Q83. 창업기업이면 청년창업기업 초고속심사를 바로 신청할 수 있나요?",a:"기업 자격과 대표자 나이 요건에 더하여 고시 제4조제1항의 우선심사 신청요건 중 하나를 갖추어야 합니다. 예를 들어 벤처기업의 업종 관련 출원, 출원발명을 실시 중이거나 실시 준비 중인 출원 등이 해당하며, 그 증빙서류도 함께 제출하여야 합니다. 한편, 벤처기업이나 이노비즈 기업은 창업 후 7년이 지났더라도 모든 대표자가 만 39세 이하이면 청년창업기업에 해당하고, 그 기업의 업종과 관련된 출원이면 우선심사 신청요건(마목)도 함께 갖추므로 초고속심사를 신청할 수 있습니다."},
+{c:"youth",q:"Q84. 창업기업확인서가 없어도 창업기업으로 신청할 수 있나요?",a:"신청할 수 있습니다. 창업기업확인서가 없더라도 사업자등록증, 법인 등기사항증명서 등 사업개시일이 나와 있어 창업 후 7년이 지나지 않았음을 확인할 수 있는 서류를 제출하면 됩니다. 청년창업기업·창업지원 초고속심사에서 창업 후 7년 이내인지는 최초 출원 시를 기준으로 판단합니다."},
+{c:"youth",q:"Q85. 다른 기업이나 개인과 공동출원한 경우에도 청년창업기업 초고속심사를 신청할 수 있나요?",a:"신청할 수 있습니다. 최초 출원 시 출원인 중 적어도 1인이 청년창업기업이면 되며, 다른 공동출원인은 청년창업기업이 아니어도 됩니다. 예비청년창업자 초고속심사도 같습니다."},
+{c:"youth",q:"Q86. 기업 대표자 개인 명의로 출원한 경우에도 청년창업기업 초고속심사를 신청할 수 있나요?",a:"개인사업자처럼 기업 명의로 출원할 수 없는 경우에는 출원인과 사업자등록증에 기재된 대표자가 같으면 그 기업의 출원으로 봅니다. 법인은 법인 명의로 출원하는 것이 원칙이나, 최초 출원 시 출원인이 그 법인의 대표자였다면 출원 후 법인으로 출원인을 변경하여 신청할 수 있습니다."},
+{c:"youth",q:"Q87. 창업지원 초고속심사와 청년창업기업 초고속심사는 어떻게 다른가요?",a:"창업지원 초고속심사(고시 제4조제2항제3호)는 인공지능, 첨단로봇, 바이오-생명공학, 바이오-헬스케어, 피지컬 AI, AI 데이터센터 등 공고된 6개 분야의 출원이 대상이며(반도체·디스플레이·이차전지 제외) 대표자 나이 제한이 없습니다. 청년창업기업 초고속심사(제2항제4호)는 기술분야 제한이 없는 대신 우선심사 신청요건과 대표자 나이(만 39세 이하) 요건을 함께 갖추어야 합니다."},
+{c:"youth",q:"Q88. 대표출원인별 연 5건은 어떻게 산정하나요?",a:"청년창업기업·예비청년창업자 초고속심사에 적용되며, 초고속심사 신청일을 기준으로 연도별로 산정합니다. 2026년(11~12월)과 2027년에 각각 5건까지 신청할 수 있으며, 초과분은 일반 우선심사로 처리됩니다."},
+{c:"youth",q:"Q89. 정부 창업지원사업에 선정된 발명도 인정되나요?",a:"인정됩니다. 국가 또는 지방자치단체가 주최·주관한 창업지원사업, 공모전 또는 경진대회에 선정되어 출원이나 사업화 지원을 받은 발명은 우선심사 대상이며, 출원인이 만 39세 이하 예비창업자인 경우 초고속심사를 신청할 수 있습니다. 중앙행정기관이 주최하는 창업지원사업(예: 모두의 창업, 모두의 아이디어)도 해당하며, 선정 사실은 협약서·선정확인서 등으로, 출원이나 사업화 지원을 받은 사실은 지원 사실 확인서·대상 선정 공고 등으로 입증합니다. 지원금 거래내역으로도 지원 사실을 입증할 수 있으며, 선정된 발명 모두에 출원·사업화 지원이 주어지는 사업이면 그 사실을 보여 주는 공고문 등으로 지원 사실 입증을 갈음할 수 있습니다."},
+{c:"youth",q:"Q90. 창업지원사업에 선정되었으나 출원이나 사업화 지원은 받지 않은 경우에도 인정되나요?",a:"인정되지 않습니다. 국가 또는 지방자치단체가 주최·주관한 창업지원사업, 공모전 또는 경진대회에 선정되고, 국가 또는 지방자치단체로부터 출원이나 사업화 지원까지 받은 발명이어야 합니다. 선정 사실과 지원 사실을 각각 입증하는 서류를 제출합니다."},
+{c:"youth",q:"Q91. 출원한 후에 사업자등록을 한 경우에도 예비청년창업자 초고속심사를 신청할 수 있나요?",a:"신청할 수 있습니다. 예비창업자 해당 여부는 최초 출원 시를 기준으로 판단하므로, 출원할 때 사업자등록이 되어 있지 않고 법인 대표자로 등기되어 있지 않았다면 그 후 사업자등록을 하였더라도 신청할 수 있습니다. 다만, 출원 후 등록·설립한 기업은 출원할 때 기업에 해당하지 않으므로 그 기업 자격으로 청년창업기업 초고속심사를 신청할 수는 없습니다."}
+];
+</script>
+<script>
+/* ====== SUPPLEMENT CASES (Ⅲ-5) ====== */
+const SUPP=[
+{t:"자기실시 — 실시 사실",bad:["사업자등록증·서비스 소개자료만 있어 실제 실시(준비) 여부를 알 수 없음","실물이 아닌 3D 모델링 이미지만 제출","생성형 AI 등으로 허위 사진·서류를 만들어 실제 자료처럼 제출(보완요구 또는 각하 대상)"],good:["실시품·시제품 사진, 카탈로그, 사용설명서, 서비스 화면 등 청구항의 구성이 구현된 모습을 보여 주는 자료 제출","실물을 직접 촬영한 사진, 실제로 작성된 거래·계약 서류 등 사실 그대로의 자료 제출"]},
+{t:"자기실시 — 대비표·동일성",bad:["출원발명과 실시발명의 대비표 미제출","제출 자료가 다른 제품에 관한 것이거나 청구항의 일부 구성이 실시품에서 확인되지 않음"],good:["대비표에 청구항의 구성별로 실시품의 해당 부분(사진·도면의 위치 등)을 대응시켜 기재","신청 근거로 든 청구항의 모든 구성이 실시품에서 확인되는지 점검"]},
+{t:"자기실시 — 업으로서 실시",bad:["실시가 사업으로 이루어지고 있음을 보여 주는 서류가 없음","의향서 등 확정되지 않은 서류나 서명·날인, 대상 물품이 불분명한 계약서만 제출"],good:["사업자등록증, 거래명세표, 납품확인서, 공급계약서, 투자실적서, 사업계획서 등 제출","계약서에는 당사자 서명·날인과 계약 대상 제품이 드러나야 함"]},
+{t:"자기실시 — 실시 주체",bad:["사업자등록증 등이 출원인이 아닌 다른 기업의 것이고 출원인과의 관계를 입증하지 않음","실시 주체·기간·장소 등 실시 상황을 구체적으로 설명하지 않음"],good:["출원인이 대표자인 기업이 실시하면 법인 등기사항증명서 등을, 그 밖의 기업이 실시하면 실시계약서를 제출","신청설명서에 실시 주체·기간·장소·조건 기재"]},
+{t:"수출촉진 관련 사업에 지원받은 기업",bad:["수출지원사업 선정 사실만 내고 출원발명과의 관련성을 입증하지 않음"],good:["사업계획서·결과보고서 등으로 출원발명과 지원사업과의 관련성 입증"]},
+{t:"첨단기술",bad:["공고된 CPC만 제시하고 국내 생산(준비)·국가연구개발 등 출원인 요건을 입증하지 않음","해당 기술을 단순히 활용하거나 다른 분야에 응용한 출원"],good:["공고에서 정한 출원인 요건 증빙서류 제출","출원발명이 해당 기술과 직접 관련되는 이유를 신청설명서에 구체적으로 기재"]},
+{t:"인증기업 — 업종 관련성",bad:["사업자등록증상 업종과 출원발명의 관련성을 설명하지 않았거나 확인할 수 없음"],good:["신청설명서에 업종과의 관련성 기재","사업자등록증 등 업종을 확인할 수 있는 서류 제출"]},
+{t:"인증기업 — 확인서",bad:["확인서를 내지 않거나 중소기업 확인서 등 다른 서류로 대신함","출원일·신청일·결정일 중 어느 시점에도 유효하지 않은 확인서 제출","확인서와 사업자등록증의 주소 등 정보가 서로 다름"],good:["신청이유에 맞는 확인서(벤처기업확인서, 이노비즈 확인서, 창업기업확인서 등)를 유효기간과 함께 확인하여 제출","서류 간 정보가 다르면 그 사유(이전, 상호 변경 등)를 설명"]},
+{t:"조약우선권",bad:["외국 출원서만 내고 절차가 유효하게 진행 중임(수수료 납부 등)을 입증하지 않음","외국 서류에서 이 출원을 기초로 한 우선권 주장 사실이 확인되지 않음","외국어 증명서류의 번역문 누락"],good:["외국 특허청(PCT 수리관청)에 낸 출원서 사본과 수수료 납부 영수증·이체 증명서 등 제출","우선권 주장 번호가 표시된 면을 포함하고, 외국어 서류는 번역문 첨부(PCT 수리관청이 대한민국이면 생략 가능)"]},
+{t:"특허심사하이웨이(PPH)",bad:["청구항 대응관계설명표 미제출","일부 청구항이 대응출원의 특허가능 청구항과 상응하지 않음(카테고리가 다른 경우 등)"],good:["대응관계설명표는 생략할 수 없으므로 반드시 제출","모든 청구항이 특허가능 청구항과 같거나 이를 한정한 것인지 점검"]},
+{t:"국가연구개발",bad:["고시에서 정한 과제 유형 중 어디에 해당하는지 밝히지 않음","출원인과 과제 수행기관의 관계나 과제의 결과물이라는 점을 입증하지 않음","중소·중견기업 수행과제인데 기업 확인서 미제출"],good:["해당 과제 유형(바목 (1)~(6))을 특정하고 협약서·연구개발계획서 등 제출","유형별 증명서류(중소·중견기업 확인서, 특허동향조사 결과보고서 등) 첨부"]},
+{t:"신청서·설명서",bad:["초고속심사를 신청하면서 별지 제5호서식을 쓰거나 필요한 란을 빠뜨림","설명서의 출원번호·출원인·발명의 명칭 오기","신청이유가 불분명하거나 고시에 없는 사유(조기 권리화 필요성 등)를 기재"],good:["초고속심사는 별지 제6호서식 사용","고시 제4조의 해당 호·목과 신청이유를 정확히 기재하고 증명서류를 빠짐없이 첨부"]},
+{t:"기타",bad:["법령상 환경오염방지시설에 해당하지 않는 장치로 공해방지 우선심사 신청","우선심사 대상 녹색기술 분류 또는 4차 산업혁명 관련 新특허분류에 미해당"],good:["해당 법령의 시설 정의에 맞는지 설명","특허 출원 후 녹색기술 또는 4차산업혁명 관련 新특허분류가 부여됐는지 확인"]}
+];
+/* ====== CHECKLIST (Ⅲ-6) ====== */
+const CK=[
+{g:"공통",t:"심사청구를 하였거나 우선심사 신청과 동시에 심사청구를 하는가?"},
+{g:"공통",t:"우선심사 대상 발명이 청구범위(청구항)에 기재되어 있는가?"},
+{g:"공통",t:"신청이유(고시 조항)를 신청설명서에 구체적으로 기재하였는가?"},
+{g:"공통",t:"신청이유별 증빙서류를 모두 첨부하였는가?"},
+{g:"공통",t:"고시·공고에서 최초 출원인 요건을 정한 경우 이를 충족하는가?"},
+{g:"공통",t:"확인서·인증서가 유효기간 내의 것인가?"},
+{g:"공통",t:"우선심사신청료를 접수 다음 날까지 납부하였는가?"},
+{g:"공통",t:"신청이유에 맞는 신청설명서 서식(우선심사 별지 제5호, 초고속심사 제6호, 특허심사하이웨이 제3호)을 사용하였는가?"},
+{g:"공통",t:"대리인이 신청하는 경우 위임장을 첨부하거나 포괄위임등록번호를 기재하였는가?"},
+{g:"자기실시",t:"출원발명과 실시(준비) 발명의 대비표를 첨부하였는가?"},
+{g:"자기실시",t:"실시품 사진 등에서 신청 근거로 든 청구항의 모든 구성을 확인할 수 있는가?"},
+{g:"자기실시",t:"업으로서 실시(준비)를 입증하는 서류(사업자등록증, 계약서 등)를 첨부하였는가?"},
+{g:"인증기업",t:"출원발명과 기업 업종의 관련성을 설명하였는가?"},
+{g:"기업 자격",t:"법인 기업의 자격으로 신청하는 경우 대표자 개인이 아닌 법인 명의로 출원되었는가?"},
+{g:"첨단기술",t:"출원발명이 공고된 분야(주분류 CPC 등)와 출원인 요건에 해당하는가?"},
+{g:"조약우선권",t:"외국 출원의 절차 진행(수수료 납부)을 입증하는 서류와 번역문을 첨부하였는가?"},
+{g:"특허심사하이웨이",t:"모든 청구항의 대응관계설명표를 첨부하고, 생략하는 서류는 그 이유를 신청설명서에 적었는가?"},
+{g:"초고속심사",t:"별지 제6호서식에 “초고속심사를 신청한다”라고 기재하였는가?"},
+{g:"수출촉진(사업)",t:"출원발명과 지원사업과의 관련성을 설명하였는가?"},
+{g:"청년창업",t:"모든 대표자(예비창업자)가 신청일 기준 만 39세 이하인가?"}
+];
+/* ====== NAV ====== */
+const PAGES=[
+{id:"home",no:"▶",label:"홈",sub:"절차 한눈에 보기"},
+{id:"intro",no:"Ⅰ",label:"제도 개요",sub:"우선심사·초고속심사·변경사항"},
+{id:"procedure",no:"Ⅱ",label:"절차·비용",sub:"처리기간·신청료·작성요령"},
+{id:"reqs",no:"Ⅲ",label:"신청요건·증빙",sub:"제1호~제5호·PPH"},
+{id:"tech",no:"Ⅲ",label:"첨단기술·초고속",sub:"분야별 CPC·초고속 요건"},
+{id:"cpc",no:"Ⅲ",label:"CPC 조회",sub:"공고 분류 빠른 검색"},
+{id:"prep",no:"Ⅲ",label:"보완 사례·체크리스트",sub:"신청 전 점검"},
+{id:"faq",no:"Ⅳ",label:"자주 묻는 질문",sub:"Q1~Q91"},
+{id:"contact",no:"※",label:"문의처",sub:"상담센터·특허로"}
+];
+const $=(s,el=document)=>el.querySelector(s);
+const THEMES=["light","ivory","dark"];
+const THEME_NAME={light:"흰색",ivory:"아이보리",dark:"검은색"};
+const THEME_META={light:"#ffffff",ivory:"#f6f0e1",dark:"#0f1318"};
+let theme=localStorage.getItem("prg-theme");
+if(!THEMES.includes(theme)) theme="light";
+document.documentElement.dataset.theme=theme;
+/* nav render */
+function navHTML(){return PAGES.map(p=>`<a class="nv" href="#/${p.id}" data-nav="${p.id}"><span class="no">${p.no}</span><span>${p.label}<br><span class="small muted" style="font-weight:600;font-size:11px">${p.sub}</span></span></a>`).join("")}
+$("#sidebar").innerHTML='<div class="nv-label">문서 탐색</div>'+navHTML();
+$("#drawerNav").innerHTML=navHTML();
+$("#bottomnav").innerHTML=`
+<a class="bn" data-nav="home" href="#/home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>홈</a>
+<a class="bn" data-nav="procedure" href="#/procedure"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h1M4 12h1M4 18h1"/></svg>절차</a>
+<a class="bn" data-nav="reqs" href="#/reqs"><svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>요건</a>
+<a class="bn" data-nav="faq" href="#/faq"><svg viewBox="0 0 24 24"><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.6-3 4M12 17.5h.01"/><circle cx="12" cy="12" r="9"/></svg>FAQ</a>
+<button class="bn" id="moreBtn"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>더보기</button>`;
+/* theme segs */
+function themeSegHTML(){return THEMES.map(t=>`<button data-theme-set="${t}" class="${t===theme?'on':''}" aria-pressed="${t===theme}"><span class="sw sw-${t}"></span>${THEME_NAME[t]}</button>`).join("")}
+$("#themeSeg2").innerHTML=themeSegHTML();
+function setTheme(t){theme=t;localStorage.setItem("prg-theme",t);document.documentElement.dataset.theme=t;$("#metaTheme").setAttribute("content",THEME_META[t]);document.querySelectorAll("[data-theme-set]").forEach(b=>{b.classList.toggle("on",b.dataset.themeSet===t);b.setAttribute("aria-pressed",String(b.dataset.themeSet===t))})}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-theme-set]");if(b)setTheme(b.dataset.themeSet)});
+$("#themeBtn").addEventListener("click",()=>{const i=(THEMES.indexOf(theme)+1)%3;setTheme(THEMES[i]);toast("테마: "+THEME_NAME[theme])});
+/* font size */
+const FONTS=[["작게",.93],["기본",1],["크게",1.09]];let fontIdx=Number(localStorage.getItem("prg-font")??1);
+function fontSegHTML(){return FONTS.map((f,i)=>`<button data-font="${i}" class="${i===fontIdx?'on':''}"><b style="font-size:${f[1]*13}px">가</b>${f[0]}</button>`).join("")}
+$("#fontSeg").innerHTML=fontSegHTML();
+function setFont(i){fontIdx=i;localStorage.setItem("prg-font",String(i));document.documentElement.style.setProperty("--zoom",FONTS[i][1]);document.querySelectorAll("[data-font]").forEach(b=>b.classList.toggle("on",+b.dataset.font===i))}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-font]");if(b)setFont(+b.dataset.font)});
+document.documentElement.style.setProperty("--zoom",FONTS[fontIdx][1]);
+/* contrast mode */
+let contrast=localStorage.getItem("prg-contrast");
+if(contrast!=="high"&&contrast!=="off"){contrast=matchMedia("(prefers-contrast: more)").matches?"high":"off"}
+function contrastSegHTML(){return [["off","일반"],["high","고대비"]].map(c=>`<button data-contrast-set="${c[0]}" class="${c[0]===contrast?'on':''}" aria-pressed="${c[0]===contrast}">${c[1]}</button>`).join("")}
+$("#contrastSeg").innerHTML=contrastSegHTML();
+function setContrast(v){contrast=v;localStorage.setItem("prg-contrast",v);if(v==="high")document.documentElement.dataset.contrast="high";else delete document.documentElement.dataset.contrast;document.querySelectorAll("[data-contrast-set]").forEach(b=>{b.classList.toggle("on",b.dataset.contrastSet===v);b.setAttribute("aria-pressed",String(b.dataset.contrastSet===v))})}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-contrast-set]");if(b)setContrast(b.dataset.contrastSet)});
+if(contrast==="high")document.documentElement.dataset.contrast="high";
+/* router */
+const PAGE_IDS=PAGES.map(p=>p.id);
+function route(){
+  let h=location.hash||"#/home";
+  let[page,query]=h.replace(/^#\//,"").split("?");
+  if(!PAGE_IDS.includes(page))page="home";
+  document.querySelectorAll(".page").forEach(s=>s.classList.toggle("on",s.id==="p-"+page));
+  document.querySelectorAll("[data-nav]").forEach(a=>{a.classList.toggle("on",a.dataset.nav===page);if(a.tagName==="A"){if(a.dataset.nav===page)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")}});
+  const liveEl=$("#live");if(liveEl)liveEl.textContent=(PAGES.find(p=>p.id===page).label)+" 화면입니다";
+  document.title=(PAGES.find(p=>p.id===page).label)+" · 우선심사 신청 길라잡이";
+  closeDrawer();closeSearch();
+  const target=new URLSearchParams(query||"").get("target");
+  requestAnimationFrame(()=>{
+    if(target){const el=document.getElementById(target);if(el){el.scrollIntoView({block:"start"});el.classList.remove("flash");void el.offsetWidth;el.classList.add("flash");window.scrollBy(0,-70);return}}
+    window.scrollTo(0,0);
+  });
+}
+window.addEventListener("hashchange",route);
+/* drawer */
+function openDrawer(){$("#drawer").classList.add("on");$("#drawer").setAttribute("aria-hidden","false");$("#scrim").classList.add("on")}
+function closeDrawer(){const d=$("#drawer");if(!d.classList.contains("on"))return;d.classList.remove("on");d.setAttribute("aria-hidden","true");$("#scrim").classList.remove("on")}
+$("#menuBtn").addEventListener("click",openDrawer);
+$("#moreBtn").addEventListener("click",openDrawer);
+$("#scrim").addEventListener("click",closeDrawer);
+/* supplement render */
+$("#suppList").innerHTML=SUPP.map(s=>`<details class="acc"><summary>${s.t}</summary><div class="inner"><p style="margin-top:10px"><b style="color:var(--warn)">자주 발생하는 사례</b></p><ul class="ul sm">${s.bad.map(x=>`<li>${x}</li>`).join("")}</ul><p><b style="color:var(--ok)">준비 방법</b></p><ul class="ul sm">${s.good.map(x=>`<li>${x}</li>`).join("")}</ul></div></details>`).join("");
+/* checklist render + persistence */
+const ckState=JSON.parse(localStorage.getItem("prg-ck")||"{}");
+function renderCK(){
+  const groups=[...new Set(CK.map(c=>c.g))];
+  $("#ckGroups").innerHTML=groups.map(g=>`<div class="ckgroup"><h4>${g}</h4>${CK.map((c,i)=>c.g===g?`<label class="ck ${ckState[i]?'done':''}"><input type="checkbox" data-ck="${i}" ${ckState[i]?"checked":""}><span>${c.t}</span></label>`:"").join("")}</div>`).join("");
+  updateCKBar();
+}
+function updateCKBar(){
+  const done=Object.values(ckState).filter(Boolean).length;
+  $("#ckFill").style.width=(done/CK.length*100)+"%";
+  $("#ckCount").textContent=`${done} / ${CK.length} 완료${done===CK.length?" — 제출 준비 완료!":""}`;
+  const bar=document.querySelector(".ckbar");if(bar){bar.setAttribute("aria-valuenow",String(done));bar.setAttribute("aria-valuetext",done+" / "+CK.length+" 완료")}
+}
+$("#ckGroups").addEventListener("change",e=>{
+  const i=e.target.dataset.ck;if(i===undefined)return;
+  ckState[i]=e.target.checked;localStorage.setItem("prg-ck",JSON.stringify(ckState));
+  e.target.closest(".ck").classList.toggle("done",e.target.checked);updateCKBar();
+});
+$("#ckReset").addEventListener("click",()=>{if(confirm("체크 상태를 모두 초기화할까요?")){localStorage.removeItem("prg-ck");for(const k in ckState)delete ckState[k];renderCK()}});
+renderCK();
+/* FAQ render */
+const ALLFAQ=FAQ.concat(FAQ2);
+let faqCat="all",faqFilter="";
+function renderFAQ(){
+  const cats=[["all","전체"]].concat(FAQCATS);
+  $("#faqTabs").innerHTML=cats.map(c=>`<button class="tab ${faqCat===c[0]?'on':''}" role="tab" aria-selected="${faqCat===c[0]}" data-cat="${c[0]}">${c[1]}</button>`).join("");
+  let list=faqCat==="all"?ALLFAQ:ALLFAQ.filter(f=>f.c===faqCat);
+  if(faqFilter)list=list.filter(f=>(f.q+f.a).includes(faqFilter));
+  $("#faqList").innerHTML=list.length?list.map(f=>{
+    const n=f.q.match(/^Q(\d+)\./)[1];
+    return `<details class="acc" id="faq-q${n}"><summary><span class="faq-q">Q${n}</span>${f.q.replace(/^Q\d+\.\s*/,"")}</summary><div class="inner"><p>${f.a}</p></div></details>`;
+  }).join(""):`<div class="snone">검색 결과가 없습니다. 다른 키워드로 찾아보세요.</div>`;
+  $("#faqCount").textContent=`${list.length}건`;
+}
+$("#faqTabs").addEventListener("click",e=>{const b=e.target.closest("[data-cat]");if(b){faqCat=b.dataset.cat;renderFAQ()}});
+$("#faqFilter").addEventListener("input",e=>{faqFilter=e.target.value.trim();renderFAQ()});
+/* calculator */
+const fmt=d=>d.toLocaleDateString("ko-KR",{year:"numeric",month:"long",day:"numeric",weekday:"short"});
+function addMonths(d,n){const r=new Date(d);const day=r.getDate();r.setMonth(r.getMonth()+n);if(r.getDate()<day)r.setDate(0);return r}
+function lastDayOfMonth(d){return new Date(d.getFullYear(),d.getMonth()+1,0)}
+$("#calcBtn").addEventListener("click",()=>{
+  const t=$("#cType").value,send=$("#cSend").value,trans=$("#cTrans").value;
+  const res=$("#calcRes");res.hidden=false;
+  if(!send){res.innerHTML='<b style="color:var(--warn)">우선심사결정서 발송일을 입력해 주세요.</b>';return}
+  const D=new Date(send+"T00:00:00");
+  let lines=[];
+  if(trans){const T=new Date(trans+"T00:00:00");lines.push(`신청서 이송일 <b>${fmt(T)}</b> → 우선심사 여부 결정 기한: <b>${fmt(new Date(T.getTime()+7*864e5))}</b>`);}
+  if(t==="1"){const due=addMonths(D,1);lines.push(`결정서 발송일 <b>${fmt(D)}</b> (초고속심사) → <b>${fmt(due)}</b>까지 심사 착수`);}
+  else{const n=+t;const target=addMonths(D,n);const due=lastDayOfMonth(target);lines.push(`결정서 발송일 <b>${fmt(D)}</b> (${n===3?"PPH":"일반 우선심사"}) → ${n}개월이 되는 날(${fmt(target)})이 속하는 달의 말일인 <b>${fmt(due)}</b>까지 심사 착수`);}
+  lines.push('<span class="small muted">※ 지정기간 연장·자진보정 등으로 기한이 계산되는 기준일이 바뀌면 착수 시점도 늦어질 수 있습니다.</span>');
+  res.innerHTML=lines.map(l=>`<p style="margin-top:6px">${l}</p>`).join("");
+});
+/* search */
+let SINDEX=null;
+function buildIndex(){
+  SINDEX=[];let i=0;
+  document.querySelectorAll(".page").forEach(page=>{
+    const pid=page.id.replace("p-","");const ptitle=page.dataset.title;
+    page.querySelectorAll("p, li, tr, summary, dd, h4, .stat, .qlink, .contact>div").forEach(el=>{
+      if(el.closest("details")&&!el.closest("details").open&&el.tagName!=="SUMMARY"){SINDEX.push({i,el,title:ptitle,text:el.textContent.trim()});i++;return}
+      const txt=el.textContent.trim();if(txt.length<10)return;
+      SINDEX.push({i,el,title:ptitle,text:txt.replace(/\s+/g," ")});i++;
+    });
+  });
+}
+function doSearch(q){
+  const box=$("#sres");q=q.trim();
+  if(q.length<2){box.innerHTML='<div class="snone">예: “신청료”, “보완요구”, “PPH”, “만 39세” 등으로 검색해 보세요.</div>';return}
+  if(!SINDEX)buildIndex();
+  const hits=SINDEX.filter(e=>e.text.includes(q)).slice(0,40);
+  if(!hits.length){box.innerHTML='<div class="snone">“'+q+'” 검색 결과가 없습니다.</div>';return}
+  const esc=s=>s.split(q).join("<mark>"+q+"</mark>");
+  box.innerHTML='<div class="sres-h">검색 결과 '+hits.length+'건</div>'+hits.map(h=>{
+    const s=Math.max(0,h.text.indexOf(q)-22);
+    const ex=(s>0?"…":"")+h.text.slice(s,s+90);
+    return `<button class="sres" data-bk="${h.i}"><span class="t">${h.title}</span><span class="d">${esc(ex)}</span></button>`;
+  }).join("");
+}
+function openSearch(){$("#searchWrap").classList.add("on");$("#searchWrap").setAttribute("aria-hidden","false");$("#searchInput").focus()}
+function closeSearch(){const w=$("#searchWrap");if(!w.classList.contains("on"))return;w.classList.remove("on");w.setAttribute("aria-hidden","true");const sb=$("#searchBtn");if(sb)sb.focus()}
+$("#searchBtn").addEventListener("click",openSearch);
+$("#searchClose").addEventListener("click",closeSearch);
+$("#searchWrap").addEventListener("click",e=>{if(e.target.id==="searchWrap")closeSearch()});
+$("#searchInput").addEventListener("input",e=>doSearch(e.target.value));
+$("#searchInput").addEventListener("keydown",e=>{if(e.key==="Escape")closeSearch()});
+document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key==="k"){e.preventDefault();openSearch()}if(e.key==="Escape"){closeSearch();closeDrawer()}});
+$("#sres").addEventListener("click",e=>{
+  const b=e.target.closest("[data-bk]");if(!b)return;
+  const hit=SINDEX.find(h=>h.i==b.dataset.bk);const q=$("#searchInput").value.trim();
+  const page=hit.el.closest(".page").id.replace("p-","");
+  closeSearch();
+  history.replaceState(null,"","#/"+page);
+  route();
+  setTimeout(()=>{
+    let el=hit.el;
+    const det=el.closest("details");if(det)det.open=true;
+    el.scrollIntoView({block:"center"});el.classList.remove("flash");void el.offsetWidth;el.classList.add("flash");
+  },80);
+});
+/* PWA install */
+let deferredPrompt=null;
+const ib=$("#installBtn");
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;ib.querySelector("svg").style.display="";ib.firstChild.textContent="앱 설치"});
+ib.addEventListener("click",async()=>{
+  if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null}
+  else{$("#iosModal").classList.add("on")}
+});
+document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>b.closest(".modal").classList.remove("on")));
+document.querySelectorAll(".modal").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)m.classList.remove("on")}));
+/* share */
+function share(){
+  const data={title:"우선심사 신청 길라잡이",text:"지식재산처 우선심사 신청 길라잡이(2026.11.1 기준) 웹앱",url:location.origin+location.pathname};
+  if(navigator.share)navigator.share(data).catch(()=>{});
+  else if(navigator.clipboard){navigator.clipboard.writeText(data.url);toast("링크를 복사했습니다")}
+}
+$("#shareBtn2").addEventListener("click",share);
+/* toast */
+let toastTimer=null;
+function toast(msg){
+  let t=$("#toast");
+  if(!t){t=document.createElement("div");t.id="toast";t.setAttribute("role","status");t.setAttribute("aria-live","polite");t.style.cssText="position:fixed;bottom:calc(76px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:9px 18px;border-radius:99px;font-size:13px;font-weight:700;z-index:99;box-shadow:var(--shadow);opacity:0;transition:opacity .2s";document.body.appendChild(t)}
+  t.textContent=msg;t.style.opacity="1";clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.style.opacity="0",1800);
+}
+/* progress bar */
+addEventListener("scroll",()=>{
+  const h=document.documentElement;
+  const p=h.scrollTop/(h.scrollHeight-h.clientHeight||1);
+  $("#pbar").style.width=(p*100)+"%";
+},{passive:true});
+/* ====== CPC 조회 도우미 ====== */
+const CPCFIELDS=[
+{name:"반도체",gongbo:"공고 제2026-258호",cpc:null,note:"CPC 요건 없음 — 청구항의 발명이 공고 기술(소재·부품·장비, 제조, 설계, 성능 검사·평가) 자체에 해당하는지로 판단",req:"출원인 요건 ①·②·③ 중 하나"},
+{name:"디스플레이",gongbo:"공고 제2026-259호",cpc:null,note:"CPC 요건 없음 — 청구항의 발명이 공고 기술(소재·부품·장비, 제조, 설계, 성능 검사·평가) 자체에 해당하는지로 판단",req:"출원인 요건 ①·② 중 하나"},
+{name:"이차전지",gongbo:"공고 제2026-260호",cpc:null,note:"CPC 요건 없음 — 공고 기술(소재·부품·장비, 제조, 설계, 성능 검사·평가, 제어관리(BMS), 재활용) 자체 해당 여부로 판단",req:"출원인 요건 ①·②·③ 중 하나"},
+{name:"바이오-생명공학",gongbo:"공고 제2026-261호",cpc:["A01H 1","A01K 67","A01N 63","A61K 8","A61K 35","A61K 38","A61K 39","A61K 40","A61K 47","A61K 48","A61K 51","B01L 3","B01L 7","C07H","C07K 1~19","C12M 1~99","C12N 1~15","C12P 1~41","C12Q 1~3","G01N 27","G01N 33","C40B"],req:"출원인 요건 ①·②·③ 중 하나"},
+{name:"바이오-헬스케어",gongbo:"공고 제2026-262호",cpc:["A61B 1~18","A61B 42~90","A63B 24","G16B 5~35","G16B 40","G16B 45~99","G16H 10~80"],req:"출원인 요건 ①·② 중 하나"},
+{name:"첨단로봇",gongbo:"공고 제2026-263호",cpc:["B25J 1~21","B70J 50","B70R","G05B 1~11","G05B 15~99","G05D 3~99","G06F 3"],req:"출원인 요건 ①·② 중 하나"},
+{name:"인공지능",gongbo:"공고 제2026-264호",cpc:["B60W","B62D 57","G05B 13","G05B 19","G05D","G06N 3~7","G06N 20","G16B 40"],req:"출원인 요건 ①·② 중 하나(①은 개발 중 기업 포함)"},
+{name:"피지컬 AI",gongbo:"공고 제2026-265호",cpc:["B25J 1~21","B70J 50","B70R","B60W 30~60","B62D 57","G01S 13~17","G05B 13~19","G05D 1","G05D 3","G06N 3~7","G06N 20","G06T 7","G06V 10~20"],req:"출원인 요건 ①·② 중 하나"},
+{name:"AI 데이터센터",gongbo:"공고 제2026-266호",cpc:["G06F 1","G06F 9~15","H02J 1~9","H04L 41","H04L 47","H05K 7"],req:"출원인 요건 ①·② 중 하나"}
+];
+function normC(x){return x.toUpperCase().replace(/\s+/g,"")}
+let cpcQ="";
+function renderCPC(){
+  const raw=cpcQ.trim(),q=normC(raw);
+  let nF=0,nC=0,html="";
+  CPCFIELDS.forEach(f=>{
+    if(!f.cpc){
+      if(q&&!normC(f.name).includes(q))return;
+      nF++;
+      html+=`<div class="cpc-field"><h4><b>${f.name}</b><span class="chip">${f.gongbo}</span></h4><div class="cpc-none">${f.note}</div><div class="small muted" style="margin-top:6px">${f.req}</div></div>`;
+      return;
+    }
+    const nameHit=q&&normC(f.name).includes(q);
+    const chips=(q&&!nameHit)?f.cpc.filter(c=>normC(c).includes(q)):f.cpc;
+    if(q&&!nameHit&&!chips.length)return;
+    nF++;nC+=chips.length;
+    html+=`<div class="cpc-field"><h4><b>${f.name}</b><span class="chip">${f.gongbo}</span></h4><div class="cpc-chips">${chips.map(c=>`<code class="${(q&&!nameHit)?'hit':''}">${c}</code>`).join("")}</div><div class="small muted" style="margin-top:6px">${f.req}</div></div>`;
+  });
+  $("#cpcSummary").textContent=q?`검색 “${raw}” — ${nF}개 분야 · ${nC}개 CPC 일치`:`전체 ${CPCFIELDS.length}개 분야 (’26. 11. 공고 기준)`;
+  $("#cpcResults").innerHTML=html||'<div class="snone">일치하는 분야나 CPC가 없습니다. 예: “G06N”, “C12N”, “로봇”, “바이오”</div>';
+}
+$("#cpcSearch").addEventListener("input",e=>{cpcQ=e.target.value;renderCPC()});
+renderCPC();
+/* ====== 버전/변경 알림 (version.json 자동 갱신 연동) ====== */
+async function checkVersion(){
+  try{
+    const r=await fetch("./version.json",{cache:"no-store"});
+    if(!r.ok)return;
+    const v=await r.json();
+    const badge=$("#verBadge");
+    if(badge&&v.version){badge.textContent="v"+v.version;badge.hidden=false;badge.title="최근 확인일: "+(v.checked||"-")}
+    const seen=localStorage.getItem("prg-seen-ver");
+    if(v.version&&seen&&seen!==v.version){
+      const b=$("#updBanner");
+      if(b){b.hidden=false;$("#updText").textContent=(v.notes&&v.notes[0])||("새 버선 "+v.version+"이 반영되었습니다. 고시·공고 원문을 확인하세요.")}
+      toast("갱신된 내용이 있습니다");
+    }
+    const ok=$("#updOk");
+    if(ok)ok.addEventListener("click",()=>{localStorage.setItem("prg-seen-ver",v.version);$("#updBanner").hidden=true});
+    if(!seen)localStorage.setItem("prg-seen-ver",v.version);
+  }catch(e){}
+}
+checkVersion();
+/* render FAQ + route + SW */
+renderFAQ();
+route();
+if("serviceWorker" in navigator&&location.protocol.startsWith("http")){addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}
+</script>
+</body>
+</html>
