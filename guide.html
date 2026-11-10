@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사용 안내 — 우선심사 신청 길라잡이 웹앱</title>
+<meta name="description" content="우선심사 신청 길라잡이 웹앱의 기능과 사용 방법 안내 — 화면 구성, 테마, 검색, 체크리스트, 기한 계산기, 앱 설치, 오프라인 사용법.">
+<style>
+:root{--font:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;--rad:14px;--rad-s:9px}
+[data-theme="light"]{--bg:#ffffff;--surface:#f4f7fa;--surface2:#e9eff6;--text:#182233;--muted:#5a6a7e;--accent:#17458f;--accent-ink:#fff;--accent-soft:#e7eefb;--gold:#8a6410;--gold-soft:#f5ecd4;--border:#dde5ee;--ok:#1c7a45;--ok-soft:#e4f3ea;--shadow:0 2px 10px rgba(20,40,80,.08)}
+[data-theme="ivory"]{--bg:#f6f0e1;--surface:#fcf8ee;--surface2:#efe7d2;--text:#3a2f1c;--muted:#7c6c50;--accent:#8f5f1a;--accent-ink:#fff9ec;--accent-soft:#f0e4c8;--gold:#17458f;--gold-soft:#e6e9f2;--border:#e3d7ba;--ok:#4a6b2a;--ok-soft:#eaefdb;--shadow:0 2px 10px rgba(90,70,30,.10)}
+[data-theme="dark"]{--bg:#0f1318;--surface:#171d26;--surface2:#212a37;--text:#e6ebf2;--muted:#94a2b6;--accent:#7aa2e8;--accent-ink:#0d1522;--accent-soft:#1d2c44;--gold:#d9ad52;--gold-soft:#332b18;--border:#2b3542;--ok:#6fce97;--ok-soft:#17301f;--shadow:0 2px 10px rgba(0,0,0,.5)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;font-size:16px;word-break:keep-all}
+a{color:var(--accent)}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.wrap{max-width:880px;margin:0 auto;padding:0 18px}
+/* header */
+header{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.hin{display:flex;align-items:center;gap:10px;padding:10px 0}
+.mark{width:34px;height:34px;border-radius:9px;background:var(--accent);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex:0 0 auto}
+.hin b{font-size:15.5px}
+.hin .sub{font-size:11.5px;color:var(--muted)}
+#themeT{margin-left:auto;display:flex;align-items:center;gap:6px;border:1.5px solid var(--border);background:var(--surface);border-radius:10px;padding:7px 13px;font-size:13px;font-weight:700;color:var(--text)}
+/* hero */
+.hero{padding:40px 0 8px}
+.kick{font-size:12px;font-weight:800;letter-spacing:.16em;color:var(--accent);margin-bottom:10px}
+h1{font-size:clamp(25px,5.5vw,36px);line-height:1.3;letter-spacing:-.5px}
+h1 em{font-style:normal;color:var(--accent)}
+.lead{color:var(--muted);margin-top:12px;font-size:15px}
+.badges{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.badges span{font-size:12.5px;font-weight:700;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:5px 12px;color:var(--muted)}
+/* toc */
+.toc{display:flex;flex-wrap:wrap;gap:7px;margin:22px 0 6px}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:7px 14px;color:var(--text)}
+.toc a:hover{border-color:var(--accent);color:var(--accent)}
+/* sections */
+section{padding:34px 0 6px}
+h2{font-size:22px;letter-spacing:-.3px;padding-left:12px;border-left:5px solid var(--accent);margin-bottom:6px}
+h2 small{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-top:3px}
+h3{font-size:16.5px;margin:18px 0 8px}
+p{margin:8px 0}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+/* steps */
+.steps{display:grid;gap:12px;grid-template-columns:1fr;margin:16px 0}
+@media(min-width:700px){.steps{grid-template-columns:repeat(3,1fr)}}
+.step{background:var(--surface);border:1px solid var(--border);border-radius:var(--rad);padding:16px}
+.step b.n{display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--accent-ink);align-items:center;justify-content:center;font-size:14px;margin-bottom:8px}
+.step h4{font-size:15px;margin-bottom:4px}
+.step p{font-size:13.5px;color:var(--muted);margin:0}
+/* mockup */
+.mock{display:grid;gap:20px;grid-template-columns:1fr;margin:18px 0;align-items:start}
+@media(min-width:760px){.mock{grid-template-columns:1.5fr 1fr}}
+.frame{border:2px solid var(--border);border-radius:14px;overflow:hidden;background:var(--bg);box-shadow:var(--shadow)}
+.bar{display:flex;align-items:center;gap:6px;background:var(--surface);border-bottom:1px solid var(--border);padding:8px 10px;font-size:10.5px;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--border)}
+.dot.a{background:var(--accent)}
+.fbody{display:flex;min-height:190px}
+.side{width:88px;background:var(--surface);border-right:1px solid var(--border);padding:8px;display:none}
+@media(min-width:560px){.side{display:block}}
+.side i{display:block;height:9px;border-radius:5px;background:var(--surface2);margin:7px 4px}
+.side i.on{background:var(--accent-soft);border:1px solid var(--accent)}
+.cont{flex:1;padding:12px}
+.ln{height:9px;border-radius:5px;background:var(--surface2);margin:8px 0}
+.ln.t{width:55%;height:12px;background:var(--accent-soft)}
+.ln.s{width:80%}
+.ln.s2{width:65%}
+.tabs{display:flex;gap:4px;border-top:1px solid var(--border);background:var(--surface);padding:7px 8px 9px;justify-content:space-around}
+.tabs i{width:30px;height:22px;border-radius:6px;background:var(--surface2)}
+.tabs i.on{background:var(--accent)}
+.callout{position:relative}
+.co{position:absolute;display:inline-flex;width:20px;height:20px;border-radius:50%;background:var(--gold);color:#fff;font-size:11px;font-weight:800;align-items:center;justify-content:center;box-shadow:0 0 0 2px var(--bg)}
+.legend{margin:10px 0 0;display:grid;gap:7px;grid-template-columns:1fr}
+@media(min-width:560px){.legend{grid-template-columns:1fr 1fr}}
+.legend div{font-size:13.5px;display:flex;gap:8px;align-items:baseline}
+.legend b{flex:0 0 auto;display:inline-flex;width:20px;height:20px;border-radius:50%;background:var(--gold);color:#fff;font-size:11px;align-items:center;justify-content:center}
+/* feature cards */
+.cards{display:grid;gap:12px;grid-template-columns:1fr;margin:16px 0}
+@media(min-width:700px){.cards{grid-template-columns:1fr 1fr}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rad);padding:16px 18px}
+.card h3{margin:0 0 6px;display:flex;align-items:center;gap:8px}
+.card h3 .ic{width:30px;height:30px;border-radius:8px;background:var(--accent-soft);color:var(--accent);display:inline-flex;align-items:center;justify-content:center;font-size:15px;flex:0 0 auto}
+.card p,.card li{font-size:13.8px;color:var(--text)}
+.card ul{margin:6px 0 0 18px}
+.card li{margin:3px 0;color:var(--muted)}
+.kbd{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;background:var(--surface2);border:1px solid var(--border);border-bottom-width:2px;border-radius:6px;padding:1px 7px}
+.path{font-size:13px;font-weight:700;background:var(--surface2);border-radius:6px;padding:1px 8px;white-space:nowrap}
+.tag{display:inline-block;font-size:11px;font-weight:800;border-radius:6px;padding:1px 7px;background:var(--gold-soft);color:var(--gold)}
+/* note boxes */
+.note{border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 var(--rad-s) var(--rad-s) 0;padding:11px 15px;font-size:13.8px;margin:12px 0}
+.note.ok{border-color:var(--ok);background:var(--ok-soft)}
+/* troubleshooting */
+details{border:1px solid var(--border);border-radius:var(--rad-s);background:var(--surface);margin:8px 0;overflow:hidden}
+summary{padding:12px 15px;font-weight:700;font-size:14.5px;cursor:pointer;display:flex;gap:8px;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";margin-left:auto;color:var(--accent);font-size:18px;font-weight:700}
+details[open] summary::after{transform:rotate(45deg)}
+details .in{padding:2px 15px 13px;font-size:13.8px;border-top:1px dashed var(--border);margin-top:6px}
+/* table */
+.tw{overflow-x:auto;border:1px solid var(--border);border-radius:var(--rad-s);margin:12px 0;background:var(--surface)}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:520px}
+th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+th{background:var(--surface2);font-size:12.5px;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;background:var(--surface2);border-radius:5px;padding:1px 6px}
+footer{margin-top:40px;border-top:1px solid var(--border);padding:22px 0 40px;font-size:12.5px;color:var(--muted)}
+@media print{header,.toc{display:none}body{background:#fff;color:#000}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap hin">
+    <span class="mark">우</span>
+    <div><b>사용 안내</b><div class="sub">우선심사 신청 길라잡이 웹앱 · 2026. 11. 1. 기준판</div></div>
+    <button id="themeT" type="button">테마: <span id="themeName">흰색</span></button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="kick">USER GUIDE</div>
+    <h1>앱처럼 쓰는 <em>우선심사 길라잡이</em>,<br>처음 5분 안내서</h1>
+    <p class="lead">지식재산처 발행 길라잡이(2026. 11. 1. 기준)를 담은 웹앱의 모든 기능과 사용 방법입니다. 설치 없는 브라우저에서도, 홈 화면에 추가한 앱에서도 똑같이 동작합니다.</p>
+    <div class="badges"><span>대상: 출원인·대리인·연구관리자 누구나</span><span>기기: PC·태블릿·스마트폰</span><span>필요한 것: 브라우저만 (설치 선택)</span></div>
+    <nav class="toc" aria-label="목차">
+      <a href="#start">빠른 시작</a><a href="#screen">화면 구성</a><a href="#features">기능별 사용법</a><a href="#install">앱 설치·오프라인</a><a href="#trouble">문제 해결</a><a href="#admin">배포·관리(관리자용)</a>
+    </nav>
+  </div>
+
+  <section id="start">
+    <h2>빠른 시작 <small>처음 방문했다면 이 3단계만 보세요</small></h2>
+    <div class="steps">
+      <div class="step"><b class="n">1</b><h4>열어서 둘러보기</h4><p>주소를 열면 홈 화면에 <b>8단계 신청 절차</b>가 시간 순서로 정리되어 있습니다. 아래로 스크롤하는 것만으로 전체 흐름을 파악할 수 있습니다.</p></div>
+      <div class="step"><b class="n">2</b><h4>필요한 화면 찾기</h4><p>모르는 용어는 상단 <b>돋보기(검색)</b>, 요건은 <b>요건</b> 탭, 궁금증은 <b>FAQ</b> 탭. 모바일은 하단 탭, PC는 왼쪽 사이드바로 이동합니다.</p></div>
+      <div class="step"><b class="n">3</b><h4>앱으로 설치하기 (선택)</h4><p>자주 볼 거라면 <b>앱 설치</b> 버튼(안드로이드) 또는 사파리 <b>홈 화면에 추가</b>(아이폰)로 홈 화면에 넣으세요. 이후 오프라인에서도 열립니다.</p></div>
+    </div>
+  </section>
+
+  <section id="screen">
+    <h2>화면 구성 <small>번호는 아래 설명과 대응합니다</small></h2>
+    <div class="mock">
+      <div>
+        <div class="frame" aria-hidden="true">
+          <div class="bar"><span class="dot a"></span><span class="dot"></span><span class="dot"></span><span style="margin-left:6px">우선심사 신청 길라잡이 · 2026. 11. 1. 기준 <span class="tag">v</span></span><span style="margin-left:auto">☉&nbsp;&nbsp;🔍&nbsp;&nbsp;⬇︎</span></div>
+          <div class="fbody">
+            <div class="side"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="cont callout">
+              <span class="co" style="top:6px;right:8px">1</span>
+              <div class="ln t"></div><div class="ln s"></div><div class="ln s2"></div>
+              <div style="display:flex;gap:6px;margin:12px 0"><span class="co" style="position:static">2</span><div class="ln" style="flex:1"></div></div>
+              <div class="ln s"></div><div class="ln s2"></div>
+              <div style="display:flex;gap:6px;margin-top:12px"><span class="co" style="position:static">3</span><div class="ln" style="flex:1"></div><div class="ln" style="flex:1"></div></div>
+            </div>
+          </div>
+          <div class="tabs callout"><span class="co" style="top:-8px;left:46%">4</span><i class="on"></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="small muted" style="margin-top:8px">PC(좌) · 모바일(우) 모두 동일한 구성입니다</p>
+      </div>
+      <div class="frame" aria-hidden="true" style="max-width:210px;margin:0 auto">
+        <div class="bar" style="justify-content:center">⋮⋮</div>
+        <div class="fbody" style="min-height:150px"><div class="cont"><div class="ln t"></div><div class="ln s"></div><div class="ln s2"></div><div class="ln s"></div></div></div>
+        <div class="tabs"><i class="on"></i><i></i><i></i><i></i></div>
+      </div>
+    </div>
+    <div class="legend">
+      <div><b>1</b><span><b>상단 헤더</b> — 테마 버튼(태양 아이콘, 누를 때마다 흰색→아이보리→검은색), 검색, 앱 설치 버튼, 현재 버전 배지</span></div>
+      <div><b>2</b><span><b>사이드바(PC) / 하단 탭(모바일)</b> — 9개 화면 이동: 홈 · 제도 개요 · 절차·비용 · 신청요건·증빙 · 첨단기술·초고속 · CPC 조회 · 보완 사례·체크리스트 · FAQ · 문의처</span></div>
+      <div><b>3</b><span><b>본문</b> — 표는 좌우로 밀어 볼 수 있고, ‘예시’·FAQ 항목은 눌러 펼치고 접습니다</span></div>
+      <div><b>4</b><span><b>더보기(모바일)</b> — 누르면 메뉴 서랍이 열립니다: 테마·글자 크기·고대비 모드, 전체 목차, 공유, 인쇄</span></div>
+    </div>
+  </section>
+
+  <section id="features">
+    <h2>기능별 사용법 <small>자주 쓰는 것부터</small></h2>
+    <div class="cards">
+      <div class="card"><h3><span class="ic">🔍</span>전체 검색</h3><p>헤더의 돋보기를 누르거나 <span class="kbd">Ctrl</span>+<span class="kbd">K</span>(Mac은 <span class="kbd">⌘</span>+<span class="kbd">K</span>)로 문서 전체를 검색합니다.</p>
+        <ul><li>2글자부터 검색됩니다. 예: <span class="path">신청료</span> <span class="path">보완요구</span> <span class="path">PPH</span> <span class="path">별지 제6호</span></li>
+        <li>결과를 누르면 해당 화면으로 이동해 그 위치가 잠깐 노랗게 표시되고, 접혀 있던 예시·FAQ는 자동으로 펼쳐집니다.</li>
+        <li>닫기는 <span class="kbd">Esc</span> 또는 바깥 영역 클릭.</li></ul></div>
+      <div class="card"><h3><span class="ic">🎨</span>테마 · 글자 크기 · 고대비</h3>
+        <ul><li><b>테마 3종</b> — 헤더 태양 버튼을 누를 때마다 <b>흰색 → 아이보리 → 검은색</b> 순환. 서랍 메뉴에서도 직접 선택할 수 있습니다.</li>
+        <li><b>글자 크기</b> — 서랍 메뉴의 작게/기본/크게.</li>
+        <li><b>고대비 모드</b> — 서랍 메뉴에서 켜면 글자·테두리 대비를 강화합니다. OS에서 ‘고대비 선호’를 켜두면 자동으로 적용됩니다.</li>
+        <li>선택은 기기에 저장되어 다음 방문에도 유지됩니다.</li></ul></div>
+      <div class="card"><h3><span class="ic">✅</span>신청 전 체크리스트</h3><p><span class="path">보완 사례·체크리스트</span> 화면의 21개 항목을 눌러 체크합니다.</p>
+        <ul><li>상단 진행 바에 완료 개수가 표시되고, 모두 체크하면 “제출 준비 완료!”가 나타납니다.</li>
+        <li>체크 상태는 <b>이 기기에 자동 저장</b>됩니다. 앱을 껐다 켜도 유지됩니다.</li>
+        <li>처음부터 다시 하려면 <span class="path">체크 초기화</span> 버튼.</li></ul></div>
+      <div class="card"><h3><span class="ic">🗓️</span>기한 계산기</h3><p><span class="path">절차·비용</span> 화면 맨 아래 “기한 계산기”에서 심사 착수 기한을 자동 계산합니다.</p>
+        <ul><li><b>① 신청서 이송일</b>(선택) — 있으면 우선심사 여부 결정 기한(이송일+7일)도 함께 계산</li>
+        <li><b>② 결정서 발송일</b>(필수) / <b>③ 유형</b> — 일반(2개월의 말일)·PPH(3개월의 말일)·초고속(1개월 이내)</li>
+        <li><b>계산 예</b>: 발송일 2026-11-10 + 일반 → 착수 기한 2027-01-31 (2개월이 되는 날 1/10이 속한 달의 말일)</li></ul></div>
+      <div class="card"><h3><span class="ic">🧬</span>CPC 빠른 조회</h3><p><span class="path">CPC 조회</span> 화면에서 첨단기술 공고 분야의 주분류(CPC)를 검색합니다.</p>
+        <ul><li>코드 검색: <span class="path">G06N</span> → 인공지능·피지컬 AI 분야의 일치 코드만 강조</li>
+        <li>분야명 검색: <span class="path">로봇</span> <span class="path">바이오</span>도 가능</li>
+        <li>반도체·디스플레이·이차전지는 CPC 없이 ‘기술 직접 관련성’으로 판단한다는 안내가 별도 표시됩니다.</li></ul></div>
+      <div class="card"><h3><span class="ic">💬</span>FAQ 91문항</h3><p><span class="path">FAQ</span> 화면에서 질문을 눌러 답을 펼쳐 봅니다.</p>
+        <ul><li>상단 탭으로 8개 주제(일반, 실시, 인증기업, 연구개발, PPH, 기술분야, 초고속, 청년창업)별로 모아 보기</li>
+        <li>검색창에 키워드를 입력하면 실시간 필터링(예: <span class="path">만 39세</span> <span class="path">대비표</span>)</li></ul></div>
+      <div class="card"><h3><span class="ic">🔗</span>공유 · 인쇄</h3>
+        <ul><li><b>이 앱 공유하기</b> — 서랍 메뉴의 버튼. 휴대폰에서는 공유 창이, PC에서는 주소가 복사됩니다.</li>
+        <li><b>인쇄 / PDF로 저장</b> — 서랍 메뉴의 버튼. 메뉴·버튼은 빼고 전체 장이 이어서 출력되어 사내 배포 자료로 쓰기 좋습니다.</li></ul></div>
+      <div class="card"><h3><span class="ic">🔄</span>버전 배지 · 갱신 알림</h3>
+        <ul><li>헤더의 <span class="tag">v2026.11.1</span> 배지가 현재 반영 판본을 보여 줍니다.</li>
+        <li>고시·공고가 바뀌어 새 판본이 배포되면 홈 화면 상단에 <b>“새 버전 안내”</b> 배너가 뜹니다. <span class="path">확인</span>을 누르면 다시 표시되지 않습니다.</li></ul></div>
+    </div>
+    <div class="note ok"><b>저장되는 정보는?</b> 테마·글자 크기·고대비·체크리스트·“확인한 버전”은 모두 <b>내 브라우저(기기) 안에만</b> 저장됩니다. 서버로 전송되거나 수집되는 정보는 없습니다. 브라우저 설정에서 사이트 데이터를 삭제하면 초기화됩니다.</div>
+  </section>
+
+  <section id="install">
+    <h2>앱 설치 · 오프라인 사용 <small>한 번만 해두면 이득입니다</small></h2>
+    <h3>안드로이드 (크롬 등)</h3>
+    <p>1) 헤더의 <span class="path">⬇︎ 앱 설치</span> 버튼 누르기 → 2) 확인 창에서 ‘설치’. 버튼이 보이지 않으면 브라우저 메뉴(⋮) → <span class="path">앱 설치</span>.</p>
+    <h3>아이폰 (사파리)</h3>
+    <p>1) 사파리에서 앱 열기 → 2) 하단 <b>공유 버튼</b>(⬆︎) → 3) <span class="path">홈 화면에 추가</span> → 4) ‘추가’. 설치 버튼을 누르면 이 순서가 담긴 안내 창도 띄워 드립니다.</p>
+    <h3>설치 후</h3>
+    <ul style="margin:6px 0 6px 20px;font-size:14.5px">
+      <li>홈 화면 아이콘으로 실행하며 주소창 없는 <b>앱 화면(스탠드얼론)</b>으로 열립니다.</li>
+      <li><b>오프라인 사용</b> — 첫 방문 때 필요한 파일을 자동으로 캐시합니다. 이후에는 지하철·비행기처럼 인터넷이 없어도 열람·검색·체크리스트까지 그대로 동작합니다. 다만 처음 한 번은 온라인에서 열어 주세요.</li>
+      <li>새 판본 배포 시에는 다음 온라인 접속 시 갱신 내용을 받아옵니다(배너로 알림).</li>
+    </ul>
+    <div class="note">앱 설치는 선택 사항입니다. 설치하지 않아도 브라우저에서 모든 기능을 동일하게 쓸 수 있습니다.</div>
+  </section>
+
+  <section id="trouble">
+    <h2>문제 해결 <small>이럴 땐 이렇게</small></h2>
+    <details><summary>‘앱 설치’ 버튼이 안 보여요</summary><div class="in">이미 설치되어 있거나, 브라우저가 설치 기능을 아직 인식하기 전일 수 있습니다. 페이지를 한 번 새로 고침해 보세요. 아이폰은 설치 버튼 대신 사파리의 ‘홈 화면에 추가’를 사용합니다. 주소가 HTTPS여야 하며, GitHub Pages 주소는 기본 HTTPS라 문제없습니다.</div></details>
+    <details><summary>오프라인에서 열리지 않아요</summary><div class="in">오프라인 캐시는 첫 방문 때 만들어집니다. 온라인 상태에서 한 번 열어 둔 뒤 다시 시도하세요. 시크릿(사생활 보호) 모드에서는 캐시가 유지되지 않을 수 있습니다. 그래도 안 되면 앱을 지우고 다시 방문해 설치하세요.</div></details>
+    <details><summary>갱신 배너가 계속 나타나요</summary><div class="in">배너의 ‘확인’을 누르면 해당 버전에 대해 다시 표시되지 않습니다. 계속 뜬다면 브라우저가 사이트 데이터를 저장하지 못하는(시크릿 모드, 저장 공간 부족, 데이터 자동 삭제 설정) 환경인지 확인해 주세요.</div></details>
+    <details><summary>표가 화면에 다 안 들어와요</summary><div class="in">표가 넓은 경우 좌우로 밀어서 볼 수 있도록 설계되어 있습니다. 표 위에서 손가락(또는 트랙패드 두 손가락)을 좌우로 움직여 보세요.</div></details>
+    <details><summary>체크리스트가 초기화되었어요</summary><div class="in">체크 상태는 기기·브라우저별로 따로 저장됩니다. 다른 기기에서는 각각 체크해야 하며, 브라우저의 사이트 데이터 삭제 기능을 사용하면 초기화됩니다.</div></details>
+    <details><summary>검색했는데 결과가 없어요</summary><div class="in">2글자 이상으로 검색해 보세요. 접혀 있는 예시·FAQ 본문까지 검색되며, 결과를 누르면 자동으로 펼쳐집니다. 표 안의 일부 짧은 셀은 검색되지 않을 수 있습니다.</div></details>
+  </section>
+
+  <section id="admin">
+    <h2>배포 · 관리 <small>이 앱을 소유·운영하시는 분용</small></h2>
+    <div class="tw"><table>
+      <thead><tr><th style="width:170px">항목</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td><b>배포</b></td><td>GitHub 저장소에 파일 업로드 → Settings → Pages → Branch <code>main / (root)</code>. <code>index.html</code>이 앱 본체, <code>guide.html</code>이 이 사용 안내서입니다.</td></tr>
+        <tr><td><b>사용 안내서 주소</b></td><td><code>https://아이디.github.io/저장소명/guide.html</code> — 앱 서랍 메뉴와 푸터에서도 연결되어 있습니다.</td></tr>
+        <tr><td><b>내용 수정</b></td><td><code>index.html</code> 안의 해당 장(Ⅰ~Ⅳ)을 편집하고 커밋하면 Pages가 자동 반영(1~2분).</td></tr>
+        <tr><td><b>판본 올리기</b></td><td>고시·공고 변경을 반영했으면 <code>version.json</code>의 <code>version</code> 값을 올리세요(예: <code>2026.11.1</code> → <code>2027.1.1</code>). 방문자에게 갱신 배너가 표시됩니다.</td></tr>
+        <tr><td><b>자동 변경 감지</b></td><td>저장소의 <code>.github/workflows/update-version.yml</code>이 매주 월요일 지식재산처 고시공고 페이지를 확인해 변경 시 <code>version.json</code>을 갱신·커밋합니다. Settings → Actions → Workflow permissions에서 쓰기 허용 필요.</td></tr>
+        <tr><td><b>캐시 갱신 규칙</b></td><td>서비스 워커 버전(<code>sw.js</code>의 <code>CACHE</code> 이름)을 바꾸면 방문자 캐시가 강제로 새로고침됩니다. 큰 내용 변경 시 함께 올리는 것이 안전합니다.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <footer>
+    <p><b>출처 및 안내</b> — 이 사용 안내서와 웹앱은 지식재산처 특허제도과 발행 「누구나 따라하는 우선심사 신청 길라잡이」(2026. 11. 1. 기준)를 기반으로 한 비공식 참고용 도구입니다. 실제 신청 전에는 반드시 우선심사 고시와 관련 공고 원문(<a href="https://www.moip.go.kr" target="_blank" rel="noopener">www.moip.go.kr</a>)을 확인하시기 바랍니다. 문의: 특허고객상담센터 1544-8080 · 특허로 <a href="https://www.patent.go.kr" target="_blank" rel="noopener">www.patent.go.kr</a></p>
+  </footer>
+</div>
+
+<script>
+/* 앱과 테마 동기화 — 같은 사이트(동일 origin)에서 열면 앱에서 고른 테마를 따라감 */
+const THEMES=[["light","흰색"],["ivory","아이보리"],["dark","검은색"]];
+let idx=0;
+(function(){
+  const saved=localStorage.getItem("prg-theme");
+  const i=THEMES.findIndex(t=>t[0]===saved);
+  if(i>=0){idx=i;apply()}
+})();
+function apply(){
+  document.documentElement.dataset.theme=THEMES[idx][0];
+  document.getElementById("themeName").textContent=THEMES[idx][1];
+  try{localStorage.setItem("prg-theme",THEMES[idx][0])}catch(e){}
+}
+document.getElementById("themeT").addEventListener("click",()=>{idx=(idx+1)%THEMES.length;apply()});
+</script>
+</body>
+</html>
